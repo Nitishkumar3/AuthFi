@@ -1,3 +1,4 @@
+# pip install flask pymongo
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from pymongo import MongoClient
 import re
