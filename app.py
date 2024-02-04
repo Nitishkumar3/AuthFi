@@ -5,7 +5,6 @@ from pymongo import MongoClient
 import re
 from datetime import datetime, timedelta
 from functools import wraps
-
 from Modules import Auth, AES256
 
 app = Flask(__name__)
@@ -14,19 +13,19 @@ app.secret_key = "GS1jv6dDu1hmVzdWySky7Me324VGPE6H4nMeXF3SsXZyEtRnTuh9y83tzQcQeC
 client = MongoClient('mongodb://localhost:27017/')
 db = client['SecureConnect']
 
-def logincheck(view_func):
+def LoggedIn(view_func):
     @wraps(view_func)
     def decorated_function(*args, **kwargs):
         if 'key' in session and 'username' in session:
             session_key = session['key']
             username = session['username']
-            user_agent = request.headers.get('User-Agent')
-            ip_address = request.remote_addr
+            useragent = request.headers.get('User-Agent')
+            ipaddress = request.remote_addr
             user_session = db.UserSessions.find_one({
                 'SessionKey': session_key,
                 'UserName': username,
-                'UserAgent': user_agent,
-                'IPAddress': ip_address,
+                'UserAgent': useragent,
+                'IPAddress': ipaddress,
                 'ExpirationTime': {'$gt': datetime.utcnow()}
             })
             if user_session:
@@ -40,12 +39,21 @@ def logincheck(view_func):
             return redirect(url_for('Login'))
     return decorated_function
 
+def NotLoggedIn(view_func):
+    @wraps(view_func)
+    def decorated_function(*args, **kwargs):
+        if 'key' in session and 'username' in session:
+            return redirect(url_for('Index'))
+        return view_func(*args, **kwargs)
+    return decorated_function
+
 @app.route('/')
-@logincheck
+@LoggedIn
 def Index():
     return f'Logged in as {session["username"]}! <a href="/logout">Logout</a>'
 
 @app.route('/register', methods=['GET', 'POST'])
+@NotLoggedIn
 def Registration():
     if request.method == 'POST':
         datecreated = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -86,6 +94,7 @@ def Registration():
     return render_template('Register.html')
 
 @app.route('/verifyaccount/<username>', methods=['GET', 'POST'])
+@NotLoggedIn
 def VerifyAccount(username):
     if request.method == 'POST':
         EnteredVerificationCode = request.form['VerificationCode']
@@ -105,6 +114,7 @@ def VerifyAccount(username):
     return render_template('VerifyAccount.html', username=username)
 
 @app.route('/login', methods=['GET', 'POST'])
+@NotLoggedIn
 def Login():
     if request.method == 'POST':
         login = request.form['login']
@@ -149,6 +159,7 @@ def Login():
     return render_template('Login.html')
 
 @app.route('/forgotpassword', methods=['GET', 'POST'])
+@NotLoggedIn
 def ForgotPassword():
     if request.method == 'POST':
         login = request.form['login']
@@ -169,6 +180,7 @@ def ForgotPassword():
     return render_template('ForgotPassword.html')
 
 @app.route('/resetkey/<ResetKey>', methods=['GET', 'POST'])
+@NotLoggedIn
 def ResetPassword(ResetKey):
     if request.method == 'POST':
         NewPassword = request.form['newpassword']
@@ -195,6 +207,7 @@ def ResetPassword(ResetKey):
     return render_template('ResetPassword.html', ResetKey=ResetKey)
 
 @app.route('/logout')
+@LoggedIn
 def logout():
     session_key = session['key']
     username = session['username']
