@@ -27,3 +27,7 @@ def PasswordResetMail(username, email, ResetKey):
     body = "Password Reset Code: " + str(ResetKey) + f" {link}"
     if Mail.SendMail(subject, body, email):
         db.PasswordReset.insert_one({'UserName': username, 'ResetKey': ResetKey})
+
+def GenerateSessionKey(length=32):
+    SessionKey = secrets.token_hex(length // 2)
+    return SessionKey
