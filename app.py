@@ -5,6 +5,7 @@ from pymongo import MongoClient
 import re
 from datetime import datetime, timedelta
 from functools import wraps
+import pyotp
 from Modules import Auth, AES256
 
 app = Flask(__name__)
@@ -134,6 +135,10 @@ def Login():
             return redirect(url_for('VerifyAccount', username=user["UserName"]))
 
         if user and password == AES256.Decrypt(user["Password"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Password")):
+            if Auth.Is2FAEnabled(user["UserName"]):
+                session['2fa_user'] = user["UserName"]
+                return redirect(url_for('Verify2FA'))
+            
             sessionkey = Auth.GenerateSessionKey()
             useragent = request.headers.get('User-Agent')
             ipaddress = request.remote_addr
@@ -157,6 +162,51 @@ def Login():
             flash('Invalid Login or password. Please try again.', 'error')
     
     return render_template('Login.html')
+
+@app.route('/verify2fa', methods=['GET', 'POST'])
+@NotLoggedIn
+def Verify2FA():
+    if '2fa_user' not in session:
+        return redirect(url_for('Login'))
+
+    username = session['2fa_user']
+    user = db.Users.find_one({'UserName': username})
+
+    if request.method == 'POST':
+        entered_otp = request.form['otp']
+        totp_secret = user.get('TwoFactorSecret', '')
+
+        if not totp_secret:
+            flash('2FA not enabled for this user.', 'error')
+            return redirect(url_for('Login'))
+
+        totp = pyotp.TOTP(totp_secret)
+
+        if totp.verify(entered_otp):
+            sessionkey = Auth.GenerateSessionKey()
+            useragent = request.headers.get('User-Agent')
+            ipaddress = request.remote_addr
+
+            currenttime = datetime.utcnow()
+            db.UserSessions.insert_one({
+                'SessionKey': sessionkey,
+                'UserName': user["UserName"],
+                'UserAgent': useragent,
+                'IPAddress': ipaddress,
+                'CreatedAt': currenttime,
+                'ExpirationTime': currenttime + timedelta(hours=6)
+            })
+            db.UserSessions.create_index('ExpirationTime', expireAfterSeconds=0)
+
+            session['key'] = sessionkey
+            session['username'] = user["UserName"]
+            session.pop('2fa_user')
+
+            return redirect(url_for('Index'))
+        else:
+            flash('Invalid OTP. Please try again.', 'error')
+
+    return render_template('verify2fa.html', username=username)
 
 @app.route('/forgotpassword', methods=['GET', 'POST'])
 @NotLoggedIn
@@ -217,6 +267,28 @@ def logout():
     })
     session.clear()
     return redirect(url_for('Index'))
+
+@app.route('/2fa', methods=['GET', 'POST'])
+@LoggedIn
+def Toggle2FA():
+    username = session['username']
+    user = db.Users.find_one({'UserName': username})
+
+    QRImage = ""
+    if user.get('TwoFactorEnabled', False):
+        QRImage = Auth.Generate2FAQR(user["UserName"], user["TwoFactorSecret"])
+
+    if request.method == 'POST':
+        if user and user.get('TwoFactorEnabled', False):
+            db.Users.update_one({'UserName': username}, {'$unset': {'TwoFactorEnabled': '', 'TwoFactorSecret': ''}})
+            flash('Two-factor authentication has been disabled for your account.', 'success')
+        else:
+            user_secret = Auth.Generate2FASecret()
+            db.Users.update_one({'UserName': username}, {'$set': {'TwoFactorEnabled': True, 'TwoFactorSecret': user_secret}})
+            flash('Two-factor authentication has been enabled for your account.', 'success')
+            
+        return redirect(url_for('Toggle2FA'))
+    return render_template('2FA.html', user=user, QRImage=QRImage)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=3000)

@@ -1,6 +1,10 @@
 from pymongo import MongoClient
 import secrets
 import string
+import pyotp
+import qrcode
+import base64
+from io import BytesIO
 from Modules import Mail
 
 client = MongoClient('mongodb://localhost:27017/')
@@ -31,3 +35,25 @@ def PasswordResetMail(username, email, ResetKey):
 def GenerateSessionKey(length=32):
     SessionKey = secrets.token_hex(length // 2)
     return SessionKey
+
+def Generate2FASecret():
+    return pyotp.random_base32()
+
+def Is2FAEnabled(username):
+    user = db.Users.find_one({'UserName': username})
+    return 'TwoFactorSecret' in user
+
+def GenerateTOTP(secret):
+    totp = pyotp.TOTP(secret)
+    return totp.now()
+
+def Generate2FAQR(username, secret):
+    data = f"otpauth://totp/{username}?secret={secret}&issuer=Secure%20Connect"
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+    qr.add_data(data)
+    qr.make(fit=True)
+    qr_img = BytesIO()
+    qr.make_image().save(qr_img, 'PNG')
+    qr_img.seek(0)
+    qr_base64 = base64.b64encode(qr_img.getvalue()).decode()
+    return qr_base64
