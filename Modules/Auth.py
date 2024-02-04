@@ -20,3 +20,10 @@ def SendVerificationEmail(username, email, VerificationCode):
 def IsUserVerified(username):
     VerifiedStatus = db.UserVerification.find_one({'UserName': username, 'Verified': True})
     return VerifiedStatus is not None
+
+def PasswordResetMail(username, email, ResetKey):
+    subject = "Secure Connect - Password Reset"
+    link = "http://localhost:3000/resetkey/" + str(ResetKey)
+    body = "Password Reset Code: " + str(ResetKey) + f" {link}"
+    if Mail.SendMail(subject, body, email):
+        db.PasswordReset.insert_one({'UserName': username, 'ResetKey': ResetKey})

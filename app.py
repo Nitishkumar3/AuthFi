@@ -5,7 +5,7 @@ from pymongo import MongoClient
 import re
 from datetime import datetime
 
-from Modules import Auth, AES256
+from Modules import Auth, AES256, Mail
 
 app = Flask(__name__)
 app.secret_key = "GS1jv6dDu1hmVzdWySky7Me324VGPE6H4nMeXF3SsXZyEtRnTuh9y83tzQcQeC72"
@@ -57,7 +57,7 @@ def Registration():
         db.Users.insert_one({'UserID': userid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordE, 'DateCreated': datecreated})
         return redirect(url_for('VerifyAccount', username=username))
     
-    return render_template('register.html')
+    return render_template('Register.html')
 
 @app.route('/verifyaccount/<username>', methods=['GET', 'POST'])
 def VerifyAccount(username):
@@ -76,7 +76,7 @@ def VerifyAccount(username):
             flash('Invalid Code. Please try again.', 'error')
             return redirect(url_for('VerifyAccount', username=username))
 
-    return render_template('verifyaccount.html', username=username)
+    return render_template('VerifyAccount.html', username=username)
 
 @app.route('/login', methods=['GET', 'POST'])
 def Login():
@@ -103,7 +103,53 @@ def Login():
         else:
             flash('Invalid Login or password. Please try again.', 'error')
     
-    return render_template('login.html')
+    return render_template('Login.html')
+
+@app.route('/forgotpassword', methods=['GET', 'POST'])
+def ForgotPassword():
+    if request.method == 'POST':
+        login = request.form['login']
+
+        if "@" in login:
+            user = db.Users.find_one({'Email': login})
+        else:
+            user = db.Users.find_one({'UserName': login})
+
+        if not user:
+            flash('Invalid Username or Email ID', 'error')
+            return redirect(url_for('ForgotPassword'))
+
+        ResetKey = AES256.GenerateRandomString(32)
+        Auth.PasswordResetMail(user["UserName"], user["Email"], ResetKey)
+        print(user["UserName"], user["Email"], ResetKey)
+        flash('A password reset link has been sent to your email. Please check your inbox and follow the instructions.', 'info')
+    return render_template('ForgotPassword.html')
+
+@app.route('/resetkey/<ResetKey>', methods=['GET', 'POST'])
+def ResetPassword(ResetKey):
+    if request.method == 'POST':
+        NewPassword = request.form['newpassword']
+               
+        ResetData = db.PasswordReset.find_one({'ResetKey': ResetKey})
+
+        if not ResetData:
+            flash('Invalid or Expired reset link. Please initiate the password reset process again.', 'error')
+        
+        PasswordCheck = False if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-+=])[A-Za-z\d!@#$%^&*()-+=]{8,}$', NewPassword) else True
+
+        if PasswordCheck:
+            flash('Invalid password. It should be at least 8 characters and contain at least one lowercase letter, one uppercase letter, one special character, and one number.', 'error')
+            return redirect(url_for('ResetPassword', ResetKey=ResetKey))
+        
+        user = db.Users.find_one({'UserName': ResetData['UserName']})
+        
+        passwordE = AES256.Encrypt(NewPassword, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Password"))
+        db.Users.update_one({'UserName': ResetData['UserName']}, {'$set': {'Password': passwordE}})
+
+        db.PasswordReset.delete_one({'ResetKey': ResetKey})
+
+        flash('Password reset successful. You can now log in with your new password.', 'success')
+    return render_template('ResetPassword.html', ResetKey=ResetKey)
 
 @app.route('/logout')
 def logout():
