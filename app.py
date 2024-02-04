@@ -81,24 +81,27 @@ def VerifyAccount(username):
 @app.route('/login', methods=['GET', 'POST'])
 def Login():
     if request.method == 'POST':
-        username = request.form['username']
+        login = request.form['login']
         password = request.form['password']
 
-        user = db.Users.find_one({'UserName': username})
-        
+        if "@" in login:
+            user = db.Users.find_one({'Email': login})
+        else:
+            user = db.Users.find_one({'UserName': login})
+
         if not user:
-            flash('Invalid username or password. Please try again.', 'error')
+            flash('Invalid username or password.', 'error')
             return redirect(url_for('Login'))
 
-        if not Auth.IsUserVerified(username):
+        if not Auth.IsUserVerified(user["UserName"]):
             flash('User not verified. Please complete the OTP verification.', 'error')
-            return redirect(url_for('VerifyAccount', username=username))
+            return redirect(url_for('VerifyAccount', username=user["UserName"]))
 
         if user and password == AES256.Decrypt(user["Password"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Password")):
-            session['username'] = username
+            session['username'] = user["UserName"]
             return redirect(url_for('Index'))
         else:
-            flash('Invalid username or password. Please try again.', 'error')
+            flash('Invalid Login or password. Please try again.', 'error')
     
     return render_template('login.html')
 
