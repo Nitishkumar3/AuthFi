@@ -1,11 +1,12 @@
 # pip install flask pymongo
+
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from pymongo import MongoClient
 import re
 from Modules import Auth
 
 app = Flask(__name__)
-app.secret_key = "your_unique_and_secret_key"
+app.secret_key = "GS1jv6dDu1hmVzdWySky7Me324VGPE6H4nMeXF3SsXZyEtRnTuh9y83tzQcQeC72"
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client['SecureConnect']
