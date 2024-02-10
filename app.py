@@ -1,12 +1,12 @@
 # pip install flask pymongo
 
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from pymongo import MongoClient
 import re
 from datetime import datetime, timedelta
 from functools import wraps
 import pyotp
-from Modules import Auth, AES256
+from Modules import Auth, AES256, SHA256, Functions
 
 app = Flask(__name__)
 app.secret_key = "GS1jv6dDu1hmVzdWySky7Me324VGPE6H4nMeXF3SsXZyEtRnTuh9y83tzQcQeC72"
@@ -86,10 +86,10 @@ def Registration():
             return redirect(url_for('Registration'))
 
         nameE = AES256.Encrypt(name, AES256.DeriveKey(userid, datecreated, "Name"))
-        passwordE = AES256.Encrypt(password, AES256.DeriveKey(userid, datecreated, "Password"))
+        passwordH = SHA256.HashPassword(password, userid)
 
         Auth.SendVerificationEmail(username, email, Auth.GenerateVerificationCode())
-        db.Users.insert_one({'UserID': userid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordE, 'DateCreated': datecreated})
+        db.Users.insert_one({'UserID': userid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordH, 'DateCreated': datecreated})
         return redirect(url_for('VerifyAccount', username=username))
     
     return render_template('Register.html')
@@ -134,7 +134,7 @@ def Login():
             flash('User not verified. Please complete the OTP verification.', 'error')
             return redirect(url_for('VerifyAccount', username=user["UserName"]))
 
-        if user and password == AES256.Decrypt(user["Password"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Password")):
+        if user and SHA256.CheckPassword(password, SHA256.HashPassword(password, user["UserID"]), user["UserID"]):
             if Auth.Is2FAEnabled(user["UserName"]):
                 session['2fa_user'] = user["UserName"]
                 return redirect(url_for('Verify2FA'))
@@ -247,18 +247,19 @@ def ResetPassword(ResetKey):
             return redirect(url_for('ResetPassword', ResetKey=ResetKey))
         
         user = db.Users.find_one({'UserName': ResetData['UserName']})
-        
-        passwordE = AES256.Encrypt(NewPassword, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Password"))
-        db.Users.update_one({'UserName': ResetData['UserName']}, {'$set': {'Password': passwordE}})
+
+        passwordH = SHA256.HashPassword(NewPassword, user["UserID"])
+
+        db.Users.update_one({'UserName': ResetData['UserName']}, {'$set': {'Password': passwordH}})
 
         db.PasswordReset.delete_one({'ResetKey': ResetKey})
 
-        flash('Password reset successful. You can now log in with your new password.', 'success')
+        return redirect(url_for('Login'))
     return render_template('ResetPassword.html', ResetKey=ResetKey)
 
 @app.route('/logout')
 @LoggedIn
-def logout():
+def Logout():
     session_key = session['key']
     username = session['username']
     UserSessionDelete = db.UserSessions.delete_one({
@@ -290,5 +291,96 @@ def Toggle2FA():
         return redirect(url_for('Toggle2FA'))
     return render_template('2FA.html', user=user, QRImage=QRImage)
 
+@app.route('/profile', methods=['GET'])
+@LoggedIn
+def Profile():
+    username = session['username']
+    user = db.Users.find_one({'UserName': username})
+
+    keys = Functions.GetDocumentKeys(username, db)
+
+    if user:
+        DecryptedData = {
+            'UserName': user["UserName"],
+            'Name': AES256.Decrypt(user["Name"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name")),
+            'Email': user["Email"]
+        }
+        return render_template('Profile.html', DecryptedData=DecryptedData)
+    else:
+        flash('User not found.', 'error')
+        return redirect(url_for('Login'))
+
+@app.route('/profile/edit', methods=['GET', 'POST'])
+@LoggedIn
+def EditProfile():
+    if request.method == 'POST':
+        username = session['username']
+        user = db.Users.find_one({'UserName': username})
+
+        NewName = request.form['name']
+        NewNameE = AES256.Encrypt(NewName, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name"))
+
+        db.Users.update_one({'UserName': username}, {'$set': {'Name': NewNameE}})
+        flash('Profile updated successfully!', 'success')
+        return redirect(url_for('Profile'))
+
+    username = session['username']
+    user = db.Users.find_one({'UserName': username})
+
+    DecryptedData = {
+        'UserName': user["UserName"],
+        'Name': AES256.Decrypt(user["Name"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name")),
+        'Email': user["Email"]
+    }
+    return render_template('EditProfile.html', DecryptedData=DecryptedData)
+
+@app.route('/api')
+def api():
+    SiteID = AES256.GenerateRandomString(32)
+    SiteSecret = AES256.GenerateRandomString(32)
+    UserID = "3G1WHBp4BxuRhqk0"
+    db.API.insert_one({'SiteID': SiteID, 'SiteSecret': SiteSecret, 'UserID': UserID})
+    return f"API Key: {SiteID} SiteSecret: {SiteSecret}"
+
+@app.route('/endpoint', methods=['POST'])
+def api_endpoint():
+    try:
+        ReuestData = request.get_json()
+        SiteID = ReuestData.get('SiteID')
+        SiteSecret = ReuestData.get('SiteSecret')
+        UserID = ReuestData.get('UserID')
+        Data = ReuestData.get('Data')
+        GetData = list(Data.keys())
+
+        if not SiteID or not SiteSecret:
+            return jsonify({'error': 'API key and Secret are required'}), 400
+        
+        result = db.API.find_one({'SiteID': SiteID, 'SiteSecret': SiteSecret})
+        
+        if not result:
+            return jsonify({'error': 'Invalid API key or secret'}), 401
+        
+        if result['UserID'] != UserID:
+            return jsonify({'error': 'Invalid user'}), 401
+
+        data = db.Users.find_one({'UserID': result['UserID']})
+
+        Target = ["UserID", "UserName", "Email"]
+        UnEncData = list(set(GetData) & set(Target))
+        GetData = [item for item in GetData if item not in UnEncData]
+
+        ReturnData = {}
+
+        for FetchData in UnEncData:
+            ReturnData[FetchData] = data[FetchData]
+
+        for FetchData in GetData:
+            ReturnData[FetchData] = AES256.Decrypt(data[FetchData], AES256.DeriveKey(data["UserID"], data["DateCreated"], FetchData))
+
+        return jsonify(ReturnData)
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=3000)

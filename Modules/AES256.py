@@ -5,7 +5,6 @@ import secrets
 import string
 from hashlib import blake2b, sha256, sha512
 from Crypto.Cipher import AES
-# from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
 from Crypto.Protocol.KDF import PBKDF2
 

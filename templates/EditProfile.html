@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+</head>
+<body>
+    <h1>Edit Profile</h1>
+    <form method="post" action="{{ url_for('EditProfile') }}">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ DecryptedData['Name'] }}" required>
+        <br>
+        <label for="email">Username:</label>
+        {{ DecryptedData['UserName'] }}
+        <br>
+        <label for="email">Email:</label>
+        {{ DecryptedData['Email'] }}
+        <br><br>
+        <input type="submit" value="Save Changes">
+    </form>
+    <br><br>
+    <a href="{{ url_for('Profile') }}">Go back to Profile</a>
+    <br>
+    <a href="{{ url_for('Index') }}">Go back to Home</a>
+</body>
+</html>

@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from datetime import datetime, timedelta
 import secrets
 import string
 import pyotp
@@ -30,7 +31,9 @@ def PasswordResetMail(username, email, ResetKey):
     link = "http://localhost:3000/resetkey/" + str(ResetKey)
     body = "Password Reset Code: " + str(ResetKey) + f" {link}"
     if Mail.SendMail(subject, body, email):
-        db.PasswordReset.insert_one({'UserName': username, 'ResetKey': ResetKey})
+        currenttime = datetime.utcnow()
+        db.PasswordReset.insert_one({'UserName': username, 'ResetKey': ResetKey, 'CreatedAt': currenttime, 'ExpirationTime': currenttime + timedelta(hours=6)})
+        db.PasswordReset.create_index('ExpirationTime', expireAfterSeconds=0)
 
 def GenerateSessionKey(length=32):
     SessionKey = secrets.token_hex(length // 2)
