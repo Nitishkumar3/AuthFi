@@ -1,4 +1,4 @@
-# pip install flask pymongo
+# pip install flask pymongo pytotp
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from pymongo import MongoClient
@@ -52,6 +52,8 @@ def NotLoggedIn(view_func):
 @LoggedIn
 def Index():
     return f'Logged in as {session["username"]}! <a href="/logout">Logout</a>'
+
+# Authentication
 
 @app.route('/register', methods=['GET', 'POST'])
 @NotLoggedIn
@@ -269,6 +271,8 @@ def Logout():
     session.clear()
     return redirect(url_for('Index'))
 
+# 2FA
+
 @app.route('/2fa', methods=['GET', 'POST'])
 @LoggedIn
 def Toggle2FA():
@@ -334,6 +338,8 @@ def EditProfile():
     }
     return render_template('EditProfile.html', DecryptedData=DecryptedData)
 
+# API Endpoints
+
 @app.route('/api')
 def api():
     SiteID = AES256.GenerateRandomString(32)
@@ -346,10 +352,17 @@ def api():
 def api_endpoint():
     try:
         ReuestData = request.get_json()
+
+        IPAddress = request.remote_addr
+        UserAgent = request.user_agent.string
+
+        print(IPAddress, UserAgent)
+
         SiteID = ReuestData.get('SiteID')
         SiteSecret = ReuestData.get('SiteSecret')
         UserID = ReuestData.get('UserID')
         Data = ReuestData.get('Data')
+
         GetData = list(Data.keys())
 
         if not SiteID or not SiteSecret:
