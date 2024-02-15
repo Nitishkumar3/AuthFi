@@ -48,40 +48,6 @@ def NotLoggedInUser(view_func):
         return view_func(*args, **kwargs)
     return decorated_function
 
-def LoggedInSite(view_func):
-    @wraps(view_func)
-    def decorated_function(*args, **kwargs):
-        if 'key' in session and 'username' in session and 'role' in session:
-            session_key = session['key']
-            username = session['username']
-            useragent = request.headers.get('User-Agent')
-            ipaddress = request.remote_addr
-            user_session = db.SiteSessions.find_one({
-                'SessionKey': session_key,
-                'UserName': username,
-                'UserAgent': useragent,
-                'IPAddress': ipaddress,
-                'ExpirationTime': {'$gt': datetime.utcnow()}
-            })
-            if user_session:
-                return view_func(*args, **kwargs)
-            else:
-                session.clear()
-                flash('Session expired or invalid. Please log in again.', 'error')
-                return redirect(url_for('Login'))
-        else:
-            flash('Please log in to access this page.', 'error')
-            return redirect(url_for('Login'))
-    return decorated_function
-
-def NotLoggedInSite(view_func):
-    @wraps(view_func)
-    def decorated_function(*args, **kwargs):
-        if 'key' in session and 'username' in session and 'role' in session:
-            return redirect(url_for('Index'))
-        return view_func(*args, **kwargs)
-    return decorated_function
-
 @app.route('/')
 @LoggedInUser
 def Index():
@@ -432,6 +398,45 @@ def api_endpoint():
         return jsonify({'error': str(e)}), 500
 
 # Authentication Site
+def LoggedInSite(view_func):
+    @wraps(view_func)
+    def decorated_function(*args, **kwargs):
+        if 'key' in session and 'username' in session and 'role' in session:
+            session_key = session['key']
+            username = session['username']
+            useragent = request.headers.get('User-Agent')
+            ipaddress = request.remote_addr
+            user_session = db.SiteSessions.find_one({
+                'SessionKey': session_key,
+                'UserName': username,
+                'UserAgent': useragent,
+                'IPAddress': ipaddress,
+                'Role': 'Site',
+                'ExpirationTime': {'$gt': datetime.utcnow()}
+            })
+            if user_session:
+                return view_func(*args, **kwargs)
+            else:
+                session.clear()
+                flash('Session expired or invalid. Please log in again.', 'error')
+                return redirect(url_for('LoginSite'))
+        else:
+            flash('Please log in to access this page.', 'error')
+            return redirect(url_for('LoginSite'))
+    return decorated_function
+
+def NotLoggedInSite(view_func):
+    @wraps(view_func)
+    def decorated_function(*args, **kwargs):
+        if 'key' in session and 'username' in session and 'role' in session:
+            return redirect(url_for('SiteIndex'))
+        return view_func(*args, **kwargs)
+    return decorated_function
+
+@app.route('/site')
+@LoggedInSite
+def SiteIndex():
+    return "Hi"
 
 @app.route('/site/register', methods=['GET', 'POST'])
 @NotLoggedInSite
@@ -472,7 +477,7 @@ def RegistrationSite():
         db.Users.insert_one({'UserID': userid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordH, 'DateCreated': datecreated})
         return redirect(url_for('VerifyAccountSite', username=username))
     
-    return render_template('Register.html')
+    return render_template('Site/Register.html')
 
 @app.route('/site/verifyaccount/<username>', methods=['GET', 'POST'])
 @NotLoggedInSite
@@ -492,7 +497,7 @@ def VerifyAccountSite(username):
             flash('Invalid Code. Please try again.', 'error')
             return redirect(url_for('VerifyAccount', username=username))
 
-    return render_template('VerifyAccount.html', username=username)
+    return render_template('Site/VerifyAccount.html', username=username)
 
 @app.route('/site/login', methods=['GET', 'POST'])
 @NotLoggedInSite
@@ -541,7 +546,7 @@ def LoginSite():
         else:
             flash('Invalid Login or password. Please try again.', 'error')
     
-    return render_template('Login.html')
+    return render_template('Site/Login.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
