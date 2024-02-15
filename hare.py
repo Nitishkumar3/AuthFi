@@ -1,5 +1,3 @@
-# pip install flask pymongo pytotp
-
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from pymongo import MongoClient
 import re
@@ -13,6 +11,7 @@ app.secret_key = "GS1jv6dDu1hmVzdWySky7Me324VGPE6H4nMeXF3SsXZyEtRnTuh9y83tzQcQeC
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client['SecureConnect']
+
 
 def LoggedInUser(view_func):
     @wraps(view_func)
@@ -81,6 +80,7 @@ def NotLoggedInSite(view_func):
             return redirect(url_for('Index'))
         return view_func(*args, **kwargs)
     return decorated_function
+
 
 @app.route('/')
 @LoggedInUser
@@ -374,174 +374,11 @@ def EditProfile():
 
     return render_template('EditProfile.html', DecryptedData=DecryptedData)
 
-# API Endpoints
-
-@app.route('/api')
-def api():
-    SiteID = AES256.GenerateRandomString(32)
-    SiteSecret = AES256.GenerateRandomString(32)
-    UserID = "3G1WHBp4BxuRhqk0"
-    db.API.insert_one({'SiteID': SiteID, 'SiteSecret': SiteSecret, 'UserID': UserID})
-    return f"API Key: {SiteID} SiteSecret: {SiteSecret}"
-
-@app.route('/endpoint', methods=['POST'])
-def api_endpoint():
-    try:
-        ReuestData = request.get_json()
-
-        IPAddress = request.remote_addr
-        UserAgent = request.user_agent.string
-
-        print(IPAddress, UserAgent)
-
-        SiteID = ReuestData.get('SiteID')
-        SiteSecret = ReuestData.get('SiteSecret')
-        UserID = ReuestData.get('UserID')
-        Data = ReuestData.get('Data')
-
-        GetData = list(Data.keys())
-
-        if not SiteID or not SiteSecret:
-            return jsonify({'error': 'API key and Secret are required'}), 400
-        
-        result = db.API.find_one({'SiteID': SiteID, 'SiteSecret': SiteSecret})
-        
-        if not result:
-            return jsonify({'error': 'Invalid API key or secret'}), 401
-        
-        if result['UserID'] != UserID:
-            return jsonify({'error': 'Invalid user'}), 401
-
-        data = db.Users.find_one({'UserID': result['UserID']})
-
-        Target = ["UserID", "UserName", "Email"]
-        UnEncData = list(set(GetData) & set(Target))
-        GetData = [item for item in GetData if item not in UnEncData]
-
-        ReturnData = {}
-
-        for FetchData in UnEncData:
-            ReturnData[FetchData] = data[FetchData]
-
-        for FetchData in GetData:
-            ReturnData[FetchData] = AES256.Decrypt(data[FetchData], AES256.DeriveKey(data["UserID"], data["DateCreated"], FetchData))
-
-        return jsonify(ReturnData)
-    
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-# Authentication Site
-
-@app.route('/site/register', methods=['GET', 'POST'])
-@NotLoggedInSite
-def RegistrationSite():
-    if request.method == 'POST':
-        datecreated = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        name =  request.form['name']
-        username = request.form['username']
-        email =  request.form['email']
-        password = request.form['password']
-        userid = AES256.GenerateRandomString()
-
-        while db.Users.find_one({'UserID': userid}):
-            userid = AES256.GenerateRandomString()
-    
-        UserNameCheck = False if re.match(r'^[a-zA-Z0-9_]{4,}$', username) else True
-        PasswordCheck = False if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-+=])[A-Za-z\d!@#$%^&*()-+=]{8,}$', password) else True
-        ExistingUserName = True if db.Sites.find_one({'UserName': username}) else False
-        ExistingEmailID = True if db.Users.find_one({'Email': email}) else False
-
-        if UserNameCheck or PasswordCheck or ExistingUserName or ExistingEmailID:
-            ErrorMessages = []
-            if UserNameCheck:
-                ErrorMessages.append('Invalid username. It should be at least 4 characters and contain only alphabets (lower and upper), numbers, and underscores.')
-            if PasswordCheck:
-                ErrorMessages.append('Invalid password. It should be at least 8 characters and contain at least one lowercase letter, one uppercase letter, one special character, and one number.')
-            if ExistingUserName:
-                ErrorMessages.append('Username already exists. Please choose a different username.')
-            if ExistingEmailID:
-                ErrorMessages.append('Email ID already Registered. Try Logging in.')
-            flash(ErrorMessages, 'error')
-            return redirect(url_for('RegistrationSite'))
-
-        nameE = AES256.Encrypt(name, AES256.DeriveKey(userid, datecreated, "Name"))
-        passwordH = SHA256.HashPassword(password, userid)
-
-        Auth.SendVerificationEmail(username, email, Auth.GenerateVerificationCode())
-        db.Users.insert_one({'UserID': userid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordH, 'DateCreated': datecreated})
-        return redirect(url_for('VerifyAccountSite', username=username))
-    
-    return render_template('Register.html')
-
-@app.route('/site/verifyaccount/<username>', methods=['GET', 'POST'])
-@NotLoggedInSite
-def VerifyAccountSite(username):
-    if request.method == 'POST':
-        EnteredVerificationCode = request.form['VerificationCode']
-        VerificationAccount = db.UserVerification.find_one({'UserName': username, 'Verified': False})
-
-        if not VerificationAccount:
-            flash('Account not Found or it is Already Verified', 'error')
-            return redirect(url_for('Login', username=username))
-
-        if EnteredVerificationCode == VerificationAccount['VerificationCode']:
-            db.UserVerification.update_one({'UserName': username}, {'$set': {'Verified': True}})
-            return redirect(url_for('Login'))
-        else:
-            flash('Invalid Code. Please try again.', 'error')
-            return redirect(url_for('VerifyAccount', username=username))
-
-    return render_template('VerifyAccount.html', username=username)
-
-@app.route('/site/login', methods=['GET', 'POST'])
-@NotLoggedInSite
-def LoginSite():
-    if request.method == 'POST':
-        login = request.form['login']
-        password = request.form['password']
-
-        if "@" in login:
-            user = db.Users.find_one({'Email': login})
-        else:
-            user = db.Users.find_one({'UserName': login})
-
-        if not user:
-            flash('Invalid username or password.', 'error')
-            return redirect(url_for('Login'))
-
-        if not Auth.IsUserVerified(user["UserName"]):
-            flash('User not verified. Please complete the OTP verification.', 'error')
-            return redirect(url_for('VerifyAccount', username=user["UserName"]))
-
-        if user and SHA256.CheckPassword(password, SHA256.HashPassword(password, user["UserID"]), user["UserID"]):
-            if Auth.Is2FAEnabled(user["UserName"]):
-                session['2fa_user'] = user["UserName"]
-                return redirect(url_for('Verify2FA'))
-            
-            sessionkey = Auth.GenerateSessionKey()
-            useragent = request.headers.get('User-Agent')
-            ipaddress = request.remote_addr
-            
-            currenttime = datetime.utcnow()
-            db.UserSessions.insert_one({
-                'SessionKey': sessionkey,
-                'UserName': user["UserName"],
-                'UserAgent': useragent,
-                'IPAddress': ipaddress,
-                'CreatedAt': currenttime,
-                'ExpirationTime': currenttime + timedelta(hours=6)
-            })
-            db.UserSessions.create_index('ExpirationTime', expireAfterSeconds=0)
-
-            session['key'] = sessionkey
-            session['username'] = user["UserName"]
-            
-            return redirect(url_for('Index'))
-        else:
-            flash('Invalid Login or password. Please try again.', 'error')
-    
-    return render_template('Login.html')
+@app.route('/onboarding', methods=['GET'])
+@LoggedInUser
+def Onboarding():
+    # make changes here
+    return render_template('AddData.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=3300)
