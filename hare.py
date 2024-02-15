@@ -409,22 +409,25 @@ def Onboarding():
     username = session['username']
     user = db.Users.find_one({'UserName': username})
 
-    decrypted_name = AES256.Decrypt(user["Name"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name"))
-    decrypted_email = AES256.Decrypt(user["Email"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Email"))
-    decrypted_phone = AES256.Decrypt(user["Phone"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Phone"))
-    decrypted_gender = AES256.Decrypt(user["Gender"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Gender"))
-    decrypted_dob = AES256.Decrypt(user["DOB"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "DOB"))
-    
-    decrypted_data = {
-        'Name': decrypted_name,
-        'Email': decrypted_email,
-        'Phone': decrypted_phone,
-        'Gender': decrypted_gender,
-        'DOB': decrypted_dob
-    }
+    decrypted_data = {}
+
+    if "Name" in user: 
+        decrypted_name = AES256.Decrypt(user["Name"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name"))
+        decrypted_data["Name"] = decrypted_name
+    if "Email" in user: 
+        decrypted_email = user["Email"]
+        decrypted_data["Email"] = decrypted_email
+    if "Phone" in user: 
+        decrypted_phone = AES256.Decrypt(user["Phone"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Phone"))
+        decrypted_data["Phone"] = decrypted_phone
+    if "Gender" in user: 
+        decrypted_gender = AES256.Decrypt(user["Gender"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Gender"))
+        decrypted_data["Gender"] = decrypted_gender
+    if "DOB" in user: 
+        decrypted_dob = AES256.Decrypt(user["DOB"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "DOB"))
+        decrypted_data["DOB"] = decrypted_dob
 
     return render_template('AddData.html', DecryptedData=decrypted_data)
     
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=3300)
