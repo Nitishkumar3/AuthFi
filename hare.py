@@ -359,7 +359,10 @@ def EditProfile():
 
         NewNameE = AES256.Encrypt(NewName, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name"))
 
-        db.Users.update_one({'UserName': username}, {'$set': {'Name': NewNameE}})
+        db.Users.update_one({
+            'UserName': username}, 
+            {'$set': {'Name': NewNameE}})
+        
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('Profile'))
 
@@ -374,11 +377,54 @@ def EditProfile():
 
     return render_template('EditProfile.html', DecryptedData=DecryptedData)
 
-@app.route('/onboarding', methods=['GET'])
+@app.route('/onboarding', methods=['GET','POST'])
 @LoggedInUser
 def Onboarding():
-    # make changes here
-    return render_template('AddData.html')
+    if request.method == 'POST':
+        username = session['username']
+        user = db.Users.find_one({'UserName': username})
+    
+        name = request.form['name']
+        email = request.form['email']
+        phone = request.form['phone']
+        gender = request.form['gender']
+        dob = request.form['dob']
+        country = request.form['country']
+
+        EncryptedName = AES256.Encrypt(name, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name"))
+        EncryptedEmail = AES256.Encrypt(email, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Email"))
+        EncryptedPhone = AES256.Encrypt(phone, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Phone"))
+        EncryptedGender = AES256.Encrypt(gender, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Gender"))
+        EncryptedDOB = AES256.Encrypt(dob, AES256.DeriveKey(user["UserID"], user["DateCreated"], "DOB"))
+        EncryptedCountry = AES256.Encrypt(country, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Country"))
+
+        db.Users.update_one({'UserName': username}, {'$set': {
+            'Name': EncryptedName,
+            'Email': EncryptedEmail,
+            'Phone': EncryptedPhone,
+            'Gender': EncryptedGender,
+            'DOB': EncryptedDOB
+        }})
+        
+    username = session['username']
+    user = db.Users.find_one({'UserName': username})
+
+    decrypted_name = AES256.Decrypt(user["Name"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name"))
+    decrypted_email = AES256.Decrypt(user["Email"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Email"))
+    decrypted_phone = AES256.Decrypt(user["Phone"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Phone"))
+    decrypted_gender = AES256.Decrypt(user["Gender"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Gender"))
+    decrypted_dob = AES256.Decrypt(user["DOB"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "DOB"))
+    
+    decrypted_data = {
+        'Name': decrypted_name,
+        'Email': decrypted_email,
+        'Phone': decrypted_phone,
+        'Gender': decrypted_gender,
+        'DOB': decrypted_dob
+    }
+
+    return render_template('AddData.html', DecryptedData=decrypted_data)
+    
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=3300)
