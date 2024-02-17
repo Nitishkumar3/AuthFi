@@ -45,12 +45,21 @@ def NotLoggedInUser(view_func):
         return view_func(*args, **kwargs)
     return decorated_function
 
+def OnboardingCheck(view_func):
+    @wraps(view_func)
+    def decorated_function(*args, **kwargs):
+        if 'key' in session and 'username' in session and 'role' not in session:
+            user = db.Users.find_one({'UserName': session['username']})
+            if "Phone" not in user or "Gender" not in user or "DOB" not in user or "Country" not in user: 
+                return redirect(url_for('users.Onboarding'))
+        return view_func(*args, **kwargs)
+    return decorated_function
+
 @UserBP.route('/')
 @LoggedInUser
+@OnboardingCheck
 def Index():
     return f'Logged in as {session["username"]}! <a href="/logout">Logout</a>'
-
-# Authentication
 
 @UserBP.route('/register', methods=['GET', 'POST'])
 @NotLoggedInUser
@@ -305,42 +314,48 @@ def Onboarding():
         gender = request.form['gender']
         dob = request.form['dob']
         country = request.form['country']
+    
+        EncryptedData = {}
+        
+        if name:
+            EncryptedData["Name"] = AES256.Encrypt(name, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name"))
+        if email:
+            EncryptedData["Email"] = email
+        if phone:    
+            EncryptedData["Phone"] = AES256.Encrypt(phone, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Phone"))
+        if gender:
+            EncryptedData["Gender"] = AES256.Encrypt(gender, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Gender"))
+        if dob:
+            EncryptedData["DOB"] = AES256.Encrypt(dob, AES256.DeriveKey(user["UserID"], user["DateCreated"], "DOB"))
+        if country:
+            EncryptedData["Country"] = AES256.Encrypt(country, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Country"))
 
-        EncryptedName = AES256.Encrypt(name, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name"))
-        Email = email
-        EncryptedPhone = AES256.Encrypt(phone, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Phone"))
-        EncryptedGender = AES256.Encrypt(gender, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Gender"))
-        EncryptedDOB = AES256.Encrypt(dob, AES256.DeriveKey(user["UserID"], user["DateCreated"], "DOB"))
-        EncryptedCountry = AES256.Encrypt(country, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Country"))
+        db.Users.update_one({'UserName': username}, {'$set': EncryptedData})
 
-        db.Users.update_one({'UserName': username}, {'$set': {
-            'Name': EncryptedName,
-            'Email': Email,
-            'Phone': EncryptedPhone,
-            'Gender': EncryptedGender,
-            'DOB': EncryptedDOB,
-            'Country': EncryptedCountry,
-        }})
+        return redirect(url_for('users.Index'))
         
     username = session['username']
     user = db.Users.find_one({'UserName': username})
 
-    decrypted_data = {}
+    if "Phone" in user and "Gender" in user and "DOB" in user and "Country" in user: 
+        return redirect(url_for('users.Index'))
+    
+    DecryptedData = {}
 
     if "Name" in user: 
-        decrypted_data["Name"] = AES256.Decrypt(user["Name"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name"))
+        DecryptedData["Name"] = AES256.Decrypt(user["Name"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name"))
     if "Email" in user: 
-        decrypted_data["Email"] = user["Email"]
+        DecryptedData["Email"] = user["Email"]
     if "Phone" in user: 
-        decrypted_data["Phone"] = AES256.Decrypt(user["Phone"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Phone"))
+        DecryptedData["Phone"] = AES256.Decrypt(user["Phone"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Phone"))
     if "Gender" in user: 
-        decrypted_data["Gender"] = AES256.Decrypt(user["Gender"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Gender"))
+        DecryptedData["Gender"] = AES256.Decrypt(user["Gender"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Gender"))
     if "DOB" in user: 
-        decrypted_data["DOB"] = AES256.Decrypt(user["DOB"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "DOB"))
+        DecryptedData["DOB"] = AES256.Decrypt(user["DOB"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "DOB"))
     if "Country" in user: 
-        decrypted_data["Country"] = AES256.Decrypt(user["Country"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Country"))
+        DecryptedData["Country"] = AES256.Decrypt(user["Country"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Country"))
 
-    return render_template('Users/UserOnboarding.html', DecryptedData=decrypted_data)
+    return render_template('Users/UserOnboarding.html', DecryptedData=DecryptedData)
 
 @UserBP.route('/profile', methods=['GET'])
 @LoggedInUser
