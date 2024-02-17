@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Login Basic - Pages | Materialize - Material Design HTML Admin Template</title>
+    <title>Login | Secure Connect</title>
     <meta name="description" content="Materialize is the most developer friendly &amp; highly customizable Admin Dashboard Template." />
     <meta name="keywords" content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
 
@@ -31,27 +31,19 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="../../assets/vendor/libs/typeahead-js/typeahead.css" /> 
+
     <!-- Vendor -->
-<link rel="stylesheet" href="../../assets/vendor/libs/%40form-validation/umd/styles/index.min.css" />
+    <link rel="stylesheet" href="../../assets/vendor/libs/%40form-validation/umd/styles/index.min.css" />
 
     <!-- Page CSS -->
-    <!-- Page -->
-<link rel="stylesheet" href="../../assets/vendor/css/pages/page-auth.css">
+    <link rel="stylesheet" href="../../assets/vendor/css/pages/page-auth.css">
 
     <!-- Helpers -->
     <script src="../../assets/vendor/js/helpers.js"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
-    <!-- <script src="../../assets/vendor/js/template-customizer.js"></script> -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../../assets/js/config.js"></script>
-    
 </head>
-
 <body>
-  
   <!-- Content -->
-
 <div class="position-relative">
   <div class="authentication-wrapper authentication-basic container-p-y">
     <div class="authentication-inner py-4">
@@ -60,7 +52,7 @@
       <div class="card p-2">
         <!-- Logo -->
         <div class="app-brand justify-content-center mt-5">
-            <img src="../../assets/img/SCdotT.svg" width="80%">
+            <img src="../../assets/img/SCdotT.svg" width="70%">
         </div>
         <!-- /Logo -->
         <div class="card-body mt-2">
@@ -96,7 +88,7 @@
 
             <div class="mb-3 d-flex justify-content-between">
               <div class="form-check"></div>
-              <a href="auth-forgot-password-basic.html" class="float-end mb-1">
+              <a href="{{url_for('users.ForgotPassword')}}" class="float-end mb-1">
                 <span>Forgot Password?</span>
               </a>
             </div>
@@ -107,7 +99,7 @@
 
           <p class="text-center">
             <span>New on our platform?</span>
-            <a href="auth-register-basic.html">
+            <a href="{{url_for('users.Registration')}}">
               <span>Create an account</span>
             </a>
           </p>
@@ -119,13 +111,9 @@
     </div>
   </div>
 </div>
-
 <!-- / Content -->
 
-  
-
   <!-- Core JS -->
-  <!-- build:js assets/vendor/js/core.js -->
   <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
   <script src="../../assets/vendor/libs/popper/popper.js"></script>
   <script src="../../assets/vendor/js/bootstrap.js"></script>
@@ -136,19 +124,15 @@
   <script src="../../assets/vendor/libs/typeahead-js/typeahead.js"></script>
   <script src="../../assets/vendor/js/menu.js"></script>
   
-  <!-- endbuild -->
-
   <!-- Vendors JS -->
   <script src="../../assets/vendor/libs/%40form-validation/umd/bundle/popular.min.js"></script>
-<script src="../../assets/vendor/libs/%40form-validation/umd/plugin-bootstrap5/index.min.js"></script>
-<script src="../../assets/vendor/libs/%40form-validation/umd/plugin-auto-focus/index.min.js"></script>
+  <script src="../../assets/vendor/libs/%40form-validation/umd/plugin-bootstrap5/index.min.js"></script>
+  <script src="../../assets/vendor/libs/%40form-validation/umd/plugin-auto-focus/index.min.js"></script>
 
   <!-- Main JS -->
   <script src="../../assets/js/main.js"></script>
   
-
   <!-- Page JS -->
   <script src="../../assets/js/pages-auth.js"></script>
-  
 </body>
 </html>

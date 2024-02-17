@@ -1,0 +1,11 @@
+sudo apt-get install mongodb-org
+sudo apt-get install redis
+
+sudo systemctl enable mongod
+sudo systemctl enable redis-server
+
+sudo systemctl start mongod
+sudo systemctl start redis-server
+
+sudo systemctl status mongod
+sudo systemctl status redis-server

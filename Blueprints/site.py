@@ -5,9 +5,7 @@ from functools import wraps
 import re
 import pyotp
 from Modules import AES256, Auth, SHA256, Functions
-
-client = MongoClient('mongodb://localhost:27017/')
-db = client['SecureConnect']
+from db import mongo
 
 SiteBP = Blueprint('site', __name__)
 
@@ -19,7 +17,7 @@ def LoggedInSite(view_func):
             username = session['username']
             useragent = request.headers.get('User-Agent')
             ipaddress = request.remote_addr
-            user_session = db.SiteSessions.find_one({
+            user_session = mongo.db.SiteSessions.find_one({
                 'SessionKey': session_key,
                 'UserName': username,
                 'UserAgent': useragent,
@@ -62,13 +60,13 @@ def RegistrationSite():
         password = request.form['password']
         userid = AES256.GenerateRandomString()
 
-        while db.Users.find_one({'UserID': userid}):
+        while mongo.db.Users.find_one({'UserID': userid}):
             userid = AES256.GenerateRandomString()
     
         UserNameCheck = False if re.match(r'^[a-zA-Z0-9_]{4,}$', username) else True
         PasswordCheck = False if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-+=])[A-Za-z\d!@#$%^&*()-+=]{8,}$', password) else True
-        ExistingUserName = True if db.Sites.find_one({'UserName': username}) else False
-        ExistingEmailID = True if db.Users.find_one({'Email': email}) else False
+        ExistingUserName = True if mongo.db.Sites.find_one({'UserName': username}) else False
+        ExistingEmailID = True if mongo.db.Users.find_one({'Email': email}) else False
 
         if UserNameCheck or PasswordCheck or ExistingUserName or ExistingEmailID:
             ErrorMessages = []
@@ -87,7 +85,7 @@ def RegistrationSite():
         passwordH = SHA256.HashPassword(password, userid)
 
         Auth.SendVerificationEmail(username, email, Auth.GenerateVerificationCode())
-        db.Users.insert_one({'UserID': userid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordH, 'DateCreated': datecreated})
+        mongo.db.Users.insert_one({'UserID': userid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordH, 'DateCreated': datecreated})
         return redirect(url_for('site.VerifyAccountSite', username=username))
     
     return render_template('Site/Register.html')
@@ -97,14 +95,14 @@ def RegistrationSite():
 def VerifyAccountSite(username):
     if request.method == 'POST':
         EnteredVerificationCode = request.form['VerificationCode']
-        VerificationAccount = db.UserVerification.find_one({'UserName': username, 'Verified': False})
+        VerificationAccount = mongo.db.UserVerification.find_one({'UserName': username, 'Verified': False})
 
         if not VerificationAccount:
             flash('Account not Found or it is Already Verified', 'error')
             return redirect(url_for('site.Login', username=username))
 
         if EnteredVerificationCode == VerificationAccount['VerificationCode']:
-            db.UserVerification.update_one({'UserName': username}, {'$set': {'Verified': True}})
+            mongo.db.UserVerification.update_one({'UserName': username}, {'$set': {'Verified': True}})
             return redirect(url_for('site.Login'))
         else:
             flash('Invalid Code. Please try again.', 'error')
@@ -120,9 +118,9 @@ def LoginSite():
         password = request.form['password']
 
         if "@" in login:
-            user = db.Users.find_one({'Email': login})
+            user = mongo.db.Users.find_one({'Email': login})
         else:
-            user = db.Users.find_one({'UserName': login})
+            user = mongo.db.Users.find_one({'UserName': login})
 
         if not user:
             flash('Invalid Username or Password', 'error')
@@ -142,7 +140,7 @@ def LoginSite():
             ipaddress = request.remote_addr
             
             currenttime = datetime.utcnow()
-            db.UserSessions.insert_one({
+            mongo.db.UserSessions.insert_one({
                 'SessionKey': sessionkey,
                 'UserName': user["UserName"],
                 'UserAgent': useragent,
@@ -150,7 +148,7 @@ def LoginSite():
                 'CreatedAt': currenttime,
                 'ExpirationTime': currenttime + timedelta(hours=6)
             })
-            db.UserSessions.create_index('ExpirationTime', expireAfterSeconds=0)
+            mongo.db.UserSessions.create_index('ExpirationTime', expireAfterSeconds=0)
 
             session['key'] = sessionkey
             session['username'] = user["UserName"]

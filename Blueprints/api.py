@@ -1,18 +1,15 @@
-from flask import Blueprint, jsonify, request
+from flask import jsonify, request, Blueprint
 from Modules import AES256
-from pymongo import MongoClient
+from db import mongo
 
 APIBP = Blueprint('api', __name__)
-
-client = MongoClient('mongodb://localhost:27017/')
-db = client['SecureConnect']
 
 @APIBP.route('/')
 def api():
     SiteID = AES256.GenerateRandomString(32)
     SiteSecret = AES256.GenerateRandomString(32)
     UserID = "3G1WHBp4BxuRhqk0"
-    db.API.insert_one({'SiteID': SiteID, 'SiteSecret': SiteSecret, 'UserID': UserID})
+    mongo.db.API.insert_one({'SiteID': SiteID, 'SiteSecret': SiteSecret, 'UserID': UserID})
     return f"API Key: {SiteID} SiteSecret: {SiteSecret}"
 
 @APIBP.route('/endpoint', methods=['POST'])
@@ -35,7 +32,7 @@ def api_endpoint():
         if not SiteID or not SiteSecret:
             return jsonify({'error': 'API key and Secret are required'}), 400
         
-        result = db.API.find_one({'SiteID': SiteID, 'SiteSecret': SiteSecret})
+        result = mongo.db.API.find_one({'SiteID': SiteID, 'SiteSecret': SiteSecret})
         
         if not result:
             return jsonify({'error': 'Invalid API key or secret'}), 401
@@ -43,7 +40,7 @@ def api_endpoint():
         if result['UserID'] != UserID:
             return jsonify({'error': 'Invalid user'}), 401
 
-        data = db.Users.find_one({'UserID': result['UserID']})
+        data = mongo.db.Users.find_one({'UserID': result['UserID']})
 
         Target = ["UserID", "UserName", "Email"]
         UnEncData = list(set(GetData) & set(Target))

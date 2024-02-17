@@ -1,13 +1,10 @@
-from flask import render_template, request, redirect, url_for, session, flash, jsonify, Blueprint
-from pymongo import MongoClient
+from flask import render_template, request, redirect, url_for, session, flash, Blueprint
 from datetime import datetime, timedelta
 from functools import wraps
 import re
 import pyotp
 from Modules import AES256, Auth, SHA256, Functions
-
-client = MongoClient('mongodb://localhost:27017/')
-db = client['SecureConnect']
+from db import mongo
 
 UserBP = Blueprint('users', __name__)
 
@@ -19,7 +16,7 @@ def LoggedInUser(view_func):
             username = session['username']
             useragent = request.headers.get('User-Agent')
             ipaddress = request.remote_addr
-            user_session = db.UserSessions.find_one({
+            user_session = mongo.db.UserSessions.find_one({
                 'SessionKey': session_key,
                 'UserName': username,
                 'UserAgent': useragent,
@@ -49,7 +46,7 @@ def OnboardingCheck(view_func):
     @wraps(view_func)
     def decorated_function(*args, **kwargs):
         if 'key' in session and 'username' in session and 'role' not in session:
-            user = db.Users.find_one({'UserName': session['username']})
+            user = mongo.db.Users.find_one({'UserName': session['username']})
             if "Phone" not in user or "Gender" not in user or "DOB" not in user or "Country" not in user: 
                 return redirect(url_for('users.Onboarding'))
         return view_func(*args, **kwargs)
@@ -72,13 +69,13 @@ def Registration():
         password = request.form['password']
         userid = AES256.GenerateRandomString()
 
-        while db.Users.find_one({'UserID': userid}):
+        while mongo.db.Users.find_one({'UserID': userid}):
             userid = AES256.GenerateRandomString()
     
         UserNameCheck = False if re.match(r'^[a-zA-Z0-9_]{4,}$', username) else True
         PasswordCheck = False if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-+=])[A-Za-z\d!@#$%^&*()-+=]{8,}$', password) else True
-        ExistingUserName = True if db.Users.find_one({'UserName': username}) else False
-        ExistingEmailID = True if db.Users.find_one({'Email': email}) else False
+        ExistingUserName = True if mongo.db.Users.find_one({'UserName': username}) else False
+        ExistingEmailID = True if mongo.db.Users.find_one({'Email': email}) else False
 
         if UserNameCheck or PasswordCheck or ExistingUserName or ExistingEmailID:
             ErrorMessages = []
@@ -97,7 +94,7 @@ def Registration():
         passwordH = SHA256.HashPassword(password, userid)
 
         Auth.SendVerificationEmail(username, email, Auth.GenerateVerificationCode())
-        db.Users.insert_one({'UserID': userid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordH, 'DateCreated': datecreated})
+        mongo.db.Users.insert_one({'UserID': userid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordH, 'DateCreated': datecreated})
         return redirect(url_for('users.VerifyAccount', username=username))
     
     return render_template('Users/Register.html')
@@ -107,14 +104,14 @@ def Registration():
 def VerifyAccount(username):
     if request.method == 'POST':
         EnteredVerificationCode = request.form['VerificationCode']
-        VerificationAccount = db.UserVerification.find_one({'UserName': username, 'Verified': False})
+        VerificationAccount = mongo.db.UserVerification.find_one({'UserName': username, 'Verified': False})
 
         if not VerificationAccount:
             flash('Account not Found or it is Already Verified', 'error')
             return redirect(url_for('users.Login', username=username))
 
         if EnteredVerificationCode == VerificationAccount['VerificationCode']:
-            db.UserVerification.update_one({'UserName': username}, {'$set': {'Verified': True}})
+            mongo.db.UserVerification.update_one({'UserName': username}, {'$set': {'Verified': True}})
             return redirect(url_for('users.Login'))
         else:
             flash('Invalid Code. Please try again.', 'error')
@@ -130,9 +127,9 @@ def Login():
         password = request.form['password']
 
         if "@" in login:
-            user = db.Users.find_one({'Email': login})
+            user = mongo.db.Users.find_one({'Email': login})
         else:
-            user = db.Users.find_one({'UserName': login})
+            user = mongo.db.Users.find_one({'UserName': login})
 
         if not user:
             flash('Invalid Login or Password', 'error')
@@ -152,7 +149,7 @@ def Login():
             ipaddress = request.remote_addr
             
             currenttime = datetime.utcnow()
-            db.UserSessions.insert_one({
+            mongo.db.UserSessions.insert_one({
                 'SessionKey': sessionkey,
                 'UserName': user["UserName"],
                 'UserAgent': useragent,
@@ -160,7 +157,7 @@ def Login():
                 'CreatedAt': currenttime,
                 'ExpirationTime': currenttime + timedelta(hours=6)
             })
-            db.UserSessions.create_index('ExpirationTime', expireAfterSeconds=0)
+            mongo.db.UserSessions.create_index('ExpirationTime', expireAfterSeconds=0)
 
             session['key'] = sessionkey
             session['username'] = user["UserName"]
@@ -178,7 +175,7 @@ def Verify2FA():
         return redirect(url_for('users.Login'))
 
     username = session['2fa_user']
-    user = db.Users.find_one({'UserName': username})
+    user = mongo.db.Users.find_one({'UserName': username})
 
     if request.method == 'POST':
         entered_otp = request.form['otp']
@@ -196,7 +193,7 @@ def Verify2FA():
             ipaddress = request.remote_addr
 
             currenttime = datetime.utcnow()
-            db.UserSessions.insert_one({
+            mongo.db.UserSessions.insert_one({
                 'SessionKey': sessionkey,
                 'UserName': user["UserName"],
                 'UserAgent': useragent,
@@ -204,7 +201,7 @@ def Verify2FA():
                 'CreatedAt': currenttime,
                 'ExpirationTime': currenttime + timedelta(hours=6)
             })
-            db.UserSessions.create_index('ExpirationTime', expireAfterSeconds=0)
+            mongo.db.UserSessions.create_index('ExpirationTime', expireAfterSeconds=0)
 
             session['key'] = sessionkey
             session['username'] = user["UserName"]
@@ -223,9 +220,9 @@ def ForgotPassword():
         login = request.form['login']
 
         if "@" in login:
-            user = db.Users.find_one({'Email': login})
+            user = mongo.db.Users.find_one({'Email': login})
         else:
-            user = db.Users.find_one({'UserName': login})
+            user = mongo.db.Users.find_one({'UserName': login})
 
         if not user:
             flash('Invalid Username or Email ID', 'error')
@@ -233,8 +230,7 @@ def ForgotPassword():
 
         ResetKey = AES256.GenerateRandomString(32)
         Auth.PasswordResetMail(user["UserName"], user["Email"], ResetKey)
-        print(user["UserName"], user["Email"], ResetKey)
-        flash('A password reset link has been sent to your email. Please check your inbox and follow the instructions.', 'info')
+        flash('A Password Reset Link has been sent to your Email! Please check your Inbox and Follow the Instructions', 'info')
     return render_template('Users/ForgotPassword.html')
 
 @UserBP.route('/resetkey/<ResetKey>', methods=['GET', 'POST'])
@@ -242,8 +238,8 @@ def ForgotPassword():
 def ResetPassword(ResetKey):
     if request.method == 'POST':
         NewPassword = request.form['newpassword']
-               
-        ResetData = db.PasswordReset.find_one({'ResetKey': ResetKey})
+            
+        ResetData = mongo.db.PasswordReset.find_one({'ResetKey': ResetKey})
 
         if not ResetData:
             flash('Invalid or Expired reset link. Please initiate the password reset process again.', 'error')
@@ -254,13 +250,13 @@ def ResetPassword(ResetKey):
             flash('Invalid password. It should be at least 8 characters and contain at least one lowercase letter, one uppercase letter, one special character, and one number.', 'error')
             return redirect(url_for('users.ResetPassword', ResetKey=ResetKey))
         
-        user = db.Users.find_one({'UserName': ResetData['UserName']})
+        user = mongo.db.Users.find_one({'UserName': ResetData['UserName']})
 
         passwordH = SHA256.HashPassword(NewPassword, user["UserID"])
 
-        db.Users.update_one({'UserName': ResetData['UserName']}, {'$set': {'Password': passwordH}})
+        mongo.db.Users.update_one({'UserName': ResetData['UserName']}, {'$set': {'Password': passwordH}})
 
-        db.PasswordReset.delete_one({'ResetKey': ResetKey})
+        mongo.db.PasswordReset.delete_one({'ResetKey': ResetKey})
 
         return redirect(url_for('users.Login'))
     return render_template('Users/ResetPassword.html', ResetKey=ResetKey)
@@ -270,7 +266,7 @@ def ResetPassword(ResetKey):
 def Logout():
     session_key = session['key']
     username = session['username']
-    UserSessionDelete = db.UserSessions.delete_one({
+    UserSessionDelete = mongo.db.UserSessions.delete_one({
         'SessionKey': session_key,
         'UserName': username
     })
@@ -283,7 +279,7 @@ def Logout():
 @LoggedInUser
 def Toggle2FA():
     username = session['username']
-    user = db.Users.find_one({'UserName': username})
+    user = mongo.db.Users.find_one({'UserName': username})
 
     QRImage = ""
     if user.get('TwoFactorEnabled', False):
@@ -291,11 +287,11 @@ def Toggle2FA():
 
     if request.method == 'POST':
         if user and user.get('TwoFactorEnabled', False):
-            db.Users.update_one({'UserName': username}, {'$unset': {'TwoFactorEnabled': '', 'TwoFactorSecret': ''}})
+            mongo.db.Users.update_one({'UserName': username}, {'$unset': {'TwoFactorEnabled': '', 'TwoFactorSecret': ''}})
             flash('Two-factor authentication has been disabled for your account.', 'success')
         else:
             user_secret = Auth.Generate2FASecret()
-            db.Users.update_one({'UserName': username}, {'$set': {'TwoFactorEnabled': True, 'TwoFactorSecret': user_secret}})
+            mongo.db.Users.update_one({'UserName': username}, {'$set': {'TwoFactorEnabled': True, 'TwoFactorSecret': user_secret}})
             flash('Two-factor authentication has been enabled for your account.', 'success')
             
         return redirect(url_for('users.Toggle2FA'))
@@ -306,7 +302,7 @@ def Toggle2FA():
 def Onboarding():
     if request.method == 'POST':
         username = session['username']
-        user = db.Users.find_one({'UserName': username})
+        user = mongo.db.Users.find_one({'UserName': username})
     
         name = request.form['name']
         email = request.form['email']
@@ -330,12 +326,12 @@ def Onboarding():
         if country:
             EncryptedData["Country"] = AES256.Encrypt(country, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Country"))
 
-        db.Users.update_one({'UserName': username}, {'$set': EncryptedData})
+        mongo.db.Users.update_one({'UserName': username}, {'$set': EncryptedData})
 
         return redirect(url_for('users.Index'))
         
     username = session['username']
-    user = db.Users.find_one({'UserName': username})
+    user = mongo.db.Users.find_one({'UserName': username})
 
     if "Phone" in user and "Gender" in user and "DOB" in user and "Country" in user: 
         return redirect(url_for('users.Index'))
@@ -361,9 +357,9 @@ def Onboarding():
 @LoggedInUser
 def Profile():
     username = session['username']
-    user = db.Users.find_one({'UserName': username})
+    user = mongo.db.Users.find_one({'UserName': username})
 
-    keys = Functions.GetDocumentKeys(username, db)
+    keys = Functions.GetDocumentKeys(username, mongo)
 
     if user:
         DecryptedData = {
@@ -381,18 +377,18 @@ def Profile():
 def EditProfile():
     if request.method == 'POST':
         username = session['username']
-        user = db.Users.find_one({'UserName': username})
+        user = mongo.db.Users.find_one({'UserName': username})
 
         NewName = request.form['name']
 
         NewNameE = AES256.Encrypt(NewName, AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name"))
 
-        db.Users.update_one({'UserName': username}, {'$set': {'Name': NewNameE}})
+        mongo.db.Users.update_one({'UserName': username}, {'$set': {'Name': NewNameE}})
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('users.Profile'))
 
     username = session['username']
-    user = db.Users.find_one({'UserName': username})
+    user = mongo.db.Users.find_one({'UserName': username})
 
     DecryptedData = {
         'Name': AES256.Decrypt(user["Name"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name")),
