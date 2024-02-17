@@ -1,0 +1,18 @@
+import requests
+
+def GetData(SiteID, SiteSecret, UserID, Data):
+    APIEndpoint = 'http://127.0.0.1:5000/api/endpoint'
+    try:
+        response = requests.post(APIEndpoint, json={'SiteID': SiteID, 'SiteSecret': SiteSecret, 'UserID': UserID, 'Data': Data})
+        return response.json()
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+SiteID = 'rrP5HwAxys0Hq3PoQuezrxEJliP00fOF'
+SiteSecret = 'rHkzthBZlOJ6RLPITiYmhisMkWZ1uEbo'
+UserID = 'WOkZVqiSSWyfFXGR'
+Data = {"UserID": 1, "UserName": 1, "Name": 1, "Email": 1}
+
+out = GetData(SiteID, SiteSecret, UserID, Data)
+
+print(out)

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toggle 2FA</title>
+</head>
+<body>
+    <h1>Toggle 2FA</h1>
+    {% if user %}
+        {% if user.get('TwoFactorEnabled', False) %}
+            <p>Two-factor authentication is currently enabled for your account.</p>
+            <p>Secret Key: {{ user.get('TwoFactorSecret', '') }}</p>
+            <img src="data:image/png;base64, {{ QRImage }}" alt="2FA QR Code">
+            <br>
+            <form method="post" action="{{ url_for('users.Toggle2FA') }}">
+                <button type="submit" name="action" value="disable">Turn off 2FA</button>
+            </form>
+        {% else %}
+            <p>Two-factor authentication is currently disabled for your account.</p>
+            <form method="post" action="{{ url_for('users.Toggle2FA') }}">
+                <button type="submit" name="action" value="enable">Turn on 2FA</button>
+            </form>
+        {% endif %}
+    {% else %}
+        <p>User information not available.</p>
+    {% endif %}
+</body>
+</html>
