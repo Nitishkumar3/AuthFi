@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 
 from Blueprints.Users import UserBP
 from Blueprints.Site import SiteBP
@@ -10,6 +10,10 @@ app.secret_key = "GS1jv6dDu1hmVzdWySky7Me324VGPE6H4nMeXF3SsXZyEtRnTuh9y83tzQcQeC
 app.register_blueprint(UserBP, url_prefix='/')
 app.register_blueprint(SiteBP, url_prefix='/sites')
 app.register_blueprint(APIBP, url_prefix='/api')
+
+@app.route('/assets/<path:filename>')
+def Static(filename):
+    return send_from_directory('Assets', filename)
 
 if __name__ == '__main__':
     app.run(debug=True)

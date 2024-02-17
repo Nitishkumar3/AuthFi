@@ -32,26 +32,26 @@ def LoggedInSite(view_func):
             else:
                 session.clear()
                 flash('Session expired or invalid. Please log in again.', 'error')
-                return redirect(url_for('LoginSite'))
+                return redirect(url_for('site.LoginSite'))
         else:
             flash('Please log in to access this page.', 'error')
-            return redirect(url_for('LoginSite'))
+            return redirect(url_for('site.LoginSite'))
     return decorated_function
 
 def NotLoggedInSite(view_func):
     @wraps(view_func)
     def decorated_function(*args, **kwargs):
         if 'key' in session and 'username' in session and 'role' in session:
-            return redirect(url_for('SiteIndex'))
+            return redirect(url_for('site.SiteIndex'))
         return view_func(*args, **kwargs)
     return decorated_function
 
-@SiteBP.route('/site')
+@SiteBP.route('/')
 @LoggedInSite
 def SiteIndex():
     return "Hi"
 
-@SiteBP.route('/site/register', methods=['GET', 'POST'])
+@SiteBP.route('/register', methods=['GET', 'POST'])
 @NotLoggedInSite
 def RegistrationSite():
     if request.method == 'POST':
@@ -81,18 +81,18 @@ def RegistrationSite():
             if ExistingEmailID:
                 ErrorMessages.append('Email ID already Registered. Try Logging in.')
             flash(ErrorMessages, 'error')
-            return redirect(url_for('RegistrationSite'))
+            return redirect(url_for('site.RegistrationSite'))
 
         nameE = AES256.Encrypt(name, AES256.DeriveKey(userid, datecreated, "Name"))
         passwordH = SHA256.HashPassword(password, userid)
 
         Auth.SendVerificationEmail(username, email, Auth.GenerateVerificationCode())
         db.Users.insert_one({'UserID': userid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordH, 'DateCreated': datecreated})
-        return redirect(url_for('VerifyAccountSite', username=username))
+        return redirect(url_for('site.VerifyAccountSite', username=username))
     
     return render_template('Site/Register.html')
 
-@SiteBP.route('/site/verifyaccount/<username>', methods=['GET', 'POST'])
+@SiteBP.route('/verifyaccount/<username>', methods=['GET', 'POST'])
 @NotLoggedInSite
 def VerifyAccountSite(username):
     if request.method == 'POST':
@@ -101,18 +101,18 @@ def VerifyAccountSite(username):
 
         if not VerificationAccount:
             flash('Account not Found or it is Already Verified', 'error')
-            return redirect(url_for('Login', username=username))
+            return redirect(url_for('site.Login', username=username))
 
         if EnteredVerificationCode == VerificationAccount['VerificationCode']:
             db.UserVerification.update_one({'UserName': username}, {'$set': {'Verified': True}})
-            return redirect(url_for('Login'))
+            return redirect(url_for('site.Login'))
         else:
             flash('Invalid Code. Please try again.', 'error')
-            return redirect(url_for('VerifyAccount', username=username))
+            return redirect(url_for('site.VerifyAccount', username=username))
 
     return render_template('Site/VerifyAccount.html', username=username)
 
-@SiteBP.route('/site/login', methods=['GET', 'POST'])
+@SiteBP.route('/login', methods=['GET', 'POST'])
 @NotLoggedInSite
 def LoginSite():
     if request.method == 'POST':
@@ -125,17 +125,17 @@ def LoginSite():
             user = db.Users.find_one({'UserName': login})
 
         if not user:
-            flash('Invalid username or password.', 'error')
-            return redirect(url_for('Login'))
+            flash('Invalid Username or Password', 'error')
+            return redirect(url_for('site.Login'))
 
         if not Auth.IsUserVerified(user["UserName"]):
-            flash('User not verified. Please complete the OTP verification.', 'error')
-            return redirect(url_for('VerifyAccount', username=user["UserName"]))
+            flash('User not verified. Please complete the OTP verification', 'error')
+            return redirect(url_for('site.VerifyAccount', username=user["UserName"]))
 
         if user and SHA256.CheckPassword(password, SHA256.HashPassword(password, user["UserID"]), user["UserID"]):
             if Auth.Is2FAEnabled(user["UserName"]):
                 session['2fa_user'] = user["UserName"]
-                return redirect(url_for('Verify2FA'))
+                return redirect(url_for('site.Verify2FA'))
             
             sessionkey = Auth.GenerateSessionKey()
             useragent = request.headers.get('User-Agent')
@@ -155,8 +155,8 @@ def LoginSite():
             session['key'] = sessionkey
             session['username'] = user["UserName"]
             
-            return redirect(url_for('Index'))
+            return redirect(url_for('site.Index'))
         else:
-            flash('Invalid Login or password. Please try again.', 'error')
+            flash('Invalid Login or password. Please try again', 'error')
     
     return render_template('Site/Login.html')

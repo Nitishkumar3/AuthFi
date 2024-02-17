@@ -59,7 +59,7 @@ def OnboardingCheck(view_func):
 @LoggedInUser
 @OnboardingCheck
 def Index():
-    return f'Logged in as {session["username"]}! <a href="/logout">Logout</a>'
+    return f'Logged in as {session["username"]}! <a href="{url_for("users.Logout")}">Logout</a><br> <a href="{url_for("users.Profile")}">Profile</a>'
 
 @UserBP.route('/register', methods=['GET', 'POST'])
 @NotLoggedInUser
@@ -135,14 +135,14 @@ def Login():
             user = db.Users.find_one({'UserName': login})
 
         if not user:
-            flash('Invalid username or password.', 'error')
+            flash('Invalid Login or Password', 'error')
             return redirect(url_for('users.Login'))
 
         if not Auth.IsUserVerified(user["UserName"]):
-            flash('User not verified. Please complete the OTP verification.', 'error')
+            flash('User not verified! Please complete the OTP verification', 'error')
             return redirect(url_for('users.VerifyAccount', username=user["UserName"]))
 
-        if user and SHA256.CheckPassword(password, SHA256.HashPassword(password, user["UserID"]), user["UserID"]):
+        if user and SHA256.CheckPassword(password, user["Password"], user["UserID"]):
             if Auth.Is2FAEnabled(user["UserName"]):
                 session['2fa_user'] = user["UserName"]
                 return redirect(url_for('users.Verify2FA'))
@@ -167,7 +167,7 @@ def Login():
             
             return redirect(url_for('users.Index'))
         else:
-            flash('Invalid Login or password. Please try again.', 'error')
+            flash('Invalid Login or password', 'error')
     
     return render_template('Users/Login.html')
 
