@@ -132,7 +132,7 @@ def LoginSite():
             flash('User not verified. Please complete the OTP verification', 'error')
             return redirect(url_for('site.VerifyAccount', username=user["UserName"]))
 
-        if user and SHA256.CheckPassword(password, SHA256.HashPassword(password, user["UserID"]), user["UserID"]):
+        if user and SHA256.CheckPassword(password, user["Password"], user["UserID"]):
             if Auth.Is2FAEnabled(user["UserName"]):
                 session['2fa_user'] = user["UserName"]
                 return redirect(url_for('site.Verify2FA'))
