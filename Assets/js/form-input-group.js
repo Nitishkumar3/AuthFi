@@ -1,1 +1,37 @@
-"use strict";!function(){var n,e,s,t=$(".speech-to-text");t.length&&null!=(n=n||webkitSpeechRecognition)&&(e=new n,s=!1,t.on("click",function(){const t=$(this);!(e.onspeechstart=function(){s=!0})===s&&e.start(),e.onerror=function(n){s=!1},e.onresult=function(n){t.closest(".form-send-message").find(".message-input").val(n.results[0][0].transcript)},e.onspeechend=function(n){s=!1,e.stop()}}))}();
+/**
+ * Form Input Groups
+ */
+
+'use strict';
+
+(function () {
+  const speechToText = $('.speech-to-text'); // ! jQuery dependency for speech to text
+
+  // Speech To Text
+  if (speechToText.length) {
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+    if (SpeechRecognition !== undefined && SpeechRecognition !== null) {
+      var recognition = new SpeechRecognition(),
+        listening = false;
+      speechToText.on('click', function () {
+        const $this = $(this);
+        recognition.onspeechstart = function () {
+          listening = true;
+        };
+        if (listening === false) {
+          recognition.start();
+        }
+        recognition.onerror = function (event) {
+          listening = false;
+        };
+        recognition.onresult = function (event) {
+          $this.closest('.form-send-message').find('.message-input').val(event.results[0][0].transcript);
+        };
+        recognition.onspeechend = function (event) {
+          listening = false;
+          recognition.stop();
+        };
+      });
+    }
+  }
+})();

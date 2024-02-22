@@ -1,1 +1,55 @@
-"use strict";$(function(){var e=$(".selectpicker"),t=$(".select2"),c=$(".select2-icons");function l(e){return e.id?"<i class='"+$(e.element).data("icon")+" me-2'></i>"+e.text:e.text}e.length&&(e.selectpicker(),handleBootstrapSelectEvents()),t.length&&t.each(function(){var e=$(this);select2Focus(e),e.wrap('<div class="position-relative"></div>').select2({placeholder:"Select value",dropdownParent:e.parent()})}),c.length&&(select2Focus(c),c.wrap('<div class="position-relative"></div>').select2({dropdownParent:c.parent(),templateResult:l,templateSelection:l,escapeMarkup:function(e){return e}}))});
+/**
+ * Selects & Tags
+ */
+
+'use strict';
+
+$(function () {
+  const selectPicker = $('.selectpicker'),
+    select2 = $('.select2'),
+    select2Icons = $('.select2-icons');
+
+  // Bootstrap Select
+  // --------------------------------------------------------------------
+  if (selectPicker.length) {
+    selectPicker.selectpicker();
+    handleBootstrapSelectEvents();
+  }
+
+  // Select2
+  // --------------------------------------------------------------------
+
+  // Default
+  if (select2.length) {
+    select2.each(function () {
+      var $this = $(this);
+      select2Focus($this);
+      $this.wrap('<div class="position-relative"></div>').select2({
+        placeholder: 'Select value',
+        dropdownParent: $this.parent()
+      });
+    });
+  }
+
+  // Select2 Icons
+  if (select2Icons.length) {
+    // custom template to render icons
+    function renderIcons(option) {
+      if (!option.id) {
+        return option.text;
+      }
+      var $icon = "<i class='" + $(option.element).data('icon') + " me-2'></i>" + option.text;
+
+      return $icon;
+    }
+    select2Focus(select2Icons);
+    select2Icons.wrap('<div class="position-relative"></div>').select2({
+      dropdownParent: select2Icons.parent(),
+      templateResult: renderIcons,
+      templateSelection: renderIcons,
+      escapeMarkup: function (es) {
+        return es;
+      }
+    });
+  }
+});

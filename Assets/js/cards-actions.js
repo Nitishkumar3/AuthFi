@@ -1,1 +1,118 @@
-"use strict";!function(){var e=[].slice.call(document.querySelectorAll(".card-collapsible")),l=[].slice.call(document.querySelectorAll(".card-expand")),s=[].slice.call(document.querySelectorAll(".card-close")),c=document.getElementById("sortable-4");e&&e.map(function(l){l.addEventListener("click",e=>{e.preventDefault(),new bootstrap.Collapse(l.closest(".card").querySelector(".collapse")),l.closest(".card-header").classList.toggle("collapsed"),Helpers._toggleClass(l.firstElementChild,"mdi-chevron-down","mdi-chevron-up")})}),l&&l.map(function(l){l.addEventListener("click",e=>{e.preventDefault(),Helpers._toggleClass(l.firstElementChild,"mdi-fullscreen","mdi-fullscreen-exit"),l.closest(".card").classList.toggle("card-fullscreen")})}),document.addEventListener("keyup",e=>{e.preventDefault(),"Escape"===e.key&&(e=document.querySelector(".card-fullscreen"))&&(Helpers._toggleClass(e.querySelector(".card-expand").firstChild,"mdi-fullscreen","mdi-fullscreen-exit"),e.classList.toggle("card-fullscreen"))}),s&&s.map(function(l){l.addEventListener("click",e=>{e.preventDefault(),l.closest(".card").classList.add("d-none")})}),null!==c&&Sortable.create(c,{animation:500,handle:".card"})}(),$(function(){var e=$(".card-reload");e.length&&e.on("click",function(e){e.preventDefault();var l=$(this);l.closest(".card").block({message:'<div class="sk-fold sk-primary"><div class="sk-fold-cube"></div><div class="sk-fold-cube"></div><div class="sk-fold-cube"></div><div class="sk-fold-cube"></div></div><h5>LOADING...</h5>',css:{backgroundColor:"transparent",border:"0"},overlayCSS:{backgroundColor:$("html").hasClass("dark-style")?"#000":"#fff",opacity:.55}}),setTimeout(function(){l.closest(".card").unblock(),l.closest(".card").find(".card-alert").length&&l.closest(".card").find(".card-alert").html('<div class="alert alert-solid-danger alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button><span class="fw-medium">Holy grail!</span> Your success/error message here.</div>')},2500)})});
+/**
+ * Cards Actions
+ */
+
+'use strict';
+
+(function () {
+  const collapseElementList = [].slice.call(document.querySelectorAll('.card-collapsible'));
+  const expandElementList = [].slice.call(document.querySelectorAll('.card-expand'));
+  const closeElementList = [].slice.call(document.querySelectorAll('.card-close'));
+
+  let cardDnD = document.getElementById('sortable-4');
+
+  // Collapsible card
+  // --------------------------------------------------------------------
+  if (collapseElementList) {
+    collapseElementList.map(function (collapseElement) {
+      collapseElement.addEventListener('click', event => {
+        event.preventDefault();
+        // Collapse the element
+        new bootstrap.Collapse(collapseElement.closest('.card').querySelector('.collapse'));
+        // Toggle collapsed class in `.card-header` element
+        collapseElement.closest('.card-header').classList.toggle('collapsed');
+        // Toggle class mdi-chevron-down & mdi-chevron-up
+        Helpers._toggleClass(collapseElement.firstElementChild, 'mdi-chevron-down', 'mdi-chevron-up');
+      });
+    });
+  }
+
+  // Card Toggle fullscreen
+  // --------------------------------------------------------------------
+  if (expandElementList) {
+    expandElementList.map(function (expandElement) {
+      expandElement.addEventListener('click', event => {
+        event.preventDefault();
+        // Toggle class mdi-fullscreen & mdi-fullscreen-exit
+        Helpers._toggleClass(expandElement.firstElementChild, 'mdi-fullscreen', 'mdi-fullscreen-exit');
+
+        expandElement.closest('.card').classList.toggle('card-fullscreen');
+      });
+    });
+  }
+
+  // Toggle fullscreen on esc key
+  document.addEventListener('keyup', event => {
+    event.preventDefault();
+    //Esc button
+    if (event.key === 'Escape') {
+      const cardFullscreen = document.querySelector('.card-fullscreen');
+      // Toggle class mdi-fullscreen & mdi-fullscreen-exit
+
+      if (cardFullscreen) {
+        Helpers._toggleClass(
+          cardFullscreen.querySelector('.card-expand').firstChild,
+          'mdi-fullscreen',
+          'mdi-fullscreen-exit'
+        );
+        cardFullscreen.classList.toggle('card-fullscreen');
+      }
+    }
+  });
+
+  // Card close
+  // --------------------------------------------------------------------
+  if (closeElementList) {
+    closeElementList.map(function (closeElement) {
+      closeElement.addEventListener('click', event => {
+        event.preventDefault();
+        closeElement.closest('.card').classList.add('d-none');
+      });
+    });
+  }
+
+  // Sortable.js (Drag & Drop cards)
+  // --------------------------------------------------------------------
+  if (typeof cardDnD !== undefined && cardDnD !== null) {
+    Sortable.create(cardDnD, {
+      animation: 500,
+      handle: '.card'
+    });
+  }
+})();
+
+// Card reload (jquery)
+// --------------------------------------------------------------------
+$(function () {
+  const cardReload = $('.card-reload');
+  if (cardReload.length) {
+    cardReload.on('click', function (e) {
+      e.preventDefault();
+      var $this = $(this);
+      $this.closest('.card').block({
+        message:
+          '<div class="sk-fold sk-primary"><div class="sk-fold-cube"></div><div class="sk-fold-cube"></div><div class="sk-fold-cube"></div><div class="sk-fold-cube"></div></div><h5>LOADING...</h5>',
+
+        css: {
+          backgroundColor: 'transparent',
+          border: '0'
+        },
+        overlayCSS: {
+          backgroundColor: $('html').hasClass('dark-style') ? '#000' : '#fff',
+          opacity: 0.55
+        }
+      });
+      setTimeout(function () {
+        $this.closest('.card').unblock();
+        if ($this.closest('.card').find('.card-alert').length) {
+          $this
+            .closest('.card')
+            .find('.card-alert')
+            .html(
+              '<div class="alert alert-solid-danger alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button><span class="fw-medium">Holy grail!</span> Your success/error message here.</div>'
+            );
+        }
+      }, 2500);
+    });
+  }
+});

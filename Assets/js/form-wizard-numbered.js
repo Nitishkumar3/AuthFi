@@ -1,1 +1,157 @@
-"use strict";$(function(){var e=$(".select2"),t=$(".selectpicker");t.length&&(t.selectpicker(),handleBootstrapSelectEvents()),e.length&&e.each(function(){var e=$(this);select2Focus(e),e.wrap('<div class="position-relative"></div>'),e.select2({placeholder:"Select value",dropdownParent:e.parent()})})}),function(){var e=document.querySelector(".wizard-numbered"),t=[].slice.call(e.querySelectorAll(".btn-next")),l=[].slice.call(e.querySelectorAll(".btn-prev")),r=e.querySelector(".btn-submit");if(null!==e){const c=new Stepper(e,{linear:!1});t&&t.forEach(e=>{e.addEventListener("click",e=>{c.next()})}),l&&l.forEach(e=>{e.addEventListener("click",e=>{c.previous()})}),r&&r.addEventListener("click",e=>{alert("Submitted..!!")})}e=document.querySelector(".wizard-vertical"),t=[].slice.call(e.querySelectorAll(".btn-next")),l=[].slice.call(e.querySelectorAll(".btn-prev")),r=e.querySelector(".btn-submit");if(null!==e){const n=new Stepper(e,{linear:!1});t&&t.forEach(e=>{e.addEventListener("click",e=>{n.next()})}),l&&l.forEach(e=>{e.addEventListener("click",e=>{n.previous()})}),r&&r.addEventListener("click",e=>{alert("Submitted..!!")})}e=document.querySelector(".wizard-modern-example"),t=[].slice.call(e.querySelectorAll(".btn-next")),l=[].slice.call(e.querySelectorAll(".btn-prev")),r=e.querySelector(".btn-submit");if(null!==e){const i=new Stepper(e,{linear:!1});t&&t.forEach(e=>{e.addEventListener("click",e=>{i.next()})}),l&&l.forEach(e=>{e.addEventListener("click",e=>{i.previous()})}),r&&r.addEventListener("click",e=>{alert("Submitted..!!")})}e=document.querySelector(".wizard-modern-vertical"),t=[].slice.call(e.querySelectorAll(".btn-next")),l=[].slice.call(e.querySelectorAll(".btn-prev")),r=e.querySelector(".btn-submit");if(null!==e){const a=new Stepper(e,{linear:!1});t&&t.forEach(e=>{e.addEventListener("click",e=>{a.next()})}),l&&l.forEach(e=>{e.addEventListener("click",e=>{a.previous()})}),r&&r.addEventListener("click",e=>{alert("Submitted..!!")})}}();
+/**
+ *  Form Wizard
+ */
+
+'use strict';
+
+$(function () {
+  const select2 = $('.select2'),
+    selectPicker = $('.selectpicker');
+
+  // Bootstrap select
+  if (selectPicker.length) {
+    selectPicker.selectpicker();
+    handleBootstrapSelectEvents();
+  }
+
+  // select2
+  if (select2.length) {
+    select2.each(function () {
+      var $this = $(this);
+      select2Focus($this);
+      $this.wrap('<div class="position-relative"></div>');
+      $this.select2({
+        placeholder: 'Select value',
+        dropdownParent: $this.parent()
+      });
+    });
+  }
+});
+(function () {
+  // Numbered Wizard
+  // --------------------------------------------------------------------
+  const wizardNumbered = document.querySelector('.wizard-numbered'),
+    wizardNumberedBtnNextList = [].slice.call(wizardNumbered.querySelectorAll('.btn-next')),
+    wizardNumberedBtnPrevList = [].slice.call(wizardNumbered.querySelectorAll('.btn-prev')),
+    wizardNumberedBtnSubmit = wizardNumbered.querySelector('.btn-submit');
+
+  if (typeof wizardNumbered !== undefined && wizardNumbered !== null) {
+    const numberedStepper = new Stepper(wizardNumbered, {
+      linear: false
+    });
+    if (wizardNumberedBtnNextList) {
+      wizardNumberedBtnNextList.forEach(wizardNumberedBtnNext => {
+        wizardNumberedBtnNext.addEventListener('click', event => {
+          numberedStepper.next();
+        });
+      });
+    }
+    if (wizardNumberedBtnPrevList) {
+      wizardNumberedBtnPrevList.forEach(wizardNumberedBtnPrev => {
+        wizardNumberedBtnPrev.addEventListener('click', event => {
+          numberedStepper.previous();
+        });
+      });
+    }
+    if (wizardNumberedBtnSubmit) {
+      wizardNumberedBtnSubmit.addEventListener('click', event => {
+        alert('Submitted..!!');
+      });
+    }
+  }
+
+  // Vertical Wizard
+  // --------------------------------------------------------------------
+  const wizardVertical = document.querySelector('.wizard-vertical'),
+    wizardVerticalBtnNextList = [].slice.call(wizardVertical.querySelectorAll('.btn-next')),
+    wizardVerticalBtnPrevList = [].slice.call(wizardVertical.querySelectorAll('.btn-prev')),
+    wizardVerticalBtnSubmit = wizardVertical.querySelector('.btn-submit');
+
+  if (typeof wizardVertical !== undefined && wizardVertical !== null) {
+    const verticalStepper = new Stepper(wizardVertical, {
+      linear: false
+    });
+    if (wizardVerticalBtnNextList) {
+      wizardVerticalBtnNextList.forEach(wizardVerticalBtnNext => {
+        wizardVerticalBtnNext.addEventListener('click', event => {
+          verticalStepper.next();
+        });
+      });
+    }
+    if (wizardVerticalBtnPrevList) {
+      wizardVerticalBtnPrevList.forEach(wizardVerticalBtnPrev => {
+        wizardVerticalBtnPrev.addEventListener('click', event => {
+          verticalStepper.previous();
+        });
+      });
+    }
+
+    if (wizardVerticalBtnSubmit) {
+      wizardVerticalBtnSubmit.addEventListener('click', event => {
+        alert('Submitted..!!');
+      });
+    }
+  }
+
+  // Modern Wizard
+  // --------------------------------------------------------------------
+  const wizardModern = document.querySelector('.wizard-modern-example'),
+    wizardModernBtnNextList = [].slice.call(wizardModern.querySelectorAll('.btn-next')),
+    wizardModernBtnPrevList = [].slice.call(wizardModern.querySelectorAll('.btn-prev')),
+    wizardModernBtnSubmit = wizardModern.querySelector('.btn-submit');
+  if (typeof wizardModern !== undefined && wizardModern !== null) {
+    const modernStepper = new Stepper(wizardModern, {
+      linear: false
+    });
+    if (wizardModernBtnNextList) {
+      wizardModernBtnNextList.forEach(wizardModernBtnNext => {
+        wizardModernBtnNext.addEventListener('click', event => {
+          modernStepper.next();
+        });
+      });
+    }
+    if (wizardModernBtnPrevList) {
+      wizardModernBtnPrevList.forEach(wizardModernBtnPrev => {
+        wizardModernBtnPrev.addEventListener('click', event => {
+          modernStepper.previous();
+        });
+      });
+    }
+    if (wizardModernBtnSubmit) {
+      wizardModernBtnSubmit.addEventListener('click', event => {
+        alert('Submitted..!!');
+      });
+    }
+  }
+
+  // Modern Vertical Wizard
+  // --------------------------------------------------------------------
+  const wizardModernVertical = document.querySelector('.wizard-modern-vertical'),
+    wizardModernVerticalBtnNextList = [].slice.call(wizardModernVertical.querySelectorAll('.btn-next')),
+    wizardModernVerticalBtnPrevList = [].slice.call(wizardModernVertical.querySelectorAll('.btn-prev')),
+    wizardModernVerticalBtnSubmit = wizardModernVertical.querySelector('.btn-submit');
+  if (typeof wizardModernVertical !== undefined && wizardModernVertical !== null) {
+    const modernVerticalStepper = new Stepper(wizardModernVertical, {
+      linear: false
+    });
+    if (wizardModernVerticalBtnNextList) {
+      wizardModernVerticalBtnNextList.forEach(wizardModernVerticalBtnNext => {
+        wizardModernVerticalBtnNext.addEventListener('click', event => {
+          modernVerticalStepper.next();
+        });
+      });
+    }
+    if (wizardModernVerticalBtnPrevList) {
+      wizardModernVerticalBtnPrevList.forEach(wizardModernVerticalBtnPrev => {
+        wizardModernVerticalBtnPrev.addEventListener('click', event => {
+          modernVerticalStepper.previous();
+        });
+      });
+    }
+    if (wizardModernVerticalBtnSubmit) {
+      wizardModernVerticalBtnSubmit.addEventListener('click', event => {
+        alert('Submitted..!!');
+      });
+    }
+  }
+})();

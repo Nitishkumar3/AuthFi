@@ -11,6 +11,11 @@
     <p>Username: {{ DecryptedData['UserName'] }}</p>
     <p>Email: {{ DecryptedData['Email'] }}</p>
 
+    <p>Gender: {{ DecryptedData['Gender'] }}</p>
+    <p>Phone: {{ DecryptedData['Phone'] }}</p>
+    <p>Country: {{ DecryptedData['Country'] }}</p>
+    <p>DOB: {{ DecryptedData['DOB'] }}</p>
+
     <a href="{{ url_for('users.EditProfile') }}">Edit Profile</a>
 
     <br><br>

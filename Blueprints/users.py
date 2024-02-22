@@ -58,6 +58,10 @@ def OnboardingCheck(view_func):
 def Index():
     return f'Logged in as {session["username"]}! <a href="{url_for("users.Logout")}">Logout</a><br> <a href="{url_for("users.Profile")}">Profile</a>'
 
+@UserBP.route('/dd')
+def dd():
+    return render_template("Users/index-2.html")
+
 @UserBP.route('/register', methods=['GET', 'POST'])
 @NotLoggedInUser
 def Registration():
@@ -237,7 +241,7 @@ def ForgotPassword():
 @NotLoggedInUser
 def ResetPassword(ResetKey):
     if request.method == 'POST':
-        NewPassword = request.form['newpassword']
+        NewPassword = request.form['password']
             
         ResetData = mongo.db.PasswordReset.find_one({'ResetKey': ResetKey})
 
@@ -257,8 +261,10 @@ def ResetPassword(ResetKey):
         mongo.db.Users.update_one({'UserName': ResetData['UserName']}, {'$set': {'Password': passwordH}})
 
         mongo.db.PasswordReset.delete_one({'ResetKey': ResetKey})
+        
+        flash('Password reset successful. Try Loggin in.', 'info')
 
-        return redirect(url_for('users.Login'))
+        # return redirect(url_for('users.Login'))
     return render_template('Users/ResetPassword.html', ResetKey=ResetKey)
 
 @UserBP.route('/logout')
@@ -365,7 +371,11 @@ def Profile():
         DecryptedData = {
             'UserName': user["UserName"],
             'Name': AES256.Decrypt(user["Name"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Name")),
-            'Email': user["Email"]
+            'Email': user["Email"],
+            'Gender': AES256.Decrypt(user["Gender"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Gender")),
+            'Phone': AES256.Decrypt(user["Phone"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Phone")),
+            'Country': AES256.Decrypt(user["Country"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "Country")),
+            'DOB': AES256.Decrypt(user["DOB"], AES256.DeriveKey(user["UserID"], user["DateCreated"], "DOB")),
         }
         return render_template('Users/Profile.html', DecryptedData=DecryptedData)
     else:
