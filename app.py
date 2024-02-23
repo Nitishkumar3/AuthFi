@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, render_template
 from db import mongo
 from Blueprints.users import UserBP
 from Blueprints.site import SiteBP
@@ -13,6 +13,10 @@ mongo.init_app(app)
 app.register_blueprint(UserBP, url_prefix='/', mongo=mongo)
 app.register_blueprint(SiteBP, url_prefix='/sites', mongo=mongo)
 app.register_blueprint(APIBP, url_prefix='/api', mongo=mongo)
+
+@app.route('/')
+def Index():
+    return render_template('Index.html')
 
 @app.route('/assets/<path:filename>')
 def Static(filename):

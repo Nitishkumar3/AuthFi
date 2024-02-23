@@ -1,0 +1,12 @@
+{
+"userid": "n",
+"sites": {
+	"site1":{
+		"p1": "t/f",
+		"p2":"yyy"
+	},
+	"site2":{
+		"Perm": "t/f"
+	}
+}
+}

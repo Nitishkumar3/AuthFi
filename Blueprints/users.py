@@ -52,7 +52,7 @@ def OnboardingCheck(view_func):
         return view_func(*args, **kwargs)
     return decorated_function
 
-@UserBP.route('/')
+@UserBP.route('/dashboard')
 @LoggedInUser
 @OnboardingCheck
 def Index():
@@ -407,3 +407,33 @@ def EditProfile():
     }
 
     return render_template('Users/EditProfile.html', DecryptedData=DecryptedData)
+
+@UserBP.route('/dashboard1')
+@LoggedInUser
+def Dashboard():
+    UserName = session['username']
+    User = mongo.db.Users.find_one({'UserName': UserName})
+    UserID = User["UserID"]
+    UserPermissions = mongo.db.UserPermissions.find_one({'UserID': UserID})["Sites"]    
+    print(UserPermissions)
+    return render_template("Users/Dashboard.html", UserPermissions=UserPermissions)
+
+# @UserBP.route('/dashboard')
+# @LoggedInUser
+# def Dashboard():
+#     UserName = session['username']
+#     User = mongo.db.Users.find_one({'UserName': UserName})
+#     UserID = User["UserID"]
+#     UserPermissions = mongo.db.UserPermissions.find_one({'UserID': UserID})["Sites"]    
+#     print(UserPermissions)
+#     return render_template("Users/Dashboard.html", UserPermissions=UserPermissions)
+
+@UserBP.route('/edit', methods=['GET', 'POST'])
+@LoggedInUser
+def Edit():
+    UserName = session['username']
+    User = mongo.db.Users.find_one({'UserName': UserName})
+    UserID = User["UserID"]
+    UserPermissions = mongo.db.UserPermissions.find_one({'UserID': UserID})["Sites"]    
+    print(UserPermissions)
+    return render_template("Users/Edit.html", UserPermissions=UserPermissions)

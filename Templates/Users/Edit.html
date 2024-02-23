@@ -1,0 +1,34 @@
+<!-- Dashboard.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+</head>
+<body>
+    <h1>Welcome to your Dashboard, {{ UserName }}</h1>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Site</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for site, permissions in UserPermissions.items() %}
+                <tr>
+                    <td>{{ site }}</td>
+                    <td><input type="checkbox" {% if permissions.email == 'true' %}checked{% endif %} readonly></td>
+                    <td><input type="checkbox" {% if permissions.password == 'true' %}checked{% endif %} readonly></td>
+                    <td><input type="checkbox" {% if permissions.phone == 'true' %}checked{% endif %} readonly></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
