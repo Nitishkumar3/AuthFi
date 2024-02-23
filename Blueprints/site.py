@@ -12,12 +12,12 @@ SiteBP = Blueprint('site', __name__)
 def LoggedInSite(view_func):
     @wraps(view_func)
     def decorated_function(*args, **kwargs):
-        if 'key' in session and 'username' in session:# and 'role' in session:
-            session_key = session['key']
-            username = session['username']
+        if 'SessionKeySite' in session and 'UserNameSite' in session:
+            session_key = session['SessionKeySite']
+            username = session['UserNameSite']
             useragent = request.headers.get('User-Agent')
             ipaddress = request.remote_addr
-            user_session = mongo.db.SiteSessions.find_one({
+            user_session = mongo.db.SiteUserSessions.find_one({
                 'SessionKey': session_key,
                 'UserName': username,
                 'UserAgent': useragent,
@@ -25,6 +25,7 @@ def LoggedInSite(view_func):
                 'Role': 'Site',
                 'ExpirationTime': {'$gt': datetime.utcnow()}
             })
+
             if user_session:
                 return view_func(*args, **kwargs)
             else:
@@ -39,7 +40,7 @@ def LoggedInSite(view_func):
 def NotLoggedInSite(view_func):
     @wraps(view_func)
     def decorated_function(*args, **kwargs):
-        if 'key' in session and 'username' in session:# and 'role' in session:
+        if 'SessionKeySite' in session and 'UserNameSite' in session:
             return redirect(url_for('site.Index'))
         return view_func(*args, **kwargs)
     return decorated_function
@@ -47,10 +48,10 @@ def NotLoggedInSite(view_func):
 def OnboardingCheck(view_func):
     @wraps(view_func)
     def decorated_function(*args, **kwargs):
-        if 'key' in session and 'username' in session and 'role' not in session:
-            user = mongo.db.Users.find_one({'UserName': session['username']})
-            if "Phone" not in user or "Gender" not in user or "DOB" not in user or "Country" not in user: 
-                return redirect(url_for('users.Onboarding'))
+        if 'SessionKeySite' in session and 'UserNameSite' in session:
+            user = mongo.db.SiteUsers.find_one({'UserName': session['UserNameSite']})
+            if "SiteName" not in user or "DomainName" not in user or "Organization" not in user or "Phone" not in user: 
+                return redirect(url_for('site.Onboarding'))
         return view_func(*args, **kwargs)
     return decorated_function
 
@@ -71,7 +72,7 @@ def Registration():
         password = request.form['password']
         siteid = AES256.GenerateRandomString()
 
-        while mongo.db.SiteUsers.find_one({'UserID': siteid}):
+        while mongo.db.SiteUsers.find_one({'SiteID': siteid}):
             siteid = AES256.GenerateRandomString()
     
         UserNameCheck = False if re.match(r'^[a-zA-Z0-9_]{4,}$', username) else True
@@ -96,7 +97,7 @@ def Registration():
         passwordH = SHA256.HashPassword(password, siteid)
 
         Auth.SendVerificationEmail(username, email, Auth.GenerateVerificationCode())
-        mongo.db.SiteUsers.insert_one({'UserID': siteid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordH, 'DateCreated': datecreated})
+        mongo.db.SiteUsers.insert_one({'SiteID': siteid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordH, 'DateCreated': datecreated})
         return redirect(url_for('site.VerifyAccount', username=username))
     
     return render_template('Site/Register.html')
@@ -141,7 +142,7 @@ def Login():
             flash('User not verified. Please complete the OTP verification', 'error')
             return redirect(url_for('site.VerifyAccount', username=user["UserName"]))
 
-        if user and SHA256.CheckPassword(password, user["Password"], user["UserID"]):
+        if user and SHA256.CheckPassword(password, user["Password"], user["SiteID"]):
             # if Auth.Is2FAEnabled(user["UserName"]):
             #     session['2fa_user'] = user["UserName"]
             #     return redirect(url_for('site.Verify2FA'))
@@ -151,21 +152,65 @@ def Login():
             ipaddress = request.remote_addr
             
             currenttime = datetime.utcnow()
-            mongo.db.SiteUsersessions.insert_one({
+            mongo.db.SiteUserSessions.insert_one({
                 'SessionKey': sessionkey,
                 'UserName': user["UserName"],
                 'UserAgent': useragent,
                 'IPAddress': ipaddress,
                 'CreatedAt': currenttime,
+                'Role': 'Site',
                 'ExpirationTime': currenttime + timedelta(hours=6)
             })
-            mongo.db.SiteUsersessions.create_index('ExpirationTime', expireAfterSeconds=0)
+            mongo.db.SiteUserSessions.create_index('ExpirationTime', expireAfterSeconds=0)
 
-            session['key'] = sessionkey
-            session['username'] = user["UserName"]
-            
+            session['SessionKeySite'] = sessionkey
+            session['UserNameSite'] = user["UserName"]
             return redirect(url_for('site.Index'))
         else:
             flash('Invalid Login or password. Please try again', 'error')
     
     return render_template('Site/Login.html')
+
+@SiteBP.route('/onboarding', methods=['GET', 'POST'])
+@LoggedInSite
+def Onboarding():
+    if request.method == 'POST':
+        username = session['UserNameSite']
+        user = mongo.db.SiteUsers.find_one({'UserName': username})
+
+        SiteName = request.form['sitename']
+        DomainName = request.form['domainname']
+        Organization = request.form['organization']
+        Phone = request.form['phone']
+        EncryptedData = {}
+        
+        if SiteName:
+            EncryptedData["SiteName"] = AES256.Encrypt(SiteName, AES256.DeriveKey(user["SiteID"], user["DateCreated"], "SiteName"))
+        if DomainName:
+            EncryptedData["DomainName"] = AES256.Encrypt(DomainName, AES256.DeriveKey(user["SiteID"], user["DateCreated"], "DomainName"))
+        if Phone:    
+            EncryptedData["Phone"] = AES256.Encrypt(Phone, AES256.DeriveKey(user["SiteID"], user["DateCreated"], "Phone"))
+        if Organization:
+            EncryptedData["Organization"] = AES256.Encrypt(Organization, AES256.DeriveKey(user["SiteID"], user["DateCreated"], "Organization"))
+        
+        
+        mongo.db.SiteUsers.update_one({'UserName': username}, {'$set': EncryptedData})
+
+        return redirect(url_for('site.Index'))
+
+    username = session['UserNameSite']
+    user = mongo.db.SiteUsers.find_one({'UserName': username})
+
+
+    DecryptedData = {}
+        
+    if "SiteName" in user:
+        DecryptedData["SiteName"] = AES256.Decrypt(user["SiteName"], AES256.DeriveKey(user["SiteID"], user["DateCreated"], "SiteName"))
+    if "DomainName" in user:
+        DecryptedData["DomainName"] = AES256.Decrypt(user["DomainName"], AES256.DeriveKey(user["SiteID"], user["DateCreated"], "DomainName"))
+    if "Phone" in user:    
+        DecryptedData["Phone"] = AES256.Decrypt(user["Phone"], AES256.DeriveKey(user["SiteID"], user["DateCreated"], "Phone"))
+    if "Organization" in user:
+        DecryptedData["Organization"] = AES256.Decrypt(user["Organization"], AES256.DeriveKey(user["SiteID"], user["DateCreated"], "Organization"))
+    
+    return render_template('Site/Onboarding.html', DecryptedData=DecryptedData)
