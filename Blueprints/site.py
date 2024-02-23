@@ -12,7 +12,7 @@ SiteBP = Blueprint('site', __name__)
 def LoggedInSite(view_func):
     @wraps(view_func)
     def decorated_function(*args, **kwargs):
-        if 'key' in session and 'username' in session and 'role' in session:
+        if 'key' in session and 'username' in session:# and 'role' in session:
             session_key = session['key']
             username = session['username']
             useragent = request.headers.get('User-Agent')
@@ -30,43 +30,54 @@ def LoggedInSite(view_func):
             else:
                 session.clear()
                 flash('Session expired or invalid. Please log in again.', 'error')
-                return redirect(url_for('site.LoginSite'))
+                return redirect(url_for('site.Login'))
         else:
             flash('Please log in to access this page.', 'error')
-            return redirect(url_for('site.LoginSite'))
+            return redirect(url_for('site.Login'))
     return decorated_function
 
 def NotLoggedInSite(view_func):
     @wraps(view_func)
     def decorated_function(*args, **kwargs):
-        if 'key' in session and 'username' in session and 'role' in session:
-            return redirect(url_for('site.SiteIndex'))
+        if 'key' in session and 'username' in session:# and 'role' in session:
+            return redirect(url_for('site.Index'))
+        return view_func(*args, **kwargs)
+    return decorated_function
+
+def OnboardingCheck(view_func):
+    @wraps(view_func)
+    def decorated_function(*args, **kwargs):
+        if 'key' in session and 'username' in session and 'role' not in session:
+            user = mongo.db.Users.find_one({'UserName': session['username']})
+            if "Phone" not in user or "Gender" not in user or "DOB" not in user or "Country" not in user: 
+                return redirect(url_for('users.Onboarding'))
         return view_func(*args, **kwargs)
     return decorated_function
 
 @SiteBP.route('/')
 @LoggedInSite
-def SiteIndex():
+@OnboardingCheck
+def Index():
     return "Hi"
 
 @SiteBP.route('/register', methods=['GET', 'POST'])
 @NotLoggedInSite
-def RegistrationSite():
+def Registration():
     if request.method == 'POST':
         datecreated = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         name =  request.form['name']
         username = request.form['username']
         email =  request.form['email']
         password = request.form['password']
-        userid = AES256.GenerateRandomString()
+        siteid = AES256.GenerateRandomString()
 
-        while mongo.db.Users.find_one({'UserID': userid}):
-            userid = AES256.GenerateRandomString()
+        while mongo.db.SiteUsers.find_one({'UserID': siteid}):
+            siteid = AES256.GenerateRandomString()
     
         UserNameCheck = False if re.match(r'^[a-zA-Z0-9_]{4,}$', username) else True
         PasswordCheck = False if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-+=])[A-Za-z\d!@#$%^&*()-+=]{8,}$', password) else True
-        ExistingUserName = True if mongo.db.Sites.find_one({'UserName': username}) else False
-        ExistingEmailID = True if mongo.db.Users.find_one({'Email': email}) else False
+        ExistingUserName = True if mongo.db.SiteUsers.find_one({'UserName': username}) else False
+        ExistingEmailID = True if mongo.db.SiteUsers.find_one({'Email': email}) else False
 
         if UserNameCheck or PasswordCheck or ExistingUserName or ExistingEmailID:
             ErrorMessages = []
@@ -79,20 +90,20 @@ def RegistrationSite():
             if ExistingEmailID:
                 ErrorMessages.append('Email ID already Registered. Try Logging in.')
             flash(ErrorMessages, 'error')
-            return redirect(url_for('site.RegistrationSite'))
+            return redirect(url_for('site.Registration'))
 
-        nameE = AES256.Encrypt(name, AES256.DeriveKey(userid, datecreated, "Name"))
-        passwordH = SHA256.HashPassword(password, userid)
+        nameE = AES256.Encrypt(name, AES256.DeriveKey(siteid, datecreated, "Name"))
+        passwordH = SHA256.HashPassword(password, siteid)
 
         Auth.SendVerificationEmail(username, email, Auth.GenerateVerificationCode())
-        mongo.db.Users.insert_one({'UserID': userid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordH, 'DateCreated': datecreated})
-        return redirect(url_for('site.VerifyAccountSite', username=username))
+        mongo.db.SiteUsers.insert_one({'UserID': siteid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordH, 'DateCreated': datecreated})
+        return redirect(url_for('site.VerifyAccount', username=username))
     
     return render_template('Site/Register.html')
 
 @SiteBP.route('/verifyaccount/<username>', methods=['GET', 'POST'])
 @NotLoggedInSite
-def VerifyAccountSite(username):
+def VerifyAccount(username):
     if request.method == 'POST':
         EnteredVerificationCode = request.form['VerificationCode']
         VerificationAccount = mongo.db.UserVerification.find_one({'UserName': username, 'Verified': False})
@@ -112,15 +123,15 @@ def VerifyAccountSite(username):
 
 @SiteBP.route('/login', methods=['GET', 'POST'])
 @NotLoggedInSite
-def LoginSite():
+def Login():
     if request.method == 'POST':
         login = request.form['login']
         password = request.form['password']
 
         if "@" in login:
-            user = mongo.db.Users.find_one({'Email': login})
+            user = mongo.db.SiteUsers.find_one({'Email': login})
         else:
-            user = mongo.db.Users.find_one({'UserName': login})
+            user = mongo.db.SiteUsers.find_one({'UserName': login})
 
         if not user:
             flash('Invalid Username or Password', 'error')
@@ -131,16 +142,16 @@ def LoginSite():
             return redirect(url_for('site.VerifyAccount', username=user["UserName"]))
 
         if user and SHA256.CheckPassword(password, user["Password"], user["UserID"]):
-            if Auth.Is2FAEnabled(user["UserName"]):
-                session['2fa_user'] = user["UserName"]
-                return redirect(url_for('site.Verify2FA'))
+            # if Auth.Is2FAEnabled(user["UserName"]):
+            #     session['2fa_user'] = user["UserName"]
+            #     return redirect(url_for('site.Verify2FA'))
             
             sessionkey = Auth.GenerateSessionKey()
             useragent = request.headers.get('User-Agent')
             ipaddress = request.remote_addr
             
             currenttime = datetime.utcnow()
-            mongo.db.UserSessions.insert_one({
+            mongo.db.SiteUsersessions.insert_one({
                 'SessionKey': sessionkey,
                 'UserName': user["UserName"],
                 'UserAgent': useragent,
@@ -148,7 +159,7 @@ def LoginSite():
                 'CreatedAt': currenttime,
                 'ExpirationTime': currenttime + timedelta(hours=6)
             })
-            mongo.db.UserSessions.create_index('ExpirationTime', expireAfterSeconds=0)
+            mongo.db.SiteUsersessions.create_index('ExpirationTime', expireAfterSeconds=0)
 
             session['key'] = sessionkey
             session['username'] = user["UserName"]
