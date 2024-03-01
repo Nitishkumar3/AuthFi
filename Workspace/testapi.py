@@ -8,10 +8,11 @@ def GetData(SiteID, SiteSecret, UserID, Data):
     except Exception as e:
         return f"An error occurred: {e}"
 
-SiteID = 'rrP5HwAxys0Hq3PoQuezrxEJliP00fOF'
-SiteSecret = 'rHkzthBZlOJ6RLPITiYmhisMkWZ1uEbo'
-UserID = 'WOkZVqiSSWyfFXGR'
-Data = {"UserID": 1, "UserName": 1, "Name": 1, "Email": 1}
+SiteID = 'eOEaG4hYJZAaq6JE'
+SiteSecret = 'cde'
+
+UserID = 'eOEaG4hYJZAaq6JR'
+Data = ["UserID", "UserName", "Name", "Email"]
 
 out = GetData(SiteID, SiteSecret, UserID, Data)
 

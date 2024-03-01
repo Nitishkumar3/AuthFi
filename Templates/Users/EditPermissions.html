@@ -1,0 +1,23 @@
+<!-- Dashboard.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+</head>
+<body>
+    <form method="post">
+        <h2>User Permissions</h2>
+        {% for permission in SitePermissions %}
+            <label>
+                <input type="checkbox" name="permissions[]" value="{{ permission }}" {% if permission in UserPermissions %}checked{% endif %}>
+                {{ permission }}
+            </label>
+            <br>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

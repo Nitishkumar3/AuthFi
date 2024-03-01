@@ -10,18 +10,19 @@ mongo.init_app(app)
 
 @app.route('/create')
 def Create():
-    UserID = "nk"
+    UserID = "eOEaG4hYJZAaq6JR"
 
-    SiteID = ""
-    Permission = ""
-    PermissionValue = ""
+    SiteID = "S12340"
+    SiteName = "abc"
+    Permissions = ["Email", "Name", "Phone"]
 
     document = {
         "UserID": UserID,
-        "Sites": {
-            SiteID: {
-                Permission: PermissionValue
-            }
+        "SitePermissions": {
+            SiteID: Permissions
+        },
+        "Sites":{
+            SiteID : SiteName
         }
     }
 

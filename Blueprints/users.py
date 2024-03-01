@@ -414,26 +414,67 @@ def Dashboard():
     UserName = session['username']
     User = mongo.db.Users.find_one({'UserName': UserName})
     UserID = User["UserID"]
-    UserPermissions = mongo.db.UserPermissions.find_one({'UserID': UserID})["Sites"]    
-    print(UserPermissions)
+    UserPermissionsData = mongo.db.UserPermissions.find_one({'UserID': UserID})
+    
+    SiteIDs = list(UserPermissionsData.get('SitePermissions', {}).keys())
+
+    SiteNames = []
+    PermissionsArray = []
+
+    for SiteID in SiteIDs:
+        result = mongo.db.Sites.find_one({'SiteID': SiteID})
+        if result and 'Name' in result.get('SitePermissions', {}):
+            SiteNames.append(result['SiteName'])
+        PermissionsArray.append(', '.join(UserPermissionsData['SitePermissions'].get(SiteID, [])))
+
+    UserPermissions = [
+        {'SiteID': site_id, 'SiteName': site_name, 'Permissions': permissions}
+        for site_id, site_name, permissions in zip(SiteIDs, SiteNames, PermissionsArray)
+    ]
+
     return render_template("Users/Dashboard.html", UserPermissions=UserPermissions)
 
-# @UserBP.route('/dashboard')
-# @LoggedInUser
-# def Dashboard():
-#     UserName = session['username']
-#     User = mongo.db.Users.find_one({'UserName': UserName})
-#     UserID = User["UserID"]
-#     UserPermissions = mongo.db.UserPermissions.find_one({'UserID': UserID})["Sites"]    
-#     print(UserPermissions)
-#     return render_template("Users/Dashboard.html", UserPermissions=UserPermissions)
-
-@UserBP.route('/edit', methods=['GET', 'POST'])
+@UserBP.route('/edit/<SiteID>', methods=['GET', 'POST'])
 @LoggedInUser
-def Edit():
+def EditPermissions(SiteID):
+    UserName = session['username']
+
+    if request.method == 'POST':
+        SelectedPermissions = request.form.getlist('permissions[]')
+
+        User = mongo.db.Users.find_one({'UserName': UserName})
+        UserID = User["UserID"]
+
+        mongo.db.UserPermissions.update_one(
+            {'UserID': UserID},
+            {'$set': {'SitePermissions.' + SiteID: SelectedPermissions}}
+        )
+
+        return redirect(url_for('users.Dashboard'))
+
+    User = mongo.db.Users.find_one({'UserName': UserName})
+    UserID = User["UserID"]
+
+    UserPermissionsData = mongo.db.UserPermissions.find_one({'UserID': UserID})
+    SitePermissionsData = mongo.db.Sites.find_one({'SiteID': SiteID})
+
+    SiteName = SitePermissionsData["SiteName"]
+    UserPermissions = UserPermissionsData["SitePermissions"][SiteID]
+    SitePermissions = SitePermissionsData["SitePermissions"]
+
+    return render_template("Users/EditPermissions.html", SiteName=SiteName, UserPermissions=UserPermissions, SitePermissions=SitePermissions)
+
+@UserBP.route('/deletepermissions/<string:SiteID>', methods=['GET', 'POST'])
+@LoggedInUser
+def DeletePermissions(SiteID):
     UserName = session['username']
     User = mongo.db.Users.find_one({'UserName': UserName})
     UserID = User["UserID"]
-    UserPermissions = mongo.db.UserPermissions.find_one({'UserID': UserID})["Sites"]    
-    print(UserPermissions)
-    return render_template("Users/Edit.html", UserPermissions=UserPermissions)
+
+    mongo.db.UserPermissions.update_one({"UserID": UserID}, {
+        "$unset": {
+            f"SitePermissions.{SiteID}": 1,
+            f"Sites.{SiteID}": 1
+        }
+    })
+    return redirect(url_for('users.Dashboard'))

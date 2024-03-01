@@ -15,32 +15,35 @@ def api():
 @APIBP.route('/endpoint', methods=['POST'])
 def api_endpoint():
     try:
-        ReuestData = request.get_json()
+        RequestData = request.get_json()
 
-        IPAddress = request.remote_addr
-        UserAgent = request.user_agent.string
+        # IPAddress = request.remote_addr
+        # UserAgent = request.user_agent.string
+        # print(IPAddress, UserAgent)
 
-        #print(IPAddress, UserAgent)
+        SiteID = RequestData.get('SiteID')
+        SiteSecret = RequestData.get('SiteSecret')
 
-        SiteID = ReuestData.get('SiteID')
-        SiteSecret = ReuestData.get('SiteSecret')
-        UserID = ReuestData.get('UserID')
-        Data = ReuestData.get('Data')
-
-        GetData = list(Data.keys())
+        UserID = RequestData.get('UserID')
+        GetData = RequestData.get('Data')
 
         if not SiteID or not SiteSecret:
             return jsonify({'error': 'API key and Secret are required'}), 400
         
-        result = mongo.db.API.find_one({'SiteID': SiteID, 'SiteSecret': SiteSecret})
-        
-        if not result:
+        SiteData = mongo.db.Sites.find_one({'SiteID': SiteID, 'SiteSecret': SiteSecret})
+        if not SiteData:
             return jsonify({'error': 'Invalid API key or secret'}), 401
-        
-        if result['UserID'] != UserID:
+                
+        UserCheck = mongo.db.SiteUsers.find_one({'SiteID': SiteID})
+        if not UserID in UserCheck.get("Users", []):
             return jsonify({'error': 'Invalid user'}), 401
 
-        data = mongo.db.Users.find_one({'UserID': result['UserID']})
+        data = mongo.db.Users.find_one({'UserID': UserID})
+        Permissions = mongo.db.UserPermissions.find_one({'UserID': UserID})["SitePermissions"][SiteID]
+        Permissions.extend(["UserName","UserID"])
+
+        if not all(item in Permissions for item in GetData):
+            return jsonify({'error': 'No Permission'}), 401
 
         Target = ["UserID", "UserName", "Email"]
         UnEncData = list(set(GetData) & set(Target))
