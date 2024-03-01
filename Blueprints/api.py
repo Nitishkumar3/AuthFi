@@ -34,7 +34,7 @@ def api_endpoint():
         if not SiteData:
             return jsonify({'error': 'Invalid API key or secret'}), 401
                 
-        UserCheck = mongo.db.SiteUsers.find_one({'SiteID': SiteID})
+        UserCheck = mongo.db.SiteUsersList.find_one({'SiteID': SiteID})
         if not UserID in UserCheck.get("Users", []):
             return jsonify({'error': 'Invalid user'}), 401
 
