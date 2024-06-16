@@ -7,9 +7,13 @@ import qrcode
 import base64
 from io import BytesIO
 from Modules import Mail
+from dotenv import load_dotenv
+import os
 
-client = MongoClient('mongodb://localhost:27017/')
-db = client['SecureConnect']
+load_dotenv()
+MONGO_URI = os.getenv('MONGO_URI')
+client = MongoClient(MONGO_URI)
+db = client['AuthFi']
 
 def GenerateVerificationCode(length=32):
     characters = string.ascii_letters + string.digits
@@ -28,7 +32,7 @@ def IsUserVerified(username):
 
 def PasswordResetMail(username, email, ResetKey):
     subject = "Secure Connect - Password Reset"
-    link = "http://localhost:3000/resetkey/" + str(ResetKey)
+    link = "http://localhost:5000/resetkey/" + str(ResetKey)
     body = "Password Reset Code: " + str(ResetKey) + f" {link}"
     if Mail.SendMail(subject, body, email):
         currenttime = datetime.utcnow()

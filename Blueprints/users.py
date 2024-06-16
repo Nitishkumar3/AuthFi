@@ -5,6 +5,7 @@ import re
 import pyotp
 from Modules import AES256, Auth, SHA256, Functions
 from db import mongo
+from urllib.parse import urlparse, urljoin
 
 UserBP = Blueprint('users', __name__)
 
@@ -42,6 +43,15 @@ def NotLoggedInUser(view_func):
         return view_func(*args, **kwargs)
     return decorated_function
 
+def is_safe_url(target):
+    # Implement a function to check if a given URL is safe for redirection
+    # This function helps prevent Open Redirect vulnerabilities
+
+    # host_url = request.host_url
+    # test_url = urljoin(host_url, target)
+    # return urlparse(host_url).netloc == urlparse(test_url).netloc
+    return target
+
 def OnboardingCheck(view_func):
     @wraps(view_func)
     def decorated_function(*args, **kwargs):
@@ -77,7 +87,8 @@ def Registration():
             userid = AES256.GenerateRandomString()
     
         UserNameCheck = False if re.match(r'^[a-zA-Z0-9_]{4,}$', username) else True
-        PasswordCheck = False if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-+=])[A-Za-z\d!@#$%^&*()-+=]{8,}$', password) else True
+        # PasswordCheck = False if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-+=])[A-Za-z\d!@#$%^&*()-+=]{8,}$', password) else True
+        PasswordCheck = False if re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$', password) else True
         ExistingUserName = True if mongo.db.Users.find_one({'UserName': username}) else False
         ExistingEmailID = True if mongo.db.Users.find_one({'Email': email}) else False
 
@@ -98,7 +109,10 @@ def Registration():
         passwordH = SHA256.HashPassword(password, userid)
 
         Auth.SendVerificationEmail(username, email, Auth.GenerateVerificationCode())
+
         mongo.db.Users.insert_one({'UserID': userid, 'UserName': username, 'Name': nameE, 'Email': email, 'Password': passwordH, 'DateCreated': datecreated})
+        mongo.db.UserPermissions.insert_one({'UserID': userid, "SitePermissions": None})
+
         return redirect(url_for('users.VerifyAccount', username=username))
     
     return render_template('Users/Register.html')
@@ -123,9 +137,59 @@ def VerifyAccount(username):
 
     return render_template('Users/VerifyAccount.html', username=username)
 
+# @UserBP.route('/login', methods=['GET', 'POST'])
+# @NotLoggedInUser
+# def Login():
+#     if request.method == 'POST':
+#         login = request.form['login']
+#         password = request.form['password']
+
+#         if "@" in login:
+#             user = mongo.db.Users.find_one({'Email': login})
+#         else:
+#             user = mongo.db.Users.find_one({'UserName': login})
+
+#         if not user:
+#             flash('Invalid Login or Password', 'error')
+#             return redirect(url_for('users.Login'))
+
+#         if not Auth.IsUserVerified(user["UserName"]):
+#             flash('User not verified! Please complete the OTP verification', 'error')
+#             return redirect(url_for('users.VerifyAccount', username=user["UserName"]))
+
+#         if user and SHA256.CheckPassword(password, user["Password"], user["UserID"]):
+#             if Auth.Is2FAEnabled(user["UserName"]):
+#                 session['2fa_user'] = user["UserName"]
+#                 return redirect(url_for('users.Verify2FA'))
+            
+#             sessionkey = Auth.GenerateSessionKey()
+#             useragent = request.headers.get('User-Agent')
+#             ipaddress = request.remote_addr
+            
+#             currenttime = datetime.utcnow()
+#             mongo.db.UserSessions.insert_one({
+#                 'SessionKey': sessionkey,
+#                 'UserName': user["UserName"],
+#                 'UserAgent': useragent,
+#                 'IPAddress': ipaddress,
+#                 'CreatedAt': currenttime,
+#                 'ExpirationTime': currenttime + timedelta(hours=6)
+#             })
+#             mongo.db.UserSessions.create_index('ExpirationTime', expireAfterSeconds=0)
+
+#             session['key'] = sessionkey
+#             session['username'] = user["UserName"]
+            
+#             return redirect(url_for('users.Index'))
+#         else:
+#             flash('Invalid Login or password', 'error')
+    
+#     return render_template('Users/Login.html')
+
 @UserBP.route('/login', methods=['GET', 'POST'])
 @NotLoggedInUser
 def Login():
+    next_url = request.args.get('next')
     if request.method == 'POST':
         login = request.form['login']
         password = request.form['password']
@@ -143,10 +207,17 @@ def Login():
             flash('User not verified! Please complete the OTP verification', 'error')
             return redirect(url_for('users.VerifyAccount', username=user["UserName"]))
 
-        if user and SHA256.CheckPassword(password, user["Password"], user["UserID"]):
+        if SHA256.CheckPassword(password, user["Password"], user["UserID"]):
             if Auth.Is2FAEnabled(user["UserName"]):
                 session['2fa_user'] = user["UserName"]
-                return redirect(url_for('users.Verify2FA'))
+                
+                next_url = request.args.get('next')
+                print("LOgin", next_url)
+                if next_url:
+                    if is_safe_url(next_url):
+                        return redirect(url_for('users.Verify2FA', next=request.args.get('next')))
+                else:
+                    return redirect(url_for('users.Verify2FA'))
             
             sessionkey = Auth.GenerateSessionKey()
             useragent = request.headers.get('User-Agent')
@@ -165,8 +236,15 @@ def Login():
 
             session['key'] = sessionkey
             session['username'] = user["UserName"]
+
+            # Check for a 'next' parameter in the query string
+            next_url = request.args.get('next')  # Get the 'next' parameter from the query string
+            if next_url:
+                # Validate that the 'next' URL is a safe URL
+                if is_safe_url(next_url):
+                    return redirect(next_url)
             
-            return redirect(url_for('users.Index'))
+            return redirect(url_for('users.Index'))  # Default redirection if 'next' is not provided or unsafe
         else:
             flash('Invalid Login or password', 'error')
     
@@ -180,6 +258,9 @@ def Verify2FA():
 
     username = session['2fa_user']
     user = mongo.db.Users.find_one({'UserName': username})
+
+    next_url = request.args.get('next')
+    print("Out ", next_url)
 
     if request.method == 'POST':
         entered_otp = request.form['otp']
@@ -211,11 +292,17 @@ def Verify2FA():
             session['username'] = user["UserName"]
             session.pop('2fa_user')
 
-            return redirect(url_for('users.Index'))
+            next_url = request.args.get('next')
+            print("In ", next_url)
+            if next_url:
+                if is_safe_url(next_url):
+                    return redirect(next_url)
+            else:
+                return redirect(url_for('users.Index'))
         else:
             flash('Invalid OTP. Please try again.', 'error')
 
-    return render_template('Users/Verify2FA.html', username=username)
+    return render_template('Users/Verify2FA.html', username=username, next=next_url)
 
 @UserBP.route('/forgotpassword', methods=['GET', 'POST'])
 @NotLoggedInUser
@@ -416,21 +503,48 @@ def Dashboard():
     UserID = User["UserID"]
     UserPermissionsData = mongo.db.UserPermissions.find_one({'UserID': UserID})
     
-    SiteIDs = list(UserPermissionsData.get('SitePermissions', {}).keys())
+    # UserPermissions = None
 
-    SiteNames = []
-    PermissionsArray = []
+    # if UserPermissionsData:
+    #     SiteIDs = list(UserPermissionsData.get('SitePermissions', {}).keys())
 
-    for SiteID in SiteIDs:
-        result = mongo.db.Sites.find_one({'SiteID': SiteID})
-        if result and 'Name' in result.get('SitePermissions', {}):
-            SiteNames.append(result['SiteName'])
-        PermissionsArray.append(', '.join(UserPermissionsData['SitePermissions'].get(SiteID, [])))
+    #     SiteNames = []
+    #     PermissionsArray = []
 
-    UserPermissions = [
-        {'SiteID': site_id, 'SiteName': site_name, 'Permissions': permissions}
-        for site_id, site_name, permissions in zip(SiteIDs, SiteNames, PermissionsArray)
-    ]
+    #     for SiteID in SiteIDs:
+    #         result = mongo.db.Sites.find_one({'SiteID': SiteID})
+    #         if result and 'Name' in result.get('SitePermissions', {}):
+    #             SiteNames.append(result['SiteName'])
+    #         # PermissionsArray.append(', '.join(UserPermissionsData['SitePermissions'].get(SiteID, [])))
+    #         permissions = ', '.join(UserPermissionsData['SitePermissions'].get(SiteID, []))
+    #         PermissionsArray.append(permissions)
+
+    #     UserPermissions = [
+    #         {'SiteID': site_id, 'SiteName': site_name, 'Permissions': permissions}
+    #         for site_id, site_name, permissions in zip(SiteIDs, SiteNames, PermissionsArray)
+    #     ]
+
+    # return render_template("Users/Dashboard.html", UserPermissions=UserPermissions)
+    
+    UserPermissions = []
+
+    if UserPermissionsData and 'SitePermissions' in UserPermissionsData:
+        SiteIDs = list(UserPermissionsData['SitePermissions'].keys())
+
+        for SiteID in SiteIDs:
+            permissions = UserPermissionsData['SitePermissions'].get(SiteID, [])
+            if not isinstance(permissions, list):
+                permissions = []  # Handle case where permissions is not a list
+
+            permissions_str = ', '.join(permissions)
+            result = mongo.db.Sites.find_one({'SiteID': SiteID})
+            site_name = result.get('SiteName') if result and 'SiteName' in result else f"Unknown Site {SiteID}"
+
+            UserPermissions.append({
+                'SiteID': SiteID,
+                'SiteName': site_name,
+                'Permissions': permissions_str
+            })
 
     return render_template("Users/Dashboard.html", UserPermissions=UserPermissions)
 
@@ -457,12 +571,18 @@ def EditPermissions(SiteID):
 
     UserPermissionsData = mongo.db.UserPermissions.find_one({'UserID': UserID})
     SitePermissionsData = mongo.db.Sites.find_one({'SiteID': SiteID})
+    UserData = mongo.db.Users.find_one({'UserID': UserID})
+
+    Ignore = ['_id', 'DateCreated', 'Password', 'TwoFactorEnabled', 'TwoFactorSecret']
+
+    UserDataAvailable = [element for element in list(UserData.keys()) if element not in Ignore]
 
     SiteName = SitePermissionsData["SiteName"]
     UserPermissions = UserPermissionsData["SitePermissions"][SiteID]
     SitePermissions = SitePermissionsData["SitePermissions"]
-
-    return render_template("Users/EditPermissions.html", SiteName=SiteName, UserPermissions=UserPermissions, SitePermissions=SitePermissions)
+    NotAvailableData = [element for element in SitePermissions if element not in UserDataAvailable]
+    
+    return render_template("Users/EditPermissions.html", SiteName=SiteName, UserPermissions=UserPermissions, SitePermissions=SitePermissions, NotAvailableData=NotAvailableData)
 
 @UserBP.route('/deletepermissions/<string:SiteID>', methods=['GET', 'POST'])
 @LoggedInUser

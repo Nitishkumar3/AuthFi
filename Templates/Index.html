@@ -1,1906 +1,664 @@
-<!DOCTYPE html>
-
-<html
-  lang="en"
-  class="light-style layout-navbar-fixed layout-wide"
-  dir="ltr"
-  data-theme="theme-default"
-  data-assets-path="../../assets/"
-  data-template="front-pages">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-    <title>Landing Page - Front Pages | Materialize - Material Design HTML Admin Template</title>
-
-    <meta name="description" content="" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../../assets/img/favicon/favicon.ico" />
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
-      rel="stylesheet" />
-
-    <link rel="stylesheet" href="../../assets/vendor/fonts/materialdesignicons.css" />
-
-    <!-- Menu waves for no-customizer fix -->
-    <link rel="stylesheet" href="../../assets/vendor/libs/node-waves/node-waves.css" />
-
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="../../assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="../../assets/vendor/css/rtl/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="../../assets/css/demo.css" />
-    <link rel="stylesheet" href="../../assets/vendor/css/pages/front-page.css" />
-    <!-- Vendors CSS -->
-
-    <link rel="stylesheet" href="../../assets/vendor/libs/nouislider/nouislider.css" />
-    <link rel="stylesheet" href="../../assets/vendor/libs/swiper/swiper.css" />
-
-    <!-- Page CSS -->
-
-    <link rel="stylesheet" href="../../assets/vendor/css/pages/front-page-landing.css" />
-
-    <!-- Helpers -->
-    <script src="../../assets/vendor/js/helpers.js"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
-    <script src="../../assets/vendor/js/template-customizer.js"></script>
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="../../assets/js/front-config.js"></script>
-  </head>
-
-  <body>
-    <script src="../../assets/vendor/js/dropdown-hover.js"></script>
-    <script src="../../assets/vendor/js/mega-dropdown.js"></script>
-
-    <!-- Navbar: Start -->
-    <nav class="layout-navbar container shadow-none py-0">
-      <div class="navbar navbar-expand-lg landing-navbar border-top-0 px-3 px-md-4">
-        <!-- Menu logo wrapper: Start -->
-        <div class="navbar-brand app-brand demo d-flex py-0 py-lg-2 me-4">
-          <!-- Mobile menu toggle: Start-->
-          <button
-            class="navbar-toggler border-0 px-0 me-2"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-            <i class="tf-icons mdi mdi-menu mdi-24px align-middle"></i>
-          </button>
-          <!-- Mobile menu toggle: End-->
-          <a href="landing-page.html" class="app-brand-link">
-            <span class="app-brand-logo demo">
-              <span style="color: #666cff">
-                <svg width="268" height="150" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M30.0944 2.22569C29.0511 0.444187 26.7508 -0.172113 24.9566 0.849138C23.1623 1.87039 22.5536 4.14247 23.5969 5.92397L30.5368 17.7743C31.5801 19.5558 33.8804 20.1721 35.6746 19.1509C37.4689 18.1296 38.0776 15.8575 37.0343 14.076L30.0944 2.22569Z"
-                    fill="currentColor" />
-                  <path
-                    d="M30.171 2.22569C29.1277 0.444187 26.8274 -0.172113 25.0332 0.849138C23.2389 1.87039 22.6302 4.14247 23.6735 5.92397L30.6134 17.7743C31.6567 19.5558 33.957 20.1721 35.7512 19.1509C37.5455 18.1296 38.1542 15.8575 37.1109 14.076L30.171 2.22569Z"
-                    fill="url(#paint0_linear_2989_100980)"
-                    fill-opacity="0.4" />
-                  <path
-                    d="M22.9676 2.22569C24.0109 0.444187 26.3112 -0.172113 28.1054 0.849138C29.8996 1.87039 30.5084 4.14247 29.4651 5.92397L22.5251 17.7743C21.4818 19.5558 19.1816 20.1721 17.3873 19.1509C15.5931 18.1296 14.9843 15.8575 16.0276 14.076L22.9676 2.22569Z"
-                    fill="currentColor" />
-                  <path
-                    d="M14.9558 2.22569C13.9125 0.444187 11.6122 -0.172113 9.818 0.849138C8.02377 1.87039 7.41502 4.14247 8.45833 5.92397L15.3983 17.7743C16.4416 19.5558 18.7418 20.1721 20.5361 19.1509C22.3303 18.1296 22.9391 15.8575 21.8958 14.076L14.9558 2.22569Z"
-                    fill="currentColor" />
-                  <path
-                    d="M14.9558 2.22569C13.9125 0.444187 11.6122 -0.172113 9.818 0.849138C8.02377 1.87039 7.41502 4.14247 8.45833 5.92397L15.3983 17.7743C16.4416 19.5558 18.7418 20.1721 20.5361 19.1509C22.3303 18.1296 22.9391 15.8575 21.8958 14.076L14.9558 2.22569Z"
-                    fill="url(#paint1_linear_2989_100980)"
-                    fill-opacity="0.4" />
-                  <path
-                    d="M7.82901 2.22569C8.87231 0.444187 11.1726 -0.172113 12.9668 0.849138C14.7611 1.87039 15.3698 4.14247 14.3265 5.92397L7.38656 17.7743C6.34325 19.5558 4.04298 20.1721 2.24875 19.1509C0.454514 18.1296 -0.154233 15.8575 0.88907 14.076L7.82901 2.22569Z"
-                    fill="currentColor" />
-                  <defs>
-                    <linearGradient
-                      id="paint0_linear_2989_100980"
-                      x1="5.36642"
-                      y1="0.849138"
-                      x2="10.532"
-                      y2="24.104"
-                      gradientUnits="userSpaceOnUse">
-                      <stop offset="0" stop-opacity="1" />
-                      <stop offset="1" stop-opacity="0" />
-                    </linearGradient>
-                    <linearGradient
-                      id="paint1_linear_2989_100980"
-                      x1="5.19475"
-                      y1="0.849139"
-                      x2="10.3357"
-                      y2="24.1155"
-                      gradientUnits="userSpaceOnUse">
-                      <stop offset="0" stop-opacity="1" />
-                      <stop offset="1" stop-opacity="0" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </span>
-            </span>
-            <span class="app-brand-text demo menu-text fw-bold ms-2 ps-1">Materialize</span>
-          </a>
-        </div>
-        <!-- Menu logo wrapper: End -->
-        <!-- Menu wrapper: Start -->
-        <div class="collapse navbar-collapse landing-nav-menu" id="navbarSupportedContent">
-          <button
-            class="navbar-toggler border-0 text-heading position-absolute end-0 top-0 scaleX-n1-rtl"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-            <i class="tf-icons mdi mdi-close"></i>
-          </button>
-          <ul class="navbar-nav me-auto p-3 p-lg-0">
-            <li class="nav-item">
-              <a class="nav-link fw-medium" aria-current="page" href="landing-page.html#landingHero">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fw-medium" href="landing-page.html#landingFeatures">Features</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fw-medium" href="landing-page.html#landingTeam">Team</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fw-medium" href="landing-page.html#landingFAQ">FAQ</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fw-medium text-nowrap" href="landing-page.html#landingContact">Contact us</a>
-            </li>
-            <li class="nav-item mega-dropdown">
-              <a
-                href="javascript:void(0);"
-                class="nav-link dropdown-toggle navbar-ex-14-mega-dropdown mega-dropdown fw-medium"
-                aria-expanded="false"
-                data-bs-toggle="mega-dropdown"
-                data-trigger="hover">
-                <span data-i18n="Pages">Pages</span>
-              </a>
-              <div class="dropdown-menu p-4">
-                <div class="row gy-4">
-                  <div class="col-12 col-lg">
-                    <div class="h6 d-flex align-items-center mb-2 mb-lg-3">
-                      <div class="avatar avatar-sm flex-shrink-0 me-2">
-                        <span class="avatar-initial rounded bg-label-primary"
-                          ><i class="mdi mdi-view-grid-outline"></i
-                        ></span>
-                      </div>
-                      <span class="ps-1">Other</span>
-                    </div>
-                    <ul class="nav flex-column">
-                      <li class="nav-item">
-                        <a class="nav-link mega-dropdown-link d-flex align-items-center" href="pricing-page.html">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          <span data-i18n="Pricing">Pricing</span>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link mega-dropdown-link d-flex align-items-center" href="payment-page.html">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          <span data-i18n="Payment">Payment</span>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link mega-dropdown-link d-flex align-items-center" href="checkout-page.html">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          <span data-i18n="Checkout">Checkout</span>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="help-center-landing.html">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          <span data-i18n="Help Center">Help Center</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-12 col-lg">
-                    <div class="h6 d-flex align-items-center mb-2 mb-lg-3">
-                      <div class="avatar avatar-sm flex-shrink-0 me-2">
-                        <span class="avatar-initial rounded bg-label-primary"
-                          ><i class="mdi mdi-lock-open-outline"></i
-                        ></span>
-                      </div>
-                      <span class="ps-1">Auth Demo</span>
-                    </div>
-                    <ul class="nav flex-column">
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/auth-login-basic.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Login (Basic)
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/auth-login-cover.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Login (Cover)
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/auth-register-basic.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Register (Basic)
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/auth-register-cover.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Register (Cover)
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/auth-register-multisteps.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Register (Multi-steps)
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/auth-forgot-password-basic.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Forgot Password (Basic)
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/auth-forgot-password-cover.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Forgot Password (Cover)
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/auth-reset-password-basic.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Reset Password (Basic)
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/auth-reset-password-cover.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Reset Password (Cover)
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-12 col-lg">
-                    <div class="h6 d-flex align-items-center mb-2 mb-lg-3">
-                      <div class="avatar avatar-sm flex-shrink-0 me-2">
-                        <span class="avatar-initial rounded bg-label-primary"
-                          ><i class="mdi mdi-image-outline"></i
-                        ></span>
-                      </div>
-                      <span class="ps-1">Other</span>
-                    </div>
-                    <ul class="nav flex-column">
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/pages-misc-error.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Error
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/pages-misc-under-maintenance.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Under Maintenance
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/pages-misc-comingsoon.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Coming Soon
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/pages-misc-not-authorized.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Not Authorized
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/auth-verify-email-basic.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Verify Email (Basic)
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/auth-verify-email-cover.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Verify Email (Cover)
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/auth-two-steps-basic.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Two Steps (Basic)
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link mega-dropdown-link d-flex align-items-center"
-                          href="../vertical-menu-template/auth-two-steps-cover.html"
-                          target="_blank">
-                          <i class="mdi mdi-radiobox-blank mdi-14px me-2"></i>
-                          Two Steps (Cover)
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-lg-4 d-none d-lg-block">
-                    <div class="bg-body nav-img-col p-2">
-                      <img
-                        src="../../assets/img/front-pages/misc/nav-item-col-img-light.png"
-                        class="img-fluid scaleX-n1-rtl w-100"
-                        alt="nav item col image"
-                        data-app-light-img="front-pages/misc/nav-item-col-img-light.png"
-                        data-app-dark-img="front-pages/misc/nav-item-col-img-dark.png" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fw-medium" href="../vertical-menu-template/index.html" target="_blank">Admin</a>
-            </li>
-          </ul>
-        </div>
-        <div class="landing-menu-overlay d-lg-none"></div>
-        <!-- Menu wrapper: End -->
-        <!-- Toolbar: Start -->
-        <ul class="navbar-nav flex-row align-items-center ms-auto">
-          <!-- Style Switcher -->
-          <li class="nav-item dropdown-style-switcher dropdown me-2 me-xl-0">
-            <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-              <i class="mdi mdi-24px"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
-              <li>
-                <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
-                  <span class="align-middle"><i class="mdi mdi-weather-sunny me-2"></i>Light</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
-                  <span class="align-middle"><i class="mdi mdi-weather-night me-2"></i>Dark</span>
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
-                  <span class="align-middle"><i class="mdi mdi-monitor me-2"></i>System</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <!-- / Style Switcher-->
-
-          <!-- navbar button: Start -->
-          <li>
-            <a
-              href="../vertical-menu-template/auth-login-cover.html"
-              class="btn btn-primary px-2 px-sm-4 px-lg-2 px-xl-4"
-              target="_blank"
-              ><span class="tf-icons mdi mdi-account me-md-1"></span
-              ><span class="d-none d-md-block">Login/Register</span></a
-            >
-          </li>
-          <!-- navbar button: End -->
-        </ul>
-        <!-- Toolbar: End -->
+<!doctype html>
+<html class="h-full bg-white dark:bg-gray-900 dark:text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../../assets/output.css" rel="stylesheet">
+  <link href="https://fa6p.pages.dev/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Nav Bar: Start -->
+  <header class="absolute inset-x-0 top-0 z-50">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8" aria-label="Global">
+      <div class="flex lg:flex-1">
+        <a href="#" class="-m-1.5 p-1.5">
+          <span class="sr-only">Your Company</span>
+          <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">
+        </a>
+      </div>
+      <div class="hidden lg:flex lg:gap-x-12">
+        <a href="#" class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Product</a>
+        <a href="#" class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Features</a>
+        <a href="#" class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Marketplace</a>
+        <a href="#" class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Company</a>
+      </div>
+      <div class="flex flex-1 items-center justify-end gap-x-6">
+        <span onclick="toggleDarkMode()" id="toggleDarkMode"></span>
+        <!-- <a href="/login" class="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900 dark:text-white">Log in</a>
+        <a href="#" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign up</a> -->
+        {% if IsLoggedIn %}
+            <a href="{{ url_for('users.Dashboard') }}" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Dashboard</a>
+            <a href="{{ url_for('users.Logout') }}" class="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900 dark:text-white">Logout</a>
+        {% else %}
+            <a href="{{ url_for('users.Login') }}" class="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900 dark:text-white">Log in</a>
+            <a href="{{ url_for('users.Registration') }}" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign up</a>
+        {% endif %}
+      </div>
+      
+      <!-- Mobile menu, show/hide based on menu open state. -->
+      <div class="flex lg:hidden">
+        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 dark:text-white" id="OpenButton">
+          <span class="sr-only">Open main menu</span>
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
       </div>
     </nav>
-    <!-- Navbar: End -->
-
-    <!-- Sections:Start -->
-
-    <div data-bs-spy="scroll" class="scrollspy-example">
-      <!-- Hero: Start -->
-      <section id="landingHero" class="section-py landing-hero">
-        <div class="container">
-          <div class="hero-text-box text-center">
-            <h1 class="text-primary hero-title">All in one sass application for your business</h1>
-            <h2 class="h6 mb-4 pb-1 lh-lg">
-              No coding required to make customisations.<br />The live customiser has everything your marketing need.
-            </h2>
-            <a href="#landingPricing" class="btn btn-primary">Get early access</a>
-          </div>
-          <div class="position-relative hero-animation-img">
-            <a href="../vertical-menu-template/app-ecommerce-dashboard.html" target="_blank">
-              <div class="hero-dashboard-img text-center">
-                <img
-                  src="../../assets/img/front-pages/landing-page/hero-dashboard-light.png"
-                  alt="hero dashboard"
-                  class="animation-img"
-                  data-speed="2"
-                  data-app-light-img="front-pages/landing-page/hero-dashboard-light.png"
-                  data-app-dark-img="front-pages/landing-page/hero-dashboard-dark.png" />
-              </div>
-              <div class="position-absolute hero-elements-img">
-                <img
-                  src="../../assets/img/front-pages/landing-page/hero-elements-light.png"
-                  alt="hero elements"
-                  class="animation-img"
-                  data-speed="4"
-                  data-app-light-img="front-pages/landing-page/hero-elements-light.png"
-                  data-app-dark-img="front-pages/landing-page/hero-elements-dark.png" />
-              </div>
-            </a>
-          </div>
+    <div class="lg:hidden mmenu" role="dialog" aria-modal="true" style="display: none;">
+      <div class="fixed inset-0 z-10"></div>
+      <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <div class="flex items-center gap-x-6">
+          <a href="#" class="-m-1.5 p-1.5">
+            <span class="sr-only">Your Company</span>
+            <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">
+          </a>
+          <a href="#" class="ml-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign up</a>
+          <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" id="CloseButton">
+            <span class="sr-only">Close menu</span>
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
-      </section>
-      <!-- Hero: End -->
-
-      <!-- Useful features: Start -->
-      <section id="landingFeatures" class="section-py landing-features">
-        <div class="container">
-          <h6 class="text-center fw-semibold d-flex justify-content-center align-items-center mb-4">
-            <img
-              src="../../assets/img/front-pages/icons/section-tilte-icon.png"
-              alt="section title icon"
-              class="me-2" />
-            <span class="text-uppercase">Useful features</span>
-          </h6>
-          <h3 class="text-center mb-2"><span class="fw-bold">Everything you need</span> to start your next project</h3>
-          <p class="text-center fw-medium mb-3 mb-md-5 pb-3">
-            Not just a set of tools, the package includes ready-to-deploy conceptual application.
-          </p>
-          <div class="features-icon-wrapper row gx-0 gy-4 g-sm-5">
-            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-              <div class="features-icon mb-3">
-                <img src="../../assets/img/front-pages/icons/laptop-charging.png" alt="laptop charging" />
-              </div>
-              <h5 class="mb-2">Quality Code</h5>
-              <p class="features-icon-description">
-                Code structure that all developers will easily understand and fall in love with.
-              </p>
+        <div class="mt-6 flow-root">
+          <div class="-my-6 divide-y divide-gray-500/10">
+            <div class="space-y-2 py-6">
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Product</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Features</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Marketplace</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Company</a>
             </div>
-            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-              <div class="features-icon mb-3">
-                <img src="../../assets/img/front-pages/icons/transition-up.png" alt="transition up" />
-              </div>
-              <h5 class="mb-2">Continuous Updates</h5>
-              <p class="features-icon-description">
-                Free updates for the next 12 months, including new demos and features.
-              </p>
-            </div>
-            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-              <div class="features-icon mb-3">
-                <img src="../../assets/img/front-pages/icons/edit.png" alt="edit" />
-              </div>
-              <h5 class="mb-2">Stater-Kit</h5>
-              <p class="features-icon-description">
-                Start your project quickly without having to remove unnecessary features.
-              </p>
-            </div>
-            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-              <div class="features-icon mb-3">
-                <img src="../../assets/img/front-pages/icons/3d-select-solid.png" alt="3d select solid" />
-              </div>
-              <h5 class="mb-2">API Ready</h5>
-              <p class="features-icon-description">
-                Just change the endpoint and see your own data loaded within seconds.
-              </p>
-            </div>
-            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-              <div class="features-icon mb-3">
-                <img src="../../assets/img/front-pages/icons/lifebelt.png" alt="lifebelt" />
-              </div>
-              <h5 class="mb-2">Excellent Support</h5>
-              <p class="features-icon-description">An easy-to-follow doc with lots of references and code examples.</p>
-            </div>
-            <div class="col-lg-4 col-sm-6 text-center features-icon-box">
-              <div class="features-icon mb-3">
-                <img src="../../assets/img/front-pages/icons/google-docs.png" alt="google docs" />
-              </div>
-              <h5 class="mb-2">Well Documented</h5>
-              <p class="features-icon-description">An easy-to-follow doc with lots of references and code examples.</p>
+            <div class="py-6">
+              <a href="/login" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log in</a>
             </div>
           </div>
         </div>
-      </section>
-      <!-- Useful features: End -->
-
-      <!-- Real customers reviews: Start -->
-      <section id="landingReviews" class="section-py bg-body landing-reviews pb-0">
-        <div class="container">
-          <h6 class="text-center fw-semibold d-flex justify-content-center align-items-center mb-4">
-            <img
-              src="../../assets/img/front-pages/icons/section-tilte-icon.png"
-              alt="section title icon"
-              class="me-2" />
-            <span class="text-uppercase">real customers reviews</span>
-          </h6>
-          <h3 class="text-center mb-2"><span class="fw-bold">Success stories</span> from clients</h3>
-          <p class="text-center fw-medium mb-3 mb-md-5">See what our customers have to say about their experience.</p>
-        </div>
-        <div class="swiper-reviews-carousel overflow-hidden mb-5 pt-4">
-          <div class="swiper" id="swiper-reviews">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-4.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>
-                      “I've never used a theme as versatile and flexible as Vuexy. It's my go to for building dashboard
-                      sites on almost any project.”
-                    </p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Eugenia Moore</h6>
-                      <p class="mb-0">Founder of Hubspot</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-1.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>Materio is awesome, and I particularly enjoy knowing that if I get stuck on something.</p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Tommy haffman</h6>
-                      <p class="mb-0">Founder of Levis</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-3.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>
-                      This template is superior in so many ways. The code, the design, the regular updates, the
-                      support.. It’s the whole package. Excellent Work.
-                    </p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Eugenia Moore</h6>
-                      <p class="mb-0">CTO of Airbnb</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-2.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>
-                      All the requirements for developers have been taken into consideration, so I’m able to build any
-                      interface I want.
-                    </p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Sara Smith</h6>
-                      <p class="mb-0">Founder of Continental</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-5.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>
-                      “I've never used a theme as versatile and flexible as Vuexy. It's my go to for building dashboard
-                      sites on almost any project.”
-                    </p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Eugenia Moore</h6>
-                      <p class="mb-0">Founder of Hubspot</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center h-100">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-4.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>
-                      “I've never used a theme as versatile and flexible as Vuexy. It's my go to for building dashboard
-                      sites on almost any project.”
-                    </p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star-outline mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Eugenia Moore</h6>
-                      <p class="mb-0">Founder of Hubspot</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center h-100">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-1.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>Materio is awesome, and I particularly enjoy knowing that if I get stuck on something.</p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Tommy haffman</h6>
-                      <p class="mb-0">Founder of Levis</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center h-100">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-3.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>
-                      This template is superior in so many ways. The code, the design, the regular updates, the
-                      support.. It’s the whole package. Excellent Work.
-                    </p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Eugenia Moore</h6>
-                      <p class="mb-0">CTO of Airbnb</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center h-100">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-2.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>
-                      All the requirements for developers have been taken into consideration, so I’m able to build any
-                      interface I want.
-                    </p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star-outline mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Sara Smith</h6>
-                      <p class="mb-0">Founder of Continental</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center h-100">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-5.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>
-                      “I've never used a theme as versatile and flexible as Vuexy. It's my go to for building dashboard
-                      sites on almost any project.”
-                    </p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Eugenia Moore</h6>
-                      <p class="mb-0">Founder of Hubspot</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-4.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>
-                      “I've never used a theme as versatile and flexible as Vuexy. It's my go to for building dashboard
-                      sites on almost any project.”
-                    </p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Eugenia Moore</h6>
-                      <p class="mb-0">Founder of Hubspot</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-1.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>Materio is awesome, and I particularly enjoy knowing that if I get stuck on something.</p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Tommy haffman</h6>
-                      <p class="mb-0">Founder of Levis</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-3.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>
-                      This template is superior in so many ways. The code, the design, the regular updates, the
-                      support.. It’s the whole package. Excellent Work.
-                    </p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Eugenia Moore</h6>
-                      <p class="mb-0">CTO of Airbnb</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-2.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>
-                      All the requirements for developers have been taken into consideration, so I’m able to build any
-                      interface I want.
-                    </p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Sara Smith</h6>
-                      <p class="mb-0">Founder of Continental</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="swiper-slide">
-                <div class="card h-100">
-                  <div class="card-body text-body d-flex flex-column justify-content-between text-center">
-                    <div class="mb-3">
-                      <img
-                        src="../../assets/img/front-pages/branding/logo-5.png"
-                        alt="client logo"
-                        class="client-logo img-fluid" />
-                    </div>
-                    <p>
-                      “I've never used a theme as versatile and flexible as Vuexy. It's my go to for building dashboard
-                      sites on almost any project.”
-                    </p>
-                    <div class="text-warning mb-3">
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                      <i class="tf-icons mdi mdi-star mdi-24px"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1">Eugenia Moore</h6>
-                      <p class="mb-0">Founder of Hubspot</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-pagination"></div>
-          </div>
-        </div>
-        <hr class="m-0" />
-        <div class="container">
-          <div class="swiper-logo-carousel py-4 my-lg-2">
-            <div class="swiper" id="swiper-clients-logos">
-              <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  <img
-                    src="../../assets/img/front-pages/branding/logo-1-light.png"
-                    alt="client logo"
-                    class="client-logo"
-                    data-app-light-img="front-pages/branding/logo-1-light.png"
-                    data-app-dark-img="front-pages/branding/logo-1-dark.png" />
-                </div>
-                <div class="swiper-slide">
-                  <img
-                    src="../../assets/img/front-pages/branding/logo-2-light.png"
-                    alt="client logo"
-                    class="client-logo"
-                    data-app-light-img="front-pages/branding/logo-2-light.png"
-                    data-app-dark-img="front-pages/branding/logo-2-dark.png" />
-                </div>
-                <div class="swiper-slide">
-                  <img
-                    src="../../assets/img/front-pages/branding/logo-3-light.png"
-                    alt="client logo"
-                    class="client-logo"
-                    data-app-light-img="front-pages/branding/logo-3-light.png"
-                    data-app-dark-img="front-pages/branding/logo-3-dark.png" />
-                </div>
-                <div class="swiper-slide">
-                  <img
-                    src="../../assets/img/front-pages/branding/logo-4-light.png"
-                    alt="client logo"
-                    class="client-logo"
-                    data-app-light-img="front-pages/branding/logo-4-light.png"
-                    data-app-dark-img="front-pages/branding/logo-4-dark.png" />
-                </div>
-                <div class="swiper-slide">
-                  <img
-                    src="../../assets/img/front-pages/branding/logo-5-light.png"
-                    alt="client logo"
-                    class="client-logo"
-                    data-app-light-img="front-pages/branding/logo-5-light.png"
-                    data-app-dark-img="front-pages/branding/logo-5-dark.png" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- Real customers reviews: End -->
-
-      <!-- Our great team: Start -->
-      <section id="landingTeam" class="section-py landing-team">
-        <div class="container bg-icon-right">
-          <h6 class="text-center fw-semibold d-flex justify-content-center align-items-center mb-4">
-            <img
-              src="../../assets/img/front-pages/icons/section-tilte-icon.png"
-              alt="section title icon"
-              class="me-2" />
-            <span class="text-uppercase">our great team</span>
-          </h6>
-          <h3 class="text-center mb-2"><span class="fw-bold">Supported</span> by Real People</h3>
-          <p class="text-center fw-medium mb-3 mb-md-5 pb-3">Who is behind these great-looking interfaces?</p>
-          <div class="row gy-5 mt-2">
-            <div class="col-lg-3 col-sm-6">
-              <div class="card card-hover-border-primary mt-3 mt-lg-0 shadow-none">
-                <div class="bg-label-primary position-relative team-image-box">
-                  <img
-                    src="../../assets/img/front-pages/landing-page/team-member-1.png"
-                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
-                    alt="human image" />
-                </div>
-                <div class="card-body text-center">
-                  <h5 class="card-title fw-semibold mb-1">Sophie Gilbert</h5>
-                  <p class="card-text">Project Manager</p>
-                  <div class="text-center team-media-icons">
-                    <a href="javascript:void(0);" class="text-heading" target="_blank">
-                      <i class="tf-icons mdi mdi-facebook mdi-24px me-2"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="text-heading" target="_blank">
-                      <i class="tf-icons mdi mdi-twitter mdi-24px me-2"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="text-heading" target="_blank">
-                      <i class="tf-icons mdi mdi-linkedin mdi-24px"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-              <div class="card card-hover-border-danger mt-3 mt-lg-0 shadow-none">
-                <div class="bg-label-danger position-relative team-image-box">
-                  <img
-                    src="../../assets/img/front-pages/landing-page/team-member-2.png"
-                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
-                    alt="human image" />
-                </div>
-                <div class="card-body text-center">
-                  <h5 class="card-title fw-semibold mb-1">Nannie Ford</h5>
-                  <p class="card-text">Development Lead</p>
-                  <div class="text-center team-media-icons">
-                    <a href="javascript:void(0);" class="text-heading" target="_blank">
-                      <i class="tf-icons mdi mdi-facebook mdi-24px me-2"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="text-heading" target="_blank">
-                      <i class="tf-icons mdi mdi-twitter mdi-24px me-2"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="text-heading" target="_blank">
-                      <i class="tf-icons mdi mdi-linkedin mdi-24px"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-              <div class="card card-hover-border-success mt-3 mt-lg-0 shadow-none">
-                <div class="bg-label-success position-relative team-image-box">
-                  <img
-                    src="../../assets/img/front-pages/landing-page/team-member-3.png"
-                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
-                    alt="human image" />
-                </div>
-                <div class="card-body text-center">
-                  <h5 class="card-title fw-semibold mb-1">Chris Watkins</h5>
-                  <p class="card-text">Marketing Manager</p>
-                  <div class="text-center team-media-icons">
-                    <a href="javascript:void(0);" class="text-heading" target="_blank">
-                      <i class="tf-icons mdi mdi-facebook mdi-24px me-2"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="text-heading" target="_blank">
-                      <i class="tf-icons mdi mdi-twitter mdi-24px me-2"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="text-heading" target="_blank">
-                      <i class="tf-icons mdi mdi-linkedin mdi-24px"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-              <div class="card card-hover-border-info mt-3 mt-lg-0 shadow-none">
-                <div class="bg-label-info position-relative team-image-box">
-                  <img
-                    src="../../assets/img/front-pages/landing-page/team-member-4.png"
-                    class="position-absolute card-img-position bottom-0 start-50 scaleX-n1-rtl"
-                    alt="human image" />
-                </div>
-                <div class="card-body text-center">
-                  <h5 class="card-title fw-semibold mb-1">Paul Miles</h5>
-                  <p class="card-text">UI Designer</p>
-                  <div class="text-center team-media-icons">
-                    <a href="javascript:void(0);" class="text-heading" target="_blank">
-                      <i class="tf-icons mdi mdi-facebook mdi-24px me-2"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="text-heading" target="_blank">
-                      <i class="tf-icons mdi mdi-twitter mdi-24px me-2"></i>
-                    </a>
-                    <a href="javascript:void(0);" class="text-heading" target="_blank">
-                      <i class="tf-icons mdi mdi-linkedin mdi-24px"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- Our great team: End -->
-
-      <!-- Pricing plans: Start -->
-      <section id="landingPricing" class="section-py bg-body landing-pricing">
-        <div class="container bg-icon-left">
-          <h6 class="text-center fw-semibold d-flex justify-content-center align-items-center mb-4">
-            <img
-              src="../../assets/img/front-pages/icons/section-tilte-icon.png"
-              alt="section title icon"
-              class="me-2" />
-            <span class="text-uppercase">pricing plans</span>
-          </h6>
-          <h3 class="text-center mb-2"><span class="fw-bold">Tailored pricing plans</span> designed for you</h3>
-          <p class="text-center fw-medium mb-5 pt-3 pb-lg-5">
-            All plans include 40+ advanced tools and features to boost your product.<br />
-            the best plan to fit your needs.
-          </p>
-          <div id="slider-pricing" class="mb-5"></div>
-          <div class="row gy-4 pt-lg-3">
-            <!-- Basic Plan: Start -->
-            <div class="col-xl-4 col-lg-6">
-              <div class="card shadow-none">
-                <div class="card-header border-0">
-                  <h3 class="mb-2 pb-1">Basic Plan</h3>
-                  <div class="d-flex align-items-center">
-                    <h5 class="d-flex mb-0"><sup class="h5 mt-3">$</sup><span class="display-3 fw-bold">20</span></h5>
-                    <div class="ms-2 ps-1">
-                      <h6 class="mb-1">Per month</h6>
-                      <p class="small mb-0">10% off for yearly subscription</p>
-                    </div>
-                  </div>
-                  <img src="../../assets/img/front-pages/icons/smiling-icon.png" alt="smiling icon" />
-                </div>
-                <div class="card-body">
-                  <ul class="list-unstyled">
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Timeline
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Basic search
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Live chat widget
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Email marketing
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Custom Forms
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Traffic analytics
-                      </h5>
-                    </li>
-                  </ul>
-                  <hr />
-                  <div class="d-flex justify-content-between align-items-center flex-wrap">
-                    <div class="me-1">
-                      <h6 class="mb-1">Basic Support</h6>
-                      <p class="small mb-0">Only Email</p>
-                    </div>
-                    <span class="badge bg-label-primary rounded-pill">AVG. Time: 24h</span>
-                  </div>
-                  <div class="text-center mt-4 pt-2">
-                    <a href="payment-page.html" class="btn btn-outline-primary w-100">Get Started</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Basic Plan: End -->
-
-            <!-- Favourite Plan: Start -->
-            <div class="col-xl-4 col-lg-6">
-              <div class="card border-primary border-2 shadow-none">
-                <div class="card-header border-0">
-                  <h3 class="mb-2 pb-1">Favourite Plan</h3>
-                  <div class="d-flex align-items-center">
-                    <h5 class="d-flex mb-0"><sup class="h5 mt-3">$</sup><span class="display-3 fw-bold">51</span></h5>
-                    <div class="ms-2 ps-1">
-                      <h6 class="mb-1">Per month</h6>
-                      <p class="small mb-0">10% off for yearly subscription</p>
-                    </div>
-                  </div>
-                  <img src="../../assets/img/front-pages/icons/smiling-icon.png" alt="smiling icon" />
-                </div>
-                <div class="card-body">
-                  <ul class="list-unstyled">
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Everything in basic
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Timeline with database
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Advanced search
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Marketing automation
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Advanced chatbot
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Campaign management
-                      </h5>
-                    </li>
-                  </ul>
-                  <hr />
-                  <div class="d-flex justify-content-between align-items-center flex-wrap">
-                    <div class="me-1">
-                      <h6 class="mb-1">Standard Support</h6>
-                      <p class="small mb-0">Email & Chat</p>
-                    </div>
-                    <span class="badge bg-label-primary rounded-pill">AVG. Time: 6h</span>
-                  </div>
-                  <div class="text-center mt-4 pt-2">
-                    <a href="payment-page.html" class="btn btn-primary w-100">Get Started</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Favourite Plan: End -->
-
-            <!-- Standard Plan: Start -->
-            <div class="col-xl-4 col-lg-6">
-              <div class="card shadow-none">
-                <div class="card-header border-0">
-                  <h3 class="mb-2 pb-1">Standard Plan</h3>
-                  <div class="d-flex align-items-center">
-                    <h5 class="d-flex mb-0"><sup class="h5 mt-3">$</sup><span class="display-3 fw-bold">99</span></h5>
-                    <div class="ms-2 ps-1">
-                      <h6 class="mb-1">Per month</h6>
-                      <p class="small mb-0">10% off for yearly subscription</p>
-                    </div>
-                  </div>
-                  <img src="../../assets/img/front-pages/icons/smiling-icon.png" alt="smiling icon" />
-                </div>
-                <div class="card-body">
-                  <ul class="list-unstyled">
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Everything in premium
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Timeline with database
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Fuzzy search
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        A/B testing sanbox
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Custom permissions
-                      </h5>
-                    </li>
-                    <li>
-                      <h5>
-                        <img
-                          src="../../assets/img/front-pages/icons/list-arrow-icon.png"
-                          alt="list arrow icon"
-                          class="me-2 pe-1 scaleX-n1-rtl" />
-                        Social media automation
-                      </h5>
-                    </li>
-                  </ul>
-                  <hr />
-                  <div class="d-flex justify-content-between align-items-center flex-wrap">
-                    <div class="me-1">
-                      <h6 class="mb-1">Exclusive Support</h6>
-                      <p class="small mb-0">Email, Chat & Google Meet</p>
-                    </div>
-                    <span class="badge bg-label-primary rounded-pill">Live Support</span>
-                  </div>
-                  <div class="text-center mt-4 pt-2">
-                    <a href="payment-page.html" class="btn btn-outline-primary w-100">Get Started</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Standard Plan: End -->
-          </div>
-        </div>
-      </section>
-      <!-- Pricing plans: End -->
-
-      <!-- Fun facts: Start -->
-      <section id="landingFunFacts" class="section-py landing-fun-facts">
-        <div class="container">
-          <div class="row gx-0 gy-5 gx-sm-5">
-            <div class="col-md-3 col-sm-6 text-center">
-              <span class="badge badge-center rounded-pill bg-label-hover-primary fun-facts-icon mb-4"
-                ><i class="tf-icons mdi mdi-land-plots mdi-36px"></i
-              ></span>
-              <h2 class="fw-bold mb-1">137+</h2>
-              <p class="fw-medium mb-0">Completed Sites</p>
-            </div>
-            <div class="col-md-3 col-sm-6 text-center">
-              <span class="badge badge-center rounded-pill bg-label-hover-success fun-facts-icon mb-4"
-                ><i class="tf-icons mdi mdi-clock-outline mdi-36px"></i
-              ></span>
-              <h2 class="fw-bold mb-1">1,100+</h2>
-              <p class="fw-medium mb-0">Working Hours</p>
-            </div>
-            <div class="col-md-3 col-sm-6 text-center">
-              <span class="badge badge-center rounded-pill bg-label-hover-warning fun-facts-icon mb-4"
-                ><i class="tf-icons mdi mdi-emoticon-happy-outline mdi-36px"></i
-              ></span>
-              <h2 class="fw-bold mb-1">137+</h2>
-              <p class="fw-medium mb-0">Happy Customers</p>
-            </div>
-            <div class="col-md-3 col-sm-6 text-center">
-              <span class="badge badge-center rounded-pill bg-label-hover-info fun-facts-icon mb-4"
-                ><i class="tf-icons mdi mdi-medal-outline mdi-36px"></i
-              ></span>
-              <h2 class="fw-bold mb-1">23+</h2>
-              <p class="fw-medium mb-0">Awards Winning</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- Fun facts: End -->
-
-      <!-- FAQ: Start -->
-      <section id="landingFAQ" class="section-py bg-body landing-faq">
-        <div class="container bg-icon-right">
-          <h6 class="text-center fw-semibold d-flex justify-content-center align-items-center mb-4">
-            <img
-              src="../../assets/img/front-pages/icons/section-tilte-icon.png"
-              alt="section title icon"
-              class="me-2" />
-            <span class="text-uppercase">faq</span>
-          </h6>
-          <h3 class="text-center mb-2">Frequently asked<span class="fw-bold"> questions</span></h3>
-          <p class="text-center fw-medium mb-3 mb-md-5 pb-3">
-            Browse through these FAQs to find answers to commonly asked questions.
-          </p>
-          <div class="row gy-5">
-            <div class="col-lg-5">
-              <div class="text-center">
-                <img
-                  src="../../assets/img/front-pages/landing-page/sitting-girl-with-laptop.png
-          "
-                  alt="sitting girl with laptop"
-                  class="faq-image" />
-              </div>
-            </div>
-            <div class="col-lg-7">
-              <div class="accordion" id="accordionFront">
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="head-One">
-                    <button
-                      type="button"
-                      class="accordion-button collapsed"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#accordionOne"
-                      aria-expanded="true"
-                      aria-controls="accordionOne">
-                      Do you charge for each upgrade?
-                    </button>
-                  </h2>
-
-                  <div
-                    id="accordionOne"
-                    class="accordion-collapse collapse"
-                    data-bs-parent="#accordionFront"
-                    aria-labelledby="accordionOne">
-                    <div class="accordion-body">
-                      Lemon drops chocolate cake gummies carrot cake chupa chups muffin topping. Sesame snaps icing
-                      marzipan gummi bears macaroon dragée danish caramels powder. Bear claw dragée pastry topping
-                      soufflé. Wafer gummi bears marshmallow pastry pie.
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="head-Two">
-                    <button
-                      type="button"
-                      class="accordion-button collapsed"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#accordionTwo"
-                      aria-expanded="false"
-                      aria-controls="accordionTwo">
-                      Do I need to purchase a license for each website?
-                    </button>
-                  </h2>
-                  <div
-                    id="accordionTwo"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="accordionTwo"
-                    data-bs-parent="#accordionFront">
-                    <div class="accordion-body">
-                      Dessert ice cream donut oat cake jelly-o pie sugar plum cheesecake. Bear claw dragée oat cake
-                      dragée ice cream halvah tootsie roll. Danish cake oat cake pie macaroon tart donut gummies. Jelly
-                      beans candy canes carrot cake. Fruitcake chocolate chupa chups.
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion-item active">
-                  <h2 class="accordion-header" id="head-Three">
-                    <button
-                      type="button"
-                      class="accordion-button"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#accordionThree"
-                      aria-expanded="true"
-                      aria-controls="accordionThree">
-                      What is regular license?
-                    </button>
-                  </h2>
-                  <div
-                    id="accordionThree"
-                    class="accordion-collapse collapse show"
-                    aria-labelledby="accordionThree"
-                    data-bs-parent="#accordionFront">
-                    <div class="accordion-body">
-                      Regular license can be used for end products that do not charge users for access or service(access
-                      is free and there will be no monthly subscription fee). Single regular license can be used for
-                      single end product and end product can be used by you or your client. If you want to sell end
-                      product to multiple clients then you will need to purchase separate license for each client. The
-                      same rule applies if you want to use the same end product on multiple domains(unique setup). For
-                      more info on regular license you can check official description.
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="head-Four">
-                    <button
-                      type="button"
-                      class="accordion-button collapsed"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#accordionFour"
-                      aria-expanded="false"
-                      aria-controls="accordionFour">
-                      What is extended license?
-                    </button>
-                  </h2>
-                  <div
-                    id="accordionFour"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="accordionFour"
-                    data-bs-parent="#accordionFront">
-                    <div class="accordion-body">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis et aliquid quaerat possimus maxime!
-                      Mollitia reprehenderit neque repellat deleniti delectus architecto dolorum maxime, blanditiis
-                      earum ea, incidunt quam possimus cumque.
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="head-Five">
-                    <button
-                      type="button"
-                      class="accordion-button collapsed"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#accordionFive"
-                      aria-expanded="false"
-                      aria-controls="accordionFive">
-                      Which license is applicable for SASS application?
-                    </button>
-                  </h2>
-                  <div
-                    id="accordionFive"
-                    class="accordion-collapse collapse"
-                    aria-labelledby="accordionFive"
-                    data-bs-parent="#accordionFront">
-                    <div class="accordion-body">
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sequi molestias exercitationem ab cum
-                      nemo facere voluptates veritatis quia, eveniet veniam at et repudiandae mollitia ipsam quasi
-                      labore enim architecto non!
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- FAQ: End -->
-
-      <!-- CTA: Start -->
-      <section id="landingCTA" class="section-py border border-2 landing-cta p-lg-0 pb-0">
-        <div class="container">
-          <div class="row align-items-center gy-5 gy-lg-0">
-            <div class="col-lg-6 text-center text-lg-start">
-              <h6 class="h2 text-primary fw-bold mb-1">Ready to Get Started?</h6>
-              <p class="fw-medium mb-4">Start your project with a 14-day free trial</p>
-              <a href="payment-page.html" class="btn btn-primary"
-                >Get Started<i class="mdi mdi-arrow-right mdi-24px ms-3 scaleX-n1-rtl"></i
-              ></a>
-            </div>
-            <div class="col-lg-6 pt-lg-5">
-              <img
-                src="../../assets/img/front-pages/landing-page/cta-dashboard.png"
-                alt="cta dashboard"
-                class="img-fluid" />
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- CTA: End -->
-
-      <!-- Contact Us: Start -->
-      <section id="landingContact" class="section-py bg-body landing-contact">
-        <div class="container bg-icon-left">
-          <h6 class="text-center fw-semibold d-flex justify-content-center align-items-center mb-4">
-            <img
-              src="../../assets/img/front-pages/icons/section-tilte-icon.png"
-              alt="section title icon"
-              class="me-2" />
-            <span class="text-uppercase">contact us</span>
-          </h6>
-          <h3 class="text-center mb-2"><span class="fw-bold">Lets work</span> together</h3>
-          <p class="text-center fw-medium mb-3 mb-md-5 pb-3">Any question or remark? just write us a message</p>
-          <div class="row gy-4">
-            <div class="col-lg-5">
-              <div class="card h-100">
-                <div class="bg-primary rounded text-white card-body">
-                  <p class="fw-medium mb-1">Let’s contact with us</p>
-                  <p class="display-6 mb-4">Share your ideas or requirement with our experts.</p>
-                  <img
-                    src="../../assets/img/front-pages/landing-page/let’s-contact.png
-              "
-                    alt="let’s contact"
-                    class="w-100 mb-2 pb-1" />
-                  <p class="mb-0">
-                    Looking for more customisation, more features, and more anything? Don’t worry, We’ve provide you
-                    with an entire team of experienced professionals.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-7">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="mb-4">Share your ideas</h5>
-                  <form>
-                    <div class="row g-3">
-                      <div class="col-md-6">
-                        <div class="form-floating form-floating-outline">
-                          <input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" />
-                          <label for="basic-default-fullname">Full name</label>
-                        </div>
-                      </div>
-
-                      <div class="col-md-6">
-                        <div class="form-floating form-floating-outline">
-                          <input
-                            type="email"
-                            class="form-control"
-                            id="basic-default-email"
-                            placeholder="johndoe99@gmail.com" />
-                          <label for="basic-default-email">Email address</label>
-                        </div>
-                      </div>
-
-                      <div class="col-12">
-                        <div class="form-floating form-floating-outline">
-                          <textarea
-                            class="form-control h-px-200"
-                            placeholder="Message"
-                            aria-label="Message"
-                            id="basic-default-message"></textarea>
-                          <label for="basic-default-message">Message</label>
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3">Send inquiry</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!-- Contact Us: End -->
+      </div>
     </div>
+  </header>
+  <script>
+    // Open Mobile Menu
+    var closeButton = document.getElementById('OpenButton');
+    var mmenuElement = document.querySelector('.mmenu');
+    closeButton.addEventListener('click', function() {mmenuElement.style.display = 'block';});
 
-    <!-- / Sections:End -->
+    // Close Mobile Menu
+    var closeButton = document.getElementById('CloseButton');
+    var mmenuElement = document.querySelector('.mmenu');
+    closeButton.addEventListener('click', function() {mmenuElement.style.display = 'none';});
+  </script>
+  <!-- Nav Bar: End -->
 
-    <!-- Footer: Start -->
-    <footer class="landing-footer">
-      <div class="footer-top">
-        <div class="container">
-          <div class="row gx-0 gy-4 g-md-5">
-            <div class="col-lg-5">
-              <a href="landing-page.html" class="app-brand-link mb-4">
-                <span class="app-brand-logo demo me-2">
-                  <span style="color: #666cff">
-                    <svg width="268" height="150" viewBox="0 0 38 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M30.0944 2.22569C29.0511 0.444187 26.7508 -0.172113 24.9566 0.849138C23.1623 1.87039 22.5536 4.14247 23.5969 5.92397L30.5368 17.7743C31.5801 19.5558 33.8804 20.1721 35.6746 19.1509C37.4689 18.1296 38.0776 15.8575 37.0343 14.076L30.0944 2.22569Z"
-                        fill="currentColor" />
-                      <path
-                        d="M30.171 2.22569C29.1277 0.444187 26.8274 -0.172113 25.0332 0.849138C23.2389 1.87039 22.6302 4.14247 23.6735 5.92397L30.6134 17.7743C31.6567 19.5558 33.957 20.1721 35.7512 19.1509C37.5455 18.1296 38.1542 15.8575 37.1109 14.076L30.171 2.22569Z"
-                        fill="url(#paint0_linear_2989_100980)"
-                        fill-opacity="0.4" />
-                      <path
-                        d="M22.9676 2.22569C24.0109 0.444187 26.3112 -0.172113 28.1054 0.849138C29.8996 1.87039 30.5084 4.14247 29.4651 5.92397L22.5251 17.7743C21.4818 19.5558 19.1816 20.1721 17.3873 19.1509C15.5931 18.1296 14.9843 15.8575 16.0276 14.076L22.9676 2.22569Z"
-                        fill="currentColor" />
-                      <path
-                        d="M14.9558 2.22569C13.9125 0.444187 11.6122 -0.172113 9.818 0.849138C8.02377 1.87039 7.41502 4.14247 8.45833 5.92397L15.3983 17.7743C16.4416 19.5558 18.7418 20.1721 20.5361 19.1509C22.3303 18.1296 22.9391 15.8575 21.8958 14.076L14.9558 2.22569Z"
-                        fill="currentColor" />
-                      <path
-                        d="M14.9558 2.22569C13.9125 0.444187 11.6122 -0.172113 9.818 0.849138C8.02377 1.87039 7.41502 4.14247 8.45833 5.92397L15.3983 17.7743C16.4416 19.5558 18.7418 20.1721 20.5361 19.1509C22.3303 18.1296 22.9391 15.8575 21.8958 14.076L14.9558 2.22569Z"
-                        fill="url(#paint1_linear_2989_100980)"
-                        fill-opacity="0.4" />
-                      <path
-                        d="M7.82901 2.22569C8.87231 0.444187 11.1726 -0.172113 12.9668 0.849138C14.7611 1.87039 15.3698 4.14247 14.3265 5.92397L7.38656 17.7743C6.34325 19.5558 4.04298 20.1721 2.24875 19.1509C0.454514 18.1296 -0.154233 15.8575 0.88907 14.076L7.82901 2.22569Z"
-                        fill="currentColor" />
-                      <defs>
-                        <linearGradient
-                          id="paint0_linear_2989_100980"
-                          x1="5.36642"
-                          y1="0.849138"
-                          x2="10.532"
-                          y2="24.104"
-                          gradientUnits="userSpaceOnUse">
-                          <stop offset="0" stop-opacity="1" />
-                          <stop offset="1" stop-opacity="0" />
-                        </linearGradient>
-                        <linearGradient
-                          id="paint1_linear_2989_100980"
-                          x1="5.19475"
-                          y1="0.849139"
-                          x2="10.3357"
-                          y2="24.1155"
-                          gradientUnits="userSpaceOnUse">
-                          <stop offset="0" stop-opacity="1" />
-                          <stop offset="1" stop-opacity="0" />
-                        </linearGradient>
-                      </defs>
-                    </svg>
-                  </span>
-                </span>
-                <span class="app-brand-text demo footer-link fw-bold">Materialize</span>
-              </a>
-              <p class="footer-text footer-logo-description mb-4">
-                Most Powerful & Comprehensive 🤩 React NextJS Admin Template with Elegant Material Design & Unique
-                Layouts.
-              </p>
-              <form>
-                <div class="d-flex mt-2 gap-3">
-                  <div class="form-floating form-floating-outline w-px-250">
-                    <input
-                      type="text"
-                      class="form-control bg-transparent text-white"
-                      id="newsletter-1"
-                      placeholder="Your email" />
-                    <label for="newsletter-1">Subscribe to newsletter</label>
+  <!-- Hero Section: Start -->
+  <div class="relative isolate pt-14">
+    <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
+      <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+    </div>
+    <div class="py-24 sm:py-32 lg:pb-40">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h1 class="text-4xl font-bold tracking-tight sm:text-6xl text-gray-900 dark:text-white">Data to enrich your online business</h1>
+          <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>
+          <div class="mt-10 flex items-center justify-center gap-x-6">
+            <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get started</a>
+            <a href="#" class="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Learn more <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="mt-16 flow-root sm:mt-24">
+          <div class="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
+            <img src="https://tailwindui.com/img/component-images/project-app-screenshot.png" alt="App screenshot" width="2432" height="1442" class="rounded-md shadow-2xl ring-1 ring-gray-900/10">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]" aria-hidden="true">
+      <div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+    </div>
+  </div>
+  <!-- Hero Section: End -->
+
+  <!-- Logo cloud: Start -->
+  <div class="mx-auto mt-8 max-w-7xl px-6 sm:mt-16 lg:px-8">
+    <h2 class="text-center text-lg font-semibold leading-8 text-black dark:text-white">The world's most innovative companies use our app</h2>
+    <div class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+      <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1 hidden dark:block" src="https://tailwindui.com/img/logos/158x48/transistor-logo-white.svg" alt="Transistor" width="158" height="48">
+      <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1 hidden dark:block" src="https://tailwindui.com/img/logos/158x48/reform-logo-white.svg" alt="Reform" width="158" height="48">
+      <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1 hidden dark:block" src="https://tailwindui.com/img/logos/158x48/tuple-logo-white.svg" alt="Tuple" width="158" height="48">
+      <img class="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1 hidden dark:block" src="https://tailwindui.com/img/logos/158x48/savvycal-logo-white.svg" alt="SavvyCal" width="158" height="48">
+      <img class="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1 hidden dark:block" src="https://tailwindui.com/img/logos/158x48/statamic-logo-white.svg" alt="Statamic" width="158" height="48">
+
+      <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1 dark:hidden" src="https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg" alt="Transistor" width="158" height="48">
+      <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1 dark:hidden" src="https://tailwindui.com/img/logos/158x48/reform-logo-gray-900.svg" alt="Reform" width="158" height="48">
+      <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1 dark:hidden" src="https://tailwindui.com/img/logos/158x48/tuple-logo-gray-900.svg" alt="Tuple" width="158" height="48">
+      <img class="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1 dark:hidden" src="https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-900.svg" alt="SavvyCal" width="158" height="48">
+      <img class="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1 dark:hidden" src="https://tailwindui.com/img/logos/158x48/statamic-logo-gray-900.svg" alt="Statamic" width="158" height="48">
+    </div>
+    <div class="mt-16 flex justify-center">
+      <p class="relative rounded-full px-4 py-1.5 text-sm leading-6 text-gray-600 ring-1 ring-inset ring-gray-900/10 hover:ring-gray-900/20 dark:ring-white hover:dark:ring-white">
+        <span class="hidden md:inline dark:text-gray-300">Transistor saves up to $40,000 per year, per employee by working with us.</span>
+        <a href="#" class="font-semibold text-indigo-600 dark:text-indigo-400"><span class="absolute inset-0" aria-hidden="true"></span> Read our case study <span aria-hidden="true">&rarr;</span></a>
+      </p>
+    </div>
+  </div>
+  <!-- Logo cloud: End -->
+
+  <!-- Feature section: Start -->
+  <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-32 lg:px-8">
+    <div class="mx-auto max-w-2xl lg:text-center">
+      <h2 class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">Deploy faster</h2>
+      <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl dark:text-white">Everything you need to deploy your app</p>
+      <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">Quis tellus eget adipiscing convallis sit sit eget aliquet quis. Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In mi viverra elit nunc.</p>
+    </div>
+    <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+      <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+        <div class="relative pl-16">
+          <dt class="text-base font-semibold leading-7 text-indigo-600 dark:text-white">
+            <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
+              <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+              </svg>
+            </div>
+            Push to deploy
+          </dt>
+          <dd class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.</dd>
+        </div>
+        <div class="relative pl-16">
+          <dt class="text-base font-semibold leading-7 text-indigo-600 dark:text-white">
+            <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
+              <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+            </div>
+            SSL certificates
+          </dt>
+          <dd class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.</dd>
+        </div>
+        <div class="relative pl-16">
+          <dt class="text-base font-semibold leading-7 text-indigo-600 dark:text-white">
+            <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
+              <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+              </svg>
+            </div>
+            Simple queues
+          </dt>
+          <dd class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.</dd>
+        </div>
+        <div class="relative pl-16">
+          <dt class="text-base font-semibold leading-7 text-indigo-600 dark:text-white">
+            <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
+              <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 004.5 10.5a7.464 7.464 0 01-1.15 3.993m1.989 3.559A11.209 11.209 0 008.25 10.5a3.75 3.75 0 117.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 01-3.6 9.75m6.633-4.596a18.666 18.666 0 01-2.485 5.33" />
+              </svg>
+            </div>
+            Advanced security
+          </dt>
+          <dd class="mt-2 text-base leading-7 text-gray-600 dark:text-gray-300">Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+  <!-- Feature section: End -->
+
+  <!-- Pricing section: Start -->
+  <div class="relative isolate pt-14 mt-32 sm:mt-32 p-2">
+    <div class="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl" aria-hidden="true">
+      <div class="mx-auto aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+    </div>
+    <div class="mx-auto max-w-2xl text-center lg:max-w-4xl">
+      <h2 class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-400">Pricing</h2>
+      <p class="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl dark:text-gray-300">The right price for you, whoever you are</p>
+    </div>
+    <p class="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600 dark:text-white">Qui iusto aut est earum eos quae. Eligendi est at nam aliquid ad quo reprehenderit in aliquid fugiat dolorum voluptatibus.</p>
+    <div class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-2">
+      <div class="rounded-3xl p-8 ring-1 ring-gray-900/10 sm:p-10 bg-white sm:mx-8 lg:mx-0 rounded-t-3xl sm:rounded-b-none lg:rounded-tr-none lg:rounded-bl-3xl">
+        <h3 id="tier-hobby" class="text-base font-semibold leading-7 text-indigo-600">Hobby</h3>
+        <p class="mt-4 flex items-baseline gap-x-2">
+          <span class="text-5xl font-bold tracking-tight text-gray-900">$19</span>
+          <span class="text-base text-gray-500">/month</span>
+        </p>
+        <p class="mt-6 text-base leading-7 text-gray-600">The perfect plan if you&#039;re just getting started with our product.</p>
+        <ul role="list" class="mt-8 space-y-3 text-sm leading-6 sm:mt-10 text-gray-600">
+          <li class="flex gap-x-3">
+            <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+            </svg>
+            25 products
+          </li>
+          <li class="flex gap-x-3">
+            <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+            </svg>
+            Up to 10,000 subscribers
+          </li>
+          <li class="flex gap-x-3">
+            <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+            </svg>
+            Advanced analytics
+          </li>
+          <li class="flex gap-x-3">
+            <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+            </svg>
+            24-hour support response time
+          </li>
+        </ul>
+        <a href="#" aria-describedby="tier-hobby" class="mt-8 block rounded-md py-2.5 px-3.5 text-center text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-10 text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline-indigo-600">Get started today</a>
+      </div>
+      <div class="rounded-3xl p-8 ring-1 ring-gray-900/10 sm:p-10 relative bg-gray-800 shadow-2xl">
+        <h3 id="tier-enterprise" class="text-base font-semibold leading-7 text-indigo-400">Enterprise</h3>
+        <p class="mt-4 flex items-baseline gap-x-2">
+          <span class="text-5xl font-bold tracking-tight text-white">$49</span>
+          <span class="text-base text-gray-400">/month</span>
+        </p>
+        <p class="mt-6 text-base leading-7 text-gray-300">Dedicated support and infrastructure for your company.</p>
+        <ul role="list" class="mt-8 space-y-3 text-sm leading-6 sm:mt-10 text-gray-300">
+          <li class="flex gap-x-3">
+            <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+            </svg>
+            Unlimited products
+          </li>
+          <li class="flex gap-x-3">
+            <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+            </svg>
+            Unlimited subscribers
+          </li>
+          <li class="flex gap-x-3">
+            <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+            </svg>
+            Advanced analytics
+          </li>
+          <li class="flex gap-x-3">
+            <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+            </svg>
+            Dedicated support representative
+          </li>
+          <li class="flex gap-x-3">
+            <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+            </svg>
+            Marketing automations
+          </li>
+          <li class="flex gap-x-3">
+            <svg class="h-6 w-5 flex-none text-indigo-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+            </svg>
+            Custom integrations
+          </li>
+        </ul>
+        <a href="#" aria-describedby="tier-enterprise" class="mt-8 block rounded-md py-2.5 px-3.5 text-center text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-10 bg-indigo-500 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline-indigo-500">Get started today</a>
+      </div>
+    </div>
+  </div>
+  <!-- Pricing section: End -->
+
+  <!-- Testimonial section: Start -->
+  <div class="mx-auto mt-32 max-w-7xl sm:mt-32 sm:px-6 lg:px-8">
+    <div class="relative overflow-hidden bg-gray-900 px-6 py-20 shadow-xl sm:rounded-3xl sm:px-10 sm:py-24 md:px-12 lg:px-20">
+      <div class="absolute inset-0 bg-gray-900/90 mix-blend-multiply"></div>
+      <div class="absolute -left-80 -top-56 transform-gpu blur-3xl" aria-hidden="true">
+        <div class="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-r from-[#ff4694] to-[#776fff] opacity-[0.45]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+      </div>
+      <div class="hidden md:absolute md:bottom-16 md:left-[50rem] md:block md:transform-gpu md:blur-3xl" aria-hidden="true">
+        <div class="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-r from-[#ff4694] to-[#776fff] opacity-25" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+      </div>
+      <div class="relative mx-auto max-w-2xl lg:mx-0">
+        <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workcation-logo-white.svg" alt="">
+        <figure>
+          <blockquote class="mt-6 text-lg font-semibold text-white sm:text-xl sm:leading-8">
+            <p>“Amet amet eget scelerisque tellus sit neque faucibus non eleifend. Integer eu praesent at a. Ornare arcu gravida natoque erat et cursus tortor consequat at. Vulputate gravida sociis enim nullam ultricies habitant malesuada lorem ac.”</p>
+          </blockquote>
+          <figcaption class="mt-6 text-base text-white">
+            <div class="font-semibold">Judith Black</div>
+            <div class="mt-1">CEO of Tuple</div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+  <!-- Testimonial section: End -->
+
+  <!-- Testimonials section: Start -->
+  <div class="relative isolate mt-32 sm:mt-32 sm:pt-32">
+    <div class="relative">
+      <div class="absolute inset-x-0 top-1/2 -z-10 -translate-y-1/2 transform-gpu overflow-hidden opacity-30 blur-3xl" aria-hidden="true">
+        <div class="ml-[max(50%,38rem)] aspect-[1313/771] w-[82.0625rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+      </div>
+      <div class="absolute inset-x-0 top-0 -z-10 flex transform-gpu overflow-hidden pt-8 opacity-25 blur-3xl xl:justify-end" aria-hidden="true">
+        <div class="ml-[-22rem] aspect-[1313/771] w-[82.0625rem] flex-none origin-top-right rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] xl:ml-0 xl:mr-[calc(50%-12rem)]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+      </div>
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-xl sm:text-center">
+          <h2 class="text-lg font-semibold leading-8 tracking-tight text-indigo-600 dark:text-indigo-300">Testimonials</h2>
+          <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-300 sm:text-4xl">We have worked with thousands of amazing people</p>
+        </div>
+        <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 grid-rows-1 gap-8 text-sm leading-6 text-gray-900 sm:mt-20 sm:grid-cols-2 xl:mx-0 xl:max-w-none xl:grid-flow-col xl:grid-cols-4">
+          <figure class="col-span-2 hidden sm:block sm:rounded-2xl sm:bg-white sm:shadow-lg sm:ring-1 sm:ring-gray-900/5 xl:col-start-2 xl:row-end-1">
+            <blockquote class="p-12 text-xl font-semibold leading-8 tracking-tight text-gray-900">
+              <p>“Integer id nunc sit semper purus. Bibendum at lacus ut arcu blandit montes vitae auctor libero. Hac condimentum dignissim nibh vulputate ut nunc. Amet nibh orci mi venenatis blandit vel et proin. Non hendrerit in vel ac diam.”</p>
+            </blockquote>
+            <figcaption class="flex items-center gap-x-4 border-t border-gray-900/10 px-6 py-4">
+              <img class="h-10 w-10 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=1024&h=1024&q=80" alt="">
+              <div class="flex-auto">
+                <div class="font-semibold">Brenna Goyette</div>
+                <div class="text-gray-600">@brennagoyette</div>
+              </div>
+              <img class="h-10 w-auto flex-none" src="https://tailwindui.com/img/logos/savvycal-logo-gray-900.svg" alt="">
+            </figcaption>
+          </figure>
+          <div class="space-y-8 xl:contents xl:space-y-0">
+            <div class="space-y-8 xl:row-span-2">
+              <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+                <blockquote class="text-gray-900">
+                  <p>“Laborum quis quam. Dolorum et ut quod quia. Voluptas numquam delectus nihil. Aut enim doloremque et ipsam.”</p>
+                </blockquote>
+                <figcaption class="mt-6 flex items-center gap-x-4">
+                  <img class="h-10 w-10 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  <div>
+                    <div class="font-semibold">Leslie Alexander</div>
+                    <div class="text-gray-600">@lesliealexander</div>
                   </div>
-                  <button type="submit" class="btn btn-primary">Subscribe</button>
-                </div>
-              </form>
+                </figcaption>
+              </figure>
+              <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+                <blockquote class="text-gray-900">
+                  <p>“Laborum quis quam. Dolorum et ut quod quia. Voluptas numquam delectus nihil. Aut enim doloremque et ipsam.”</p>
+                </blockquote>
+                <figcaption class="mt-6 flex items-center gap-x-4">
+                  <img class="h-10 w-10 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  <div>
+                    <div class="font-semibold">Leslie Alexander</div>
+                    <div class="text-gray-600">@lesliealexander</div>
+                  </div>
+                </figcaption>
+              </figure>
+              <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+                <blockquote class="text-gray-900">
+                  <p>“Laborum quis quam. Dolorum et ut quod quia. Voluptas numquam delectus nihil. Aut enim doloremque et ipsam.”</p>
+                </blockquote>
+                <figcaption class="mt-6 flex items-center gap-x-4">
+                  <img class="h-10 w-10 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  <div>
+                    <div class="font-semibold">Leslie Alexander</div>
+                    <div class="text-gray-600">@lesliealexander</div>
+                  </div>
+                </figcaption>
+              </figure>
+              <!-- More testimonials... -->
             </div>
-            <div class="col-lg-2 col-md-4 col-sm-6">
-              <h6 class="footer-title mb-4">Demos</h6>
-              <ul class="list-unstyled mb-0">
-                <li class="mb-3">
-                  <a href="../vertical-menu-template/" target="_blank" class="footer-link">Vertical Layout</a>
-                </li>
-                <li class="mb-3">
-                  <a href="../horizontal-menu-template/" target="_blank" class="footer-link">Horizontal Layout</a>
-                </li>
-                <li class="mb-3">
-                  <a href="../vertical-menu-template-bordered/" target="_blank" class="footer-link">Bordered Layout</a>
-                </li>
-                <li class="mb-3">
-                  <a href="../vertical-menu-template-semi-dark/" target="_blank" class="footer-link"
-                    >Semi Dark Layout</a
-                  >
-                </li>
-                <li>
-                  <a href="../vertical-menu-template-dark/" target="_blank" class="footer-link">Dark Layout</a>
-                </li>
-              </ul>
+            <div class="space-y-8 xl:row-start-1">
+              <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+                <blockquote class="text-gray-900">
+                  <p>“Aut reprehenderit voluptatem eum asperiores beatae id. Iure molestiae ipsam ut officia rem nulla blanditiis.”</p>
+                </blockquote>
+                <figcaption class="mt-6 flex items-center gap-x-4">
+                  <img class="h-10 w-10 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  <div>
+                    <div class="font-semibold">Lindsay Walton</div>
+                    <div class="text-gray-600">@lindsaywalton</div>
+                  </div>
+                </figcaption>
+              </figure>
+              <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+                <blockquote class="text-gray-900">
+                  <p>“Aut reprehenderit voluptatem eum asperiores beatae id. Iure molestiae ipsam ut officia rem nulla blanditiis.”</p>
+                </blockquote>
+                <figcaption class="mt-6 flex items-center gap-x-4">
+                  <img class="h-10 w-10 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  <div>
+                    <div class="font-semibold">Lindsay Walton</div>
+                    <div class="text-gray-600">@lindsaywalton</div>
+                  </div>
+                </figcaption>
+              </figure>
+              <!-- More testimonials... -->
             </div>
-            <div class="col-lg-2 col-md-4 col-sm-6">
-              <h6 class="footer-title mb-4">Pages</h6>
-              <ul class="list-unstyled mb-0">
-                <li class="mb-3">
-                  <a href="pricing-page.html" class="footer-link">Pricing</a>
-                </li>
-                <li class="mb-3">
-                  <a href="payment-page.html" class="footer-link"
-                    >Payment<span class="badge rounded-pill bg-primary ms-2">New</span></a
-                  >
-                </li>
-                <li class="mb-3">
-                  <a href="checkout-page.html" class="footer-link">Checkout</a>
-                </li>
-                <li class="mb-3">
-                  <a href="help-center-landing.html" class="footer-link">Help Center</a>
-                </li>
-                <li>
-                  <a href="../vertical-menu-template/auth-login-cover.html" target="_blank" class="footer-link"
-                    >Login/Register</a
-                  >
-                </li>
-              </ul>
+          </div>
+          <div class="space-y-8 xl:contents xl:space-y-0">
+            <div class="space-y-8 xl:row-start-1">
+              <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+                <blockquote class="text-gray-900">
+                  <p>“Voluptas quos itaque ipsam in voluptatem est. Iste eos blanditiis repudiandae. Earum deserunt enim molestiae ipsum perferendis recusandae saepe corrupti.”</p>
+                </blockquote>
+                <figcaption class="mt-6 flex items-center gap-x-4">
+                  <img class="h-10 w-10 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  <div>
+                    <div class="font-semibold">Tom Cook</div>
+                    <div class="text-gray-600">@tomcook</div>
+                  </div>
+                </figcaption>
+              </figure>
+              <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+                <blockquote class="text-gray-900">
+                  <p>“Voluptas quos itaque ipsam in voluptatem est. Iste eos blanditiis repudiandae.”</p>
+                </blockquote>
+                <figcaption class="mt-6 flex items-center gap-x-4">
+                  <img class="h-10 w-10 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  <div>
+                    <div class="font-semibold">Tom Cook</div>
+                    <div class="text-gray-600">@tomcook</div>
+                  </div>
+                </figcaption>
+              </figure>
+              <!-- More testimonials... -->
             </div>
-            <div class="col-lg-3 col-md-4">
-              <h6 class="footer-title mb-4">Download our app</h6>
-              <a href="javascript:void(0);" class="d-block footer-link mb-3 pb-2"
-                ><img src="../../assets/img/front-pages/landing-page/apple-icon.png" alt="apple icon"
-              /></a>
-              <a href="javascript:void(0);" class="d-block footer-link"
-                ><img src="../../assets/img/front-pages/landing-page/google-play-icon.png" alt="google play icon"
-              /></a>
+            <div class="space-y-8 xl:row-span-2">
+              <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+                <blockquote class="text-gray-900">
+                  <p>“Molestias ea earum quos nostrum doloremque sed. Quaerat quasi aut velit incidunt excepturi rerum voluptatem minus harum.”</p>
+                </blockquote>
+                <figcaption class="mt-6 flex items-center gap-x-4">
+                  <img class="h-10 w-10 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  <div>
+                    <div class="font-semibold">Leonard Krasner</div>
+                    <div class="text-gray-600">@leonardkrasner</div>
+                  </div>
+                </figcaption>
+              </figure>
+              <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+                <blockquote class="text-gray-900">
+                  <p>“Molestias ea earum quos nostrum doloremque sed. Quaerat quasi aut velit incidunt excepturi rerum voluptatem minus harum.”</p>
+                </blockquote>
+                <figcaption class="mt-6 flex items-center gap-x-4">
+                  <img class="h-10 w-10 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  <div>
+                    <div class="font-semibold">Leonard Krasner</div>
+                    <div class="text-gray-600">@leonardkrasner</div>
+                  </div>
+                </figcaption>
+              </figure>
+              <figure class="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+                <blockquote class="text-gray-900">
+                  <p>“Molestias ea earum quos nostrum doloremque sed. Quaerat quasi aut velit incidunt excepturi rerum voluptatem minus harum.”</p>
+                </blockquote>
+                <figcaption class="mt-6 flex items-center gap-x-4">
+                  <img class="h-10 w-10 rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  <div>
+                    <div class="font-semibold">Leonard Krasner</div>
+                    <div class="text-gray-600">@leonardkrasner</div>
+                  </div>
+                </figcaption>
+              </figure>
+              <!-- More testimonials... -->
             </div>
           </div>
         </div>
       </div>
-      <div class="footer-bottom py-3">
-        <div
-          class="container d-flex flex-wrap justify-content-between flex-md-row flex-column text-center text-md-start">
-          <div class="mb-2 mb-md-0">
-            <span class="footer-text"
-              >©
-              <script>
-                document.write(new Date().getFullYear());
-              </script>
-              , Made with <i class="tf-icons mdi mdi-heart text-danger"></i> by
-            </span>
-            <a href="https://pixinvent.com" target="_blank" class="footer-link fw-medium footer-theme-link"
-              >Pixinvent</a
-            >
-          </div>
-          <div>
-            <a href="https://github.com/pixinvent" class="footer-link me-2" target="_blank"
-              ><i class="mdi mdi-github"></i
-            ></a>
-            <a href="https://www.facebook.com/pixinvents/" class="footer-link me-2" target="_blank"
-              ><i class="mdi mdi-facebook"></i
-            ></a>
-            <a href="https://twitter.com/pixinvents" class="footer-link me-2" target="_blank"
-              ><i class="mdi mdi-twitter"></i
-            ></a>
-            <a href="https://www.instagram.com/pixinvents/" class="footer-link" target="_blank"
-              ><i class="mdi mdi-instagram"></i
-            ></a>
-          </div>
+    </div>
+  </div>
+  <!-- Testimonials section: End -->
+
+  <!-- FAQ section: Start -->
+  <!-- BUG: FAQ Onclose, Icon dont change -->
+  <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-32 lg:px-8">
+    <div class="mx-auto max-w-4xl divide-y divide-gray-900/10">
+      <h2 class="text-2xl font-bold leading-10 tracking-tight text-gray-900 dark:text-white">Frequently asked questions</h2>
+      <dl class="mt-10 space-y-6 divide-y divide-gray-900/10">
+        <div class="pt-6">
+          <dt>
+            <!-- Expand/collapse question button -->
+            <button type="button" class="flex w-full items-start justify-between text-left text-gray-900" aria-controls="faq-0" aria-expanded="false" onclick="toggleFAQ('faq-0')">
+              <span class="text-base font-semibold leading-7 dark:text-white">What's the best thing about Switzerland?</span>
+              <span class="ml-6 flex h-7 items-center">
+                <!-- Icon when question is collapsed -->
+                <svg class="h-6 w-6 dark:text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                </svg>
+                <!-- Icon when question is expanded -->
+                <svg class="hidden h-6 w-6 dark:text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                </svg>
+              </span>
+            </button>
+          </dt>
+          <dd class="mt-2 pr-12" id="faq-0" style="display: none;">
+            <p class="text-base leading-7 text-gray-600 dark:text-gray-300">I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.</p>
+          </dd>
         </div>
+
+        <div class="pt-6">
+          <dt>
+            <!-- Expand/collapse question button for the second question -->
+            <button type="button" class="flex w-full items-start justify-between text-left text-gray-900" aria-controls="faq-1" aria-expanded="false" onclick="toggleFAQ('faq-1')">
+              <span class="text-base font-semibold leading-7 dark:text-white">What is Lorem Ipsum?</span>
+              <span class="ml-6 flex h-7 items-center">
+                <!-- Icon when question is collapsed -->
+                <svg class="h-6 w-6 dark:text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                </svg>
+                <!-- Icon when question is expanded -->
+                <svg class="hidden h-6 w-6 dark:text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                </svg>
+              </span>
+            </button>
+          </dt>
+          <dd class="mt-2 pr-12" id="faq-1" style="display: none;">
+            <p class="text-base leading-7 text-gray-600 dark:text-gray-300">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+  <script>
+    function toggleFAQ(faqId) {
+      var faqElement = document.getElementById(faqId);
+      var buttonElement = document.querySelector('[aria-controls="' + faqId + '"]');
+      var iconCollapsed = buttonElement.querySelector('.h-6:not(.hidden)');
+      var iconExpanded = buttonElement.querySelector('.hidden.h-6');
+
+      if (faqElement.style.display === 'none' || faqElement.style.display === '') {
+        faqElement.style.display = 'block';
+        buttonElement.setAttribute('aria-expanded', 'true');
+        iconCollapsed.classList.add('hidden');
+        iconExpanded.classList.remove('hidden');
+      } else {
+        faqElement.style.display = 'none';
+        buttonElement.setAttribute('aria-expanded', 'false');
+        iconCollapsed.classList.remove('hidden');
+        iconExpanded.classList.add('hidden');
+      }
+    }
+  </script>
+  <!-- FAQ section: End -->
+
+  <!-- Newsletter section: Start -->
+  <div class="mx-auto mt-32 max-w-7xl sm:mt-32 sm:px-6 lg:px-8">
+    <div class="relative isolate overflow-hidden bg-gray-900 px-6 py-24 shadow-2xl sm:rounded-3xl sm:px-24 xl:py-32">
+      <h2 class="mx-auto max-w-2xl text-center text-3xl font-bold tracking-tight text-white sm:text-4xl">Get notified when we're launching.</h2>
+      <p class="mx-auto mt-2 max-w-xl text-center text-lg leading-8 text-gray-300">Reprehenderit ad esse et non officia in nulla. Id proident tempor incididunt nostrud nulla et culpa.</p>
+      <form class="mx-auto mt-10 flex max-w-md gap-x-4">
+        <label for="email-address" class="sr-only">Email address</label>
+        <input id="email-address" name="email" type="email" autocomplete="email" required class="min-w-0 flex-auto rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-white sm:text-sm sm:leading-6" placeholder="Enter your email">
+        <button type="submit" class="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Notify me</button>
+      </form>
+      <svg viewBox="0 0 1024 1024" class="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2" aria-hidden="true">
+        <circle cx="512" cy="512" r="512" fill="url(#759c1415-0410-454c-8f7c-9a820de03641)" fill-opacity="0.7" />
+        <defs>
+          <radialGradient id="759c1415-0410-454c-8f7c-9a820de03641" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 512) rotate(90) scale(512)">
+            <stop stop-color="#7775D6" />
+            <stop offset="1" stop-color="#E935C1" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+  <!-- Newsletter section: End -->
+
+  <!-- Footer: Start -->
+  <footer>
+    <div class="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8">
+      <nav class="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12" aria-label="Footer">
+        <div class="pb-6">
+          <a href="#" class="text-sm leading-6 text-gray-600 dark:text-white">About</a>
+        </div>
+        <div class="pb-6">
+          <a href="#" class="text-sm leading-6 text-gray-600 dark:text-white">Blog</a>
+        </div>
+        <div class="pb-6">
+          <a href="#" class="text-sm leading-6 text-gray-600 dark:text-white">Jobs</a>
+        </div>
+        <div class="pb-6">
+          <a href="#" class="text-sm leading-6 text-gray-600 dark:text-white">Press</a>
+        </div>
+        <div class="pb-6">
+          <a href="#" class="text-sm leading-6 text-gray-600 dark:text-white">Accessibility</a>
+        </div>
+        <div class="pb-6">
+          <a href="#" class="text-sm leading-6 text-gray-600 dark:text-white">Partners</a>
+        </div>
+      </nav>
+      <div class="mt-10 flex justify-center space-x-10">
+        <a href="#" class="text-gray-400 dark:text-white">
+          <span class="sr-only">Twitter</span>
+          <i class="fa-brands fa-x-twitter fa-xl"></i>
+        </a>
+        <a href="#" class="text-gray-400 dark:text-white">
+          <span class="sr-only">Instagram</span>
+          <i class="fa-brands fa-instagram fa-xl"></i>
+        </a>
+        <a href="#" class="text-gray-400 dark:text-white">
+          <span class="sr-only">GitHub</span>
+          <i class="fa-brands fa-github fa-xl"></i>
+        </a>
+        <a href="#" class="text-gray-400 dark:text-white">
+          <span class="sr-only">YouTube</span>
+          <i class="fa-brands fa-youtube fa-xl"></i>
+        </a>
       </div>
-    </footer>
-    <!-- Footer: End -->
+      <p class="mt-10 text-center text-xs leading-5 text-gray-500 dark:text-white"><i class="fa-regular fa-copyright"></i> &nbsp;2024 Techmedok, Inc. All rights reserved.</p>
+    </div>
+  </footer>
+  <!-- Footer: End -->
+<script>
+  var element = document.getElementById("toggleDarkMode");
+  if (localStorage.theme === 'dark') {
+    element.innerHTML = '<i class="fa-light fa-sun"></i>';
+    document.documentElement.classList.add('dark');
+  } else {
+    element.innerHTML = '<i class="fa-light fa-moon"></i>';
+    document.documentElement.classList.remove('dark');
+  }
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="../../assets/vendor/libs/popper/popper.js"></script>
-    <script src="../../assets/vendor/js/bootstrap.js"></script>
-    <script src="../../assets/vendor/libs/node-waves/node-waves.js"></script>
-
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-    <script src="../../assets/vendor/libs/nouislider/nouislider.js"></script>
-    <script src="../../assets/vendor/libs/swiper/swiper.js"></script>
-
-    <!-- Main JS -->
-    <script src="../../assets/js/front-main.js"></script>
-
-    <!-- Page JS -->
-    <script src="../../assets/js/front-page-landing.js"></script>
-  </body>
+  function toggleDarkMode() {
+    var element = document.getElementById("toggleDarkMode");
+    if (element.innerHTML === '<i class="fa-light fa-moon"></i>') {
+      element.innerHTML = '<i class="fa-light fa-sun"></i>';
+      document.documentElement.classList.add('dark');
+      localStorage.theme = 'dark';
+    } 
+    else {
+      element.innerHTML = '<i class="fa-light fa-moon"></i>';
+      document.documentElement.classList.remove('dark');
+      localStorage.theme = 'light';
+    }
+  }
+</script>
+</body>
 </html>

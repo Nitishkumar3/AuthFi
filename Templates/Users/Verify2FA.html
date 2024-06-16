@@ -1,26 +1,202 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html class="h-full bg-white dark:bg-gray-900 dark:text-white">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify 2FA</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../../assets/output.css" rel="stylesheet">
+  <link href="https://fa6p.pages.dev/css/all.min.css" rel="stylesheet">
+  <style>.error {color: red; margin-top: 5px;}</style>
 </head>
-<body>
-    <h2>Verify Two-Factor Authentication</h2>
+<script>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                {{ message }}
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+                console.log("{{ request.args.get('next', '') }}");
+    </script>
+<body class="h-full flex flex-col">
+    <main class="flex-1">
+        <div class="absolute inset-x-0 top-10 -z-10 flex transform-gpu justify-center overflow-hidden blur-3xl" aria-hidden="true">
+            <div class="aspect-[1108/632] w-[69.25rem] flex-none bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-20"
+                style="clip-path: polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)">
+            </div>
+        </div>
+        <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                <img class="mx-auto h-10 w-auto"
+                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+                <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">
+                    Verify 2FA Code</h2>
+            </div>
+            <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <div class="flex justify-between space-x-2 pb-4">
+                    <input type="text" maxlength="1"
+                        class="block w-full rounded-md border-0 py-1.5 text-center text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-white/5 dark:text-white dark:ring-white/10"
+                        oninput="moveToNextField(2)" />
+                    <input type="text" maxlength="1"
+                        class="block w-full rounded-md border-0 py-1.5 text-center text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-white/5 dark:text-white dark:ring-white/10"
+                        oninput="moveToNextField(3)" />
+                    <input type="text" maxlength="1"
+                        class="block w-full rounded-md border-0 py-1.5 text-center text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-white/5 dark:text-white dark:ring-white/10"
+                        oninput="moveToNextField(4)" />
+                    <input type="text" maxlength="1"
+                        class="block w-full rounded-md border-0 py-1.5 text-center text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-white/5 dark:text-white dark:ring-white/10"
+                        oninput="moveToNextField(5)" />
+                    <input type="text" maxlength="1"
+                        class="block w-full rounded-md border-0 py-1.5 text-center text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-white/5 dark:text-white dark:ring-white/10"
+                        oninput="moveToNextField(6)" />
+                    <input type="text" maxlength="1"
+                        class="block w-full rounded-md border-0 py-1.5 text-center text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-white/5 dark:text-white dark:ring-white/10"
+                        oninput="moveToNextField(0)" />
+                </div>
+                <div id="OTPError" class="error"></div>
+                <div id="BackendError" class="error pb-4">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                <input  onclick="submitForm()" type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" value="Verify OTP">
+                <p class="mt-10 text-center text-sm text-gray-500">
+                    <i class="fa-regular fa-chevron-left"></i> Back to <a href="{{url_for('users.Login')}}" class="font-semibold leading-6 text-indigo-600 dark:text-indigo-400">Login</a>
+                </p>
+            </div>
+        </div>
+    </main>
+    <footer aria-labelledby="footer-heading" class="relative bottom-0 w-full text-black dark:bg-gray-900 dark:text-white">
+        <h2 id="footer-heading" class="sr-only">Footer</h2>
+        <div class="mx-auto max-w-7xl px-6 pb-8 pt-4 lg:px-8">
+            <div class="border-t dark:border-white/10 pt-8 md:flex md:items-center md:justify-between">
+            <div class="flex space-x-6 md:order-2">
+                <a href="#" class="text-gray-500">
+                    <span class="sr-only">Twitter</span>
+                    <i class="fa-brands fa-x-twitter fa-xl"></i>
+                </a>
+                <a href="#" class="text-gray-500">
+                    <span class="sr-only">Instagram</span>
+                    <i class="fa-brands fa-instagram fa-xl"></i>
+                </a>
+                <a href="#" class="text-gray-500">
+                    <span class="sr-only">GitHub</span>
+                    <i class="fa-brands fa-github fa-xl"></i>
+                </a>
+                <a href="#" class="text-gray-500">
+                    <span class="sr-only">YouTube</span>
+                    <i class="fa-brands fa-youtube fa-xl"></i>
+                </a>
+            </div>
+            <p class="mt-8 text-xs leading-5 text-gray-400 md:order-1 md:mt-0">&copy; &nbsp;2024 Techmedok, Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        if (localStorage.theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <script>
+        var hasClickedSubmit = false;
 
-    <form method="POST" action="{{ url_for('users.Verify2FA', username=username) }}">
-        <label for="otp">Enter Verification Code:</label>
-        <input type="text" id="otp" name="otp" required>
-        <button type="submit">Verify</button>
-    </form>
+        function moveToNextField(nextIndex) {
+            if (nextIndex <= 6) {
+                const nextInput = document.querySelector(`input:nth-child(${nextIndex})`);
+                nextInput.focus();
+            }
+        }
+        
+        function validateForm() {
+            const otpInputs = document.querySelectorAll('input[type="text"]');
+            const errorMessage = document.getElementById('OTPError');
+
+            // Reset error message and remove the error class
+            errorMessage.textContent = '';
+
+            // Check if all inputs are filled and contain only numeric values
+            const isValid = Array.from(otpInputs).every(input => input.value && /^\d+$/.test(input.value));
+
+            if (!isValid) {
+                errorMessage.textContent = 'Please enter a valid OTP.';
+            }
+
+            return isValid;
+        }
+
+        // function submitForm() {
+        //     hasClickedSubmit = true;
+        //     if (validateForm()) {
+        //         const otpString = Array.from(document.querySelectorAll('input[type="text"]')).map(input => input.value).join('');
+
+        //         const form = document.createElement('form');
+        //         form.method = 'POST';
+        //         form.action = "{{ url_for('users.Verify2FA', username=username) }}";
+
+        //         const otpInput = document.createElement('input');
+        //         otpInput.type = 'hidden';
+        //         otpInput.name = 'otp';
+        //         otpInput.value = otpString;
+
+        //         form.appendChild(otpInput);
+        //         document.body.appendChild(form);
+        //         form.submit();
+        //     }
+        // }
+
+        function submitForm() {
+    // First, validate the form (as you do in your `validateForm` function)
+    if (validateForm()) {
+        // Generate the OTP from text inputs (assuming there are several)
+        const otpString = Array.from(document.querySelectorAll('input[type="text"]'))
+                              .map(input => input.value)
+                              .join('');
+
+        // Create a new form to submit the data
+        const form = document.createElement('form');
+        form.method = 'POST';
+        const next = "{{ request.args.get('next', '') }}";
+        form.action = "{{ url_for('users.Verify2FA', username=username, next=" + next + ") }}";
+
+        // Create the hidden field for the OTP
+        const otpInput = document.createElement('input');
+        otpInput.type = 'hidden';
+        otpInput.name = 'otp';
+        otpInput.value = otpString;
+
+        // Append the OTP field to the form
+        form.appendChild(otpInput);
+
+        // Create and append the hidden field for the `next_url`
+        const nextInput = document.createElement('input');
+        nextInput.type = 'hidden';
+        nextInput.name = 'next';
+        nextInput.value = "{{ request.args.get('next', '') }}";  // Get the `next_url` from the template context
+
+        // Append the `next_url` field to the form
+        form.appendChild(nextInput);
+
+        console.log(form);
+
+        // Append the form to the body and submit
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
+
+        // Add event listener for button click to perform validation
+        const submitButton = document.querySelector('input[type="button"]');
+        submitButton.addEventListener('click', () => {
+            validateForm();
+        });
+
+        // Add event listeners for input fields to perform validation on keypress
+        const otpInputs = document.querySelectorAll('input[type="text"]');
+        otpInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                validateForm();
+            });
+        });
+    </script>
 </body>
 </html>

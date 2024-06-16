@@ -12,7 +12,7 @@
         <h2>User Permissions</h2>
         {% for permission in SitePermissions %}
             <label>
-                <input type="checkbox" name="permissions[]" value="{{ permission }}" {% if permission in UserPermissions %}checked{% endif %}>
+                <input type="checkbox" name="permissions[]" value="{{ permission }}" {% if permission in UserPermissions %}checked{% endif %} {% if permission in NotAvailableData %}disabled{% endif %}>
                 {{ permission }}
             </label>
             <br>

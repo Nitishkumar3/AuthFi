@@ -16,14 +16,20 @@
             </tr>
         </thead>
         <tbody>
-            {% for SiteData in UserPermissions %}
+            {% if UserPermissions %}
+                {% for SiteData in UserPermissions %}
+                    <tr>
+                        <td>{{ SiteData["SiteName"] }}</td>
+                        <td>{{ SiteData["Permissions"] }}</td>
+                        <td><a href="{{ url_for('users.EditPermissions', SiteID=SiteData["SiteID"]) }}">Edit</a></td>
+                        <td><a href="{{ url_for('users.DeletePermissions', SiteID=SiteData["SiteID"]) }}" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a></td>
+                    </tr>
+                {% endfor %}
+            {% else %}
                 <tr>
-                    <td>{{ SiteData["SiteName"] }}</td>
-                    <td>{{ SiteData["Permissions"] }}</td>
-                    <td><a href="{{ url_for('users.EditPermissions', SiteID=SiteData["SiteID"]) }}">Edit</a></td>
-                    <td><a href="{{ url_for('users.DeletePermissions', SiteID=SiteData["SiteID"]) }}" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a></td>
+                    <td colspan="4">No sites linked</td>
                 </tr>
-            {% endfor %}
+            {% endif %}
         </tbody>
     </table>
     

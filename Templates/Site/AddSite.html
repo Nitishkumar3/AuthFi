@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Site</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select all checkboxes for All Permissions and Mandatory Permissions
+            const allPermissionsCheckboxes = document.querySelectorAll('input[name="AllPermissions"]');
+            const mandatoryPermissionsCheckboxes = document.querySelectorAll('input[name="MandatoryPermissions"]');
+
+            // Function to sync checkboxes
+            function syncCheckboxes() {
+                mandatoryPermissionsCheckboxes.forEach(function(checkbox) {
+                    checkbox.disabled = true; // Disable initially
+
+                    // Add event listener to enable/disable based on All Permissions checkboxes
+                    allPermissionsCheckboxes.forEach(function(allCheckbox) {
+                        if (allCheckbox.checked) {
+                            if (allCheckbox.value === checkbox.value) {
+                                checkbox.disabled = false;
+                            }
+                        }
+                    });
+                });
+            }
+
+            // Initial synchronization
+            syncCheckboxes();
+
+            // Add event listeners to All Permissions checkboxes
+            allPermissionsCheckboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    syncCheckboxes();
+                });
+            });
+
+            // Submit event listener to handle form submission
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(event) {
+                // Remove any previously added hidden inputs
+                const previousHiddenInputs = document.querySelectorAll('input[type="hidden"]');
+                previousHiddenInputs.forEach(function(input) {
+                    input.remove();
+                });
+
+                // Gather selected values from All Permissions and Mandatory Permissions
+                allPermissionsCheckboxes.forEach(function(checkbox) {
+                    if (checkbox.checked) {
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = 'SelectedPermissions';
+                        hiddenInput.value = checkbox.value;
+                        form.appendChild(hiddenInput);
+                    }
+                });
+                mandatoryPermissionsCheckboxes.forEach(function(checkbox) {
+                    if (checkbox.checked) {
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = 'SelectedPermissions';
+                        hiddenInput.value = checkbox.value;
+                        form.appendChild(hiddenInput);
+                    }
+                });
+
+                // Allow the form to submit
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Add Site</h1>
+    <form method="post" action="{{ url_for('site.AddSite') }}">
+        <label for="sitename">Site Name:</label>
+        <input type="text" id="sitename" name="sitename" required>
+        <br>
+        <label for="url">URL:</label>
+        <input type="text" id="url" name="url" required>
+        <br>
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="category" required>
+        <br>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required>
+        <br>
+        <label for="AllPermissions">All Permissions:</label><br>
+        <input type="checkbox" name="AllPermissions" value="Name"> Name<br>
+        <input type="checkbox" name="AllPermissions" value="Email"> Email<br>
+        <input type="checkbox" name="AllPermissions" value="Phone"> Phone<br>
+
+        <label for="MandatoryPermissions">Mandatory Permissions:</label><br>
+        <input type="checkbox" name="MandatoryPermissions" value="Name"> Name<br>
+        <input type="checkbox" name="MandatoryPermissions" value="Email"> Email<br>
+        <input type="checkbox" name="MandatoryPermissions" value="Phone"> Phone<br>
+
+        <input type="submit" value="Add Site">
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message_list in messages %}
+                {% for message in message_list %}
+                    {{ message }}<br>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

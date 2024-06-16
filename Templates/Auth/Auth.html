@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-white dark:bg-gray-900 dark:text-white">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../assets/output.css" rel="stylesheet">
+    <link rel="icon" href="../../assets/favicon.png" type="image/png">
+    <link href="https://fa6p.pages.dev/css/all.min.css" rel="stylesheet">
+    <style>
+      @font-face {
+        font-family: 'NeueMachina';
+        src: url('../../assets/fonts/NeueMachina.otf') format('opentype');
+      }
+    </style>
+    <title>Authorize - Techmedok</title>
+</head>
+<body class="h-full">
+  <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
+    <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+  </div>
+  <div class="absolute inset-x-0 top-10 -z-10 flex transform-gpu justify-center overflow-hidden blur-3xl" aria-hidden="true">
+    <div class="aspect-[1108/632] w-[69.25rem] flex-none bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-20"
+        style="clip-path: polygon(73.6% 51.7%, 91.7% 11.8%, 100% 46.4%, 97.4% 82.2%, 92.5% 84.9%, 75.7% 64%, 55.3% 47.5%, 46.5% 49.4%, 45% 62.9%, 50.3% 87.2%, 21.3% 64.1%, 0.1% 100%, 5.4% 51.1%, 21.4% 63.9%, 58.9% 0.2%, 73.6% 51.7%)">
+    </div>
+</div>
+  <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+      <h1 style="font-family: 'NeueMachina', sans-serif;" class="text-5xl lg:text-6xl 2xl:text-7xl font-bold text-[#111827] text-center dark:text-white">AuthFi</h1>
+      <h2 class=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">Authorize your account</h2>
+    </div>
+
+
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
+      <div class="bg-white px-6 py-6 shadow sm:rounded-lg sm:px-12 sm:py-12">
+        <div class="flex items-center justify-between pb-2">
+          <div class="flex flex-col items-center">
+            <img class="h-24 w-24 rounded-lg ring-2 ring-white" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=100" alt="">
+            <div class="text-center mt-2">
+              <p class="text-sm font-semibold leading-6 text-gray-900">{{UserData["Name"]}}<i class="fa-solid fa-badge-check pl-1.5"></i></p>
+              <p class="text-sm text-gray-500">@{{UserData["UserName"]}}</p>
+            </div>
+          </div>
+          
+          <div class="flex flex-col items-center">
+            <i class="fa-regular fa-link-simple fa-xl dark:text-black"></i>
+          </div>
+        
+          <div class="flex flex-col items-center">
+            <img class="h-24 w-24 rounded-lg ring-2 ring-white" src="https://techmedok.com/wp-content/uploads/2023/06/cropped-favicon.png" alt="">
+            <div class="text-center mt-2">
+              <p class="text-sm font-semibold leading-6 text-gray-900">{{SiteData["SiteName"]}}<i class="fa-solid fa-hexagon-check pl-1.5"></i></p>
+              <p class="text-sm text-gray-500">{{SiteData["SiteURL"]}}</p>
+            </div>
+          </div>
+        </div>
+
+        <form id="toggle-form" class="p-4 pb-0">
+          <div id="toggle-container"></div>
+          <div class="mt-6 text-center">
+            <button type="submit" class="px-4 py-3 text-base font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2">
+              Authorize &nbsp;<i class="fa-regular fa-shield-check"></i>
+            </button>
+          </div>
+        </form>
+
+        <style>
+          .tooltip {
+              position: relative;
+              display: inline-block;
+              cursor: help; /* Optional: Change cursor to a help icon */
+          }
+      
+          .tooltip .tooltiptext {
+              visibility: hidden;
+              width: max-content;
+              background-color: rgba(0, 0, 0, 0.75);
+              color: #fff;
+              text-align: center;
+              padding: 0.5rem;
+              border-radius: 4px;
+              position: absolute;
+              z-index: 1;
+              bottom: 125%;
+              left: 50%;
+              transform: translateX(-50%);
+              opacity: 0;
+              transition: opacity 0.3s;
+          }
+      
+          .tooltip:hover .tooltiptext {
+              visibility: visible;
+              opacity: 1;
+          }
+      </style>
+      
+        <script>
+          const toggleData = {{ Permissions | safe }};
+      
+          const toggleContainer = document.getElementById('toggle-container');
+      
+          // Create toggle buttons dynamically with mandatory markers and validation spans
+          toggleData.forEach((item) => {
+              const isMandatory = item.status === "Mandatory";
+      
+              const toggleHTML = `
+                  <div class="flex flex-col mt-4" data-toggle-id="${item.id}">
+                    <div class="flex items-center justify-between">
+                      <span class="flex flex-grow flex-col">
+                          <span class="text-sm font-medium leading-6 text-gray-900">
+                              ${item.label} 
+                              ${isMandatory ? '<span class="text-red-500">*</span>' : ''}
+                              <span class="tooltip">
+                                  <i class="fa-regular fa-info-circle text-black ml-1"></i>
+                                  <span class="tooltiptext">${item.description}</span>
+                              </span>
+                          </span>
+                          <span class="text-sm text-gray-500">${item.instruction}</span>
+                      </span>
+                      <button
+                          type="button"
+                          class="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
+                          role="switch"
+                          aria-checked="false"
+                          id="toggle-switch-${item.id}"
+                      >
+                        <span class="translate-x-0 inline-block h-5 w-5 transform bg-white rounded-full transition-transform duration-200"></span>
+                      </button>
+                    </div>
+                    <span class="text-red-500 text-xs hidden" id="validation-message-${item.id}">
+                        This field is required.
+                    </span>
+                  </div>
+              `;
+      
+              toggleContainer.insertAdjacentHTML('beforeend', toggleHTML);
+          });
+      
+          // Event delegation for all toggle buttons
+          toggleContainer.addEventListener('click', (event) => {
+              const toggleButton = event.target.closest('button[role="switch"]');
+              if (!toggleButton) {
+                  return; // Exit if the click isn't on a toggle button
+              }
+      
+              // Toggle the aria-checked attribute and update UI
+              const isChecked = toggleButton.getAttribute('aria-checked') === 'true';
+              const newState = !isChecked;
+      
+              toggleButton.setAttribute('aria-checked', newState ? 'true' : 'false');
+      
+              const thumb = toggleButton.querySelector('span');
+      
+              if (newState) {
+                  toggleButton.classList.replace('bg-gray-200', 'bg-indigo-600');
+                  thumb.classList.replace('translate-x-0', 'translate-x-5');
+              } else {
+                  toggleButton.classList.replace('bg-indigo-600', 'bg-gray-200');
+                  thumb.classList.replace('translate-x-5', 'translate-x-0');
+              }
+      
+              // Hide validation message if the field is checked
+              const toggleId = parseInt(toggleButton.id.split('-').pop());
+              if (toggleData.find(item => item.id === toggleId).status === "Mandatory") {
+                  const validationMessage = document.getElementById(`validation-message-${toggleId}`);
+                  if (validationMessage) {
+                      validationMessage.classList.add("hidden");
+                  }
+              }
+          });
+      
+          // Form submission with mandatory fields check
+          document.getElementById("toggle-form").addEventListener("submit", (event) => {
+              event.preventDefault();
+      
+              const formData = {};
+              let mandatoryValidationPassed = true;
+      
+              toggleData.forEach((item) => {
+                  const toggleSwitch = document.getElementById(`toggle-switch-${item.id}`);
+                  const isChecked = toggleSwitch.getAttribute("aria-checked") === 'true';
+      
+                  formData[`${item.label}`] = isChecked;
+      
+                  if (item.status === "Mandatory" && !isChecked) {
+                      mandatoryValidationPassed = false;
+                      const validationMessage = document.getElementById(`validation-message-${item.id}`);
+                      if (validationMessage) {
+                          validationMessage.classList.remove("hidden"); // Show the error message
+                      }
+                  }
+              });
+      
+              if (!mandatoryValidationPassed) {
+                  return; // Stop form submission
+              }
+      
+              const SiteID = window.location.pathname.split('/')[2];
+              const ReturnURL = "{{ ReturnURL }}";         
+      
+              const dataToSubmit = {
+                  SiteID: SiteID,
+                  ReturnURL: ReturnURL,
+                  Permissions: [],
+              };
+      
+              // Populate the Permissions array with the keys of formData that have a true value
+              for (const [key, value] of Object.entries(formData)) {
+                  if (value) {
+                      dataToSubmit.Permissions.push(key);
+                  }
+              }
+      
+              // Create a form for submission
+              const submitForm = document.createElement("form");
+              submitForm.method = "POST";
+              submitForm.action = "/auth/authorize"; // Target endpoint
+      
+              // Add hidden inputs for the SiteID and Permissions
+              const siteIdInput = document.createElement("input");
+              siteIdInput.type = "hidden";
+              siteIdInput.name = "SiteID";
+              siteIdInput.value = dataToSubmit.SiteID;
+              submitForm.appendChild(siteIdInput);
+      
+              const ReturnURLInput = document.createElement("input");
+              ReturnURLInput.type = "hidden";
+              ReturnURLInput.name = "ReturnURL";
+              ReturnURLInput.value = dataToSubmit.ReturnURL;
+              submitForm.appendChild(ReturnURLInput);
+      
+              // Add hidden inputs for Permissions
+              const permissionsInput = document.createElement("input");
+              permissionsInput.type = "hidden";
+              permissionsInput.name = "Permissions"; 
+              permissionsInput.value = JSON.stringify(dataToSubmit.Permissions); // Convert array to JSON string
+              submitForm.appendChild(permissionsInput);
+      
+              // Append the form to the body and submit it
+              document.body.appendChild(submitForm);
+              submitForm.submit();
+          });
+      </script>
+      
+      </div>
+      <p class="mt-10 text-center text-xs leading-5 text-gray-500 dark:text-white"><i class="fa-regular fa-copyright"></i> &nbsp;2024 Techmedok Inc. All rights reserved.</p>
+    </div>
+  </div>
+
+  <script>
+    if (localStorage.theme === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+</script>
+</body>
+</html>
