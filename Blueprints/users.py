@@ -68,9 +68,9 @@ def OnboardingCheck(view_func):
 def Index():
     return f'Logged in as {session["username"]}! <a href="{url_for("users.Logout")}">Logout</a><br> <a href="{url_for("users.Profile")}">Profile</a>'
 
-@UserBP.route('/dd')
-def dd():
-    return render_template("Users/index-2.html")
+# @UserBP.route('/dd')
+# def dd():
+#     return render_template("Users/index-2.html")
 
 @UserBP.route('/register', methods=['GET', 'POST'])
 @NotLoggedInUser

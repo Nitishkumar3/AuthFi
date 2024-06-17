@@ -55,6 +55,9 @@ def AuthFi(SiteID):
     User = mongo.db.Users.find_one({'UserName': UserName})
     UserID = User["UserID"]
 
+    if not Site:
+        return render_template("Auth/NotFound.html")
+
     UserPermissions = None if not (UserPermissions := mongo.db.UserPermissions.find_one({'UserID': UserID})["SitePermissions"]) else UserPermissions.get(SiteID)
     SitePermissions = Site["SitePermissions"]
     MandatoryPermissions = Site["MandatoryPermissions"]
@@ -64,41 +67,23 @@ def AuthFi(SiteID):
 
     IsAllPermissionsAvailable = isinstance(MandatoryPermissions, list) and isinstance(UserPermissions, list) and set(MandatoryPermissions).issubset(set(UserPermissions))
 
-    print(UserPermissions)
-
     if not UserPermissions or not IsAllPermissionsAvailable:
         ToggleData = []
         for i, label in enumerate(SitePermissions, start=1):
             is_mandatory = "Mandatory" if label in MandatoryPermissions else "Optional"
+            is_checked = "true" if label in UserPermissions else "false"
             data = {
                 "id": i,
                 "label": label,
                 "description": f"Give access to your {label}", # Collect from Site Admin
                 "instruction": f"Give access to your {label}",
+                "checked": is_checked,
                 "status": is_mandatory
             }
             ToggleData.append(data)
         return render_template("Auth/Auth.html", UserData=UserData, SiteData=SiteData, Permissions=json.dumps(ToggleData), ReturnURL=ReturnURL)
     else:
         return "1"
-    
-    # if not UserPermissions:
-    #     ToggleData = []
-    #     for i, label in enumerate(SitePermissions, start=1):
-    #         is_mandatory = "Mandatory" if label in MandatoryPermissions else "Optional"
-    #         data = {
-    #             "id": i,
-    #             "label": label,
-    #             "description": f"Give access to your {label}", # Collect from Site Admin
-    #             "instruction": f"Give access to your {label}",
-    #             "status": is_mandatory
-    #         }
-    #         ToggleData.append(data)
-    #     return render_template("Auth/Auth.html", UserData=UserData, SiteData=SiteData, Permissions=json.dumps(ToggleData), ReturnURL=ReturnURL)
-
-
-        # return redirect(url_for('auth.Authorize', data = {"SiteID": SiteID,"Permissions": UserPermissions}))
-
 
 @AuthBP.route('/authorize', methods=['POST'])
 @LoggedInUser
@@ -118,3 +103,8 @@ def Authorize():
     mongo.db.UserPermissions.update_one({'UserID': UserID}, {'$set': {f'SitePermissions.{SiteID}': Permissions}})
     
     return "1"
+
+@AuthBP.route('/authorize', methods=['POST'])
+@LoggedInUser
+def SessionCreate():
+    return "0"

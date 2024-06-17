@@ -29,8 +29,6 @@
       <h2 class=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">Authorize your account</h2>
     </div>
 
-
-
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
       <div class="bg-white px-6 py-6 shadow sm:rounded-lg sm:px-12 sm:py-12">
         <div class="flex items-center justify-between pb-2">
@@ -102,6 +100,7 @@
           // Create toggle buttons dynamically with mandatory markers and validation spans
           toggleData.forEach((item) => {
               const isMandatory = item.status === "Mandatory";
+              const isChecked = item.checked === "true";
       
               const toggleHTML = `
                   <div class="flex flex-col mt-4" data-toggle-id="${item.id}">
@@ -119,12 +118,12 @@
                       </span>
                       <button
                           type="button"
-                          class="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
+                          class="${isChecked ? 'bg-indigo-600' : 'bg-gray-200'} relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
                           role="switch"
-                          aria-checked="false"
+                          aria-checked="${isChecked}"
                           id="toggle-switch-${item.id}"
                       >
-                        <span class="translate-x-0 inline-block h-5 w-5 transform bg-white rounded-full transition-transform duration-200"></span>
+                        <span class="${isChecked ? 'translate-x-5' : 'translate-x-0'} inline-block h-5 w-5 transform bg-white rounded-full transition-transform duration-200"></span>
                       </button>
                     </div>
                     <span class="text-red-500 text-xs hidden" id="validation-message-${item.id}">

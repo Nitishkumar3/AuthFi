@@ -260,6 +260,7 @@ def AddSite():
         SiteSecret = AES256.GenerateRandomString(Length=32)
         UserID = User["UserID"]
         SiteURL = request.form['url']
+        CallbackURL = request.form['callbackurl']
         SitePermissions = request.form.getlist('AllPermissions')
         MandatoryPermissions = request.form.getlist('MandatoryPermissions')
         Category = request.form['category']
@@ -292,6 +293,7 @@ def AddSite():
                 "SiteSecret": SiteSecret,
                 "UserID": UserID,
                 "SiteURL": SiteURL,
+                "CallbackURL": CallbackURL,
                 "SitePermissions": SitePermissions,
                 "MandatoryPermissions": MandatoryPermissions,
                 "Category": Category,
