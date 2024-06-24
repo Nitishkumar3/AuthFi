@@ -6,14 +6,15 @@ from Blueprints.api import APIBP
 from Blueprints.auth import AuthBP
 from dotenv import load_dotenv
 import os
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 load_dotenv()
 MONGO_URI = os.getenv('MONGO_URI')
 
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=2, x_proto=1)
 app.secret_key = "GS1jv6dDu1hmVzdWySky7Me324VGPE6H4nMeXF3SsXZyEtRnTuh9y83tzQcQeC72"
 
-# app.config['MONGO_URI'] = 'mongodb://localhost:27017/SecureConnect'
 app.config['MONGO_URI'] = MONGO_URI
 mongo.init_app(app)
 
@@ -28,7 +29,6 @@ def Index():
         IsLoggedIn = True
     else:
         IsLoggedIn = False
-    # print(IsLoggedIn)
     return render_template('Index.html', IsLoggedIn=IsLoggedIn)
 
 @app.route('/assets/<path:filename>')

@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, session, flash, jsonify, Blueprint
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from functools import wraps
 import re
 from Modules import AES256, Auth, SHA256, Functions, SiteCheck
@@ -21,7 +21,7 @@ def LoggedInSite(view_func):
                 'UserAgent': useragent,
                 'IPAddress': ipaddress,
                 'Role': 'Site',
-                'ExpirationTime': {'$gt': datetime.utcnow()}
+                'ExpirationTime': {'$gt': datetime.now(timezone.utc)}
             })
 
             if user_session:
@@ -156,7 +156,7 @@ def Login():
             useragent = request.headers.get('User-Agent')
             ipaddress = request.remote_addr
             
-            currenttime = datetime.utcnow()
+            currenttime = datetime.now(timezone.utc)
             mongo.db.SiteUserSessions.insert_one({
                 'SessionKey': sessionkey,
                 'UserName': user["UserName"],
@@ -269,7 +269,8 @@ def AddSite():
         DateCreated = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         SiteURL = SiteCheck.FormatURL(SiteURL)
-
+        CallbackURL = SiteCheck.FormatURL(CallbackURL)
+        
         SiteExistCheck = False if mongo.db.Sites.find_one({"SiteURL": SiteURL}) else True
         SiteUpCheck = SiteCheck.CheckSiteUp(SiteURL)
         SSLCheck = SiteCheck.CheckSSLCertificate(SiteURL)

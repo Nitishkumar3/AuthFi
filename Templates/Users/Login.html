@@ -48,6 +48,12 @@
                             {% endwith %}
                         </div>
                     </div>
+                    <input type="hidden" id="platform" name="platform">
+                    <input type="hidden" id="language" name="language">
+                    <input type="hidden" id="screenresolution" name="screenresolution">
+                    <input type="hidden" id="timezoneoffset" name="timezoneoffset">
+                    <input type="hidden" id="date" name="date">
+                    <input type="hidden" id="time" name="time">
                     <div>
                         <input type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" value="Sign In">
                     </div>
@@ -171,6 +177,38 @@
 
             // If both validations pass, the form is submitted
             return true;
+        }
+    </script>
+    <script>
+        // Function to get device data
+        function getDeviceData() {
+            const now = new Date();
+            const deviceData = {
+                platform: navigator.platform,
+                language: navigator.language,
+                screenResolution: `${screen.width}*${screen.height}`,
+                timezoneOffset: now.getTimezoneOffset(),
+                date: now.toLocaleDateString(),
+                time: now.toLocaleTimeString()
+            };
+
+            return deviceData;
+        }
+
+        // Function to populate hidden fields with device data
+        function populateHiddenFields() {
+            const data = getDeviceData();
+            document.getElementById('platform').value = data.platform;
+            document.getElementById('language').value = data.language;
+            document.getElementById('screenresolution').value = data.screenResolution;
+            document.getElementById('timezoneoffset').value = data.timezoneOffset;
+            document.getElementById('date').value = data.date;
+            document.getElementById('time').value = data.time;
+        }
+
+        // Populate hidden fields on page load
+        window.onload = function() {
+            populateHiddenFields();
         }
     </script>
 </body>

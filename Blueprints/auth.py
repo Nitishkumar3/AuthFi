@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, request, url_for, session, flash, render_
 import json
 from db import mongo
 from functools import wraps
-from datetime import datetime
+from datetime import datetime, timezone
 from Modules import AES256
 import ast
 
@@ -21,7 +21,7 @@ def LoggedInUser(view_func):
                 'UserName': username,
                 'UserAgent': useragent,
                 'IPAddress': ipaddress,
-                'ExpirationTime': {'$gt': datetime.utcnow()}
+                'ExpirationTime': {'$gt': datetime.now(timezone.utc)}
             })
             if user_session:
                 return view_func(*args, **kwargs)
@@ -48,7 +48,7 @@ def CapitalizeText(Text):
 @AuthBP.route('/<string:SiteID>')
 @LoggedInUser
 def AuthFi(SiteID):
-    ReturnURL = "d" #request.args.get('ReturnURL')
+    ReturnURL = request.args.get('ReturnURL')
 
     UserName = session['username']
     Site = mongo.db.Sites.find_one({'SiteID': SiteID})
@@ -70,8 +70,9 @@ def AuthFi(SiteID):
     if not UserPermissions or not IsAllPermissionsAvailable:
         ToggleData = []
         for i, label in enumerate(SitePermissions, start=1):
-            is_mandatory = "Mandatory" if label in MandatoryPermissions else "Optional"
-            is_checked = "true" if label in UserPermissions else "false"
+            is_mandatory = "Mandatory" if label in MandatoryPermissions else "Optional" 
+            is_checked = "true" if UserPermissions and label in UserPermissions else "false"
+
             data = {
                 "id": i,
                 "label": label,
@@ -83,7 +84,8 @@ def AuthFi(SiteID):
             ToggleData.append(data)
         return render_template("Auth/Auth.html", UserData=UserData, SiteData=SiteData, Permissions=json.dumps(ToggleData), ReturnURL=ReturnURL)
     else:
-        return "1"
+        # return "1"
+        return redirect(url_for('auth.SessionCreate', ReturnURL=ReturnURL))
 
 @AuthBP.route('/authorize', methods=['POST'])
 @LoggedInUser
@@ -93,6 +95,10 @@ def Authorize():
     UserID = User["UserID"]
 
     data = request.form.to_dict()  
+    ReturnURL = request.args.get('ReturnURL')
+
+    if not ReturnURL:
+        ReturnURL = data["ReturnURL"]
 
     UserName = session['username']
     SiteID = data["SiteID"]
@@ -102,9 +108,13 @@ def Authorize():
     mongo.db.UserPermissions.update_one({'UserID': UserID}, {'$set': {'SitePermissions': {}}}, upsert=True)
     mongo.db.UserPermissions.update_one({'UserID': UserID}, {'$set': {f'SitePermissions.{SiteID}': Permissions}})
     
-    return "1"
+    # return "1"
+    return redirect(url_for('auth.SessionCreate', ReturnURL=ReturnURL))
 
-@AuthBP.route('/authorize', methods=['POST'])
+@AuthBP.route('/session')
 @LoggedInUser
 def SessionCreate():
-    return "0"
+
+    ReturnURL = request.args.get('ReturnURL') 
+    print(ReturnURL)
+    return f'{ReturnURL}'
